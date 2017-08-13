@@ -22,29 +22,25 @@ Widget::Widget(QWidget *parent)
     _ltView->setItemDelegate(delegate);
     _ltView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     _ltView->setSelectionRectVisible(true);
+    _ltView->setMouseTracking(true);
 
     _model = new ListModel(this);
     _ltView->setModel(_model);
-
-    //QItemSelectionModel* selModel = _ltView->selectionModel();
 
     QPushButton* btnAdd = new QPushButton(tr("Add"),this);
     btnAdd->setAutoRepeat(true);
     btnAdd->setAutoRepeatInterval(100);
     connect(btnAdd,&QPushButton::clicked,this,&Widget::StAddOneRandomItem);
 
-    QPushButton* btnDel = new QPushButton(tr("Del"),this);
-    btnDel->setAutoRepeat(true);
-    btnDel->setAutoRepeatInterval(100);
-    connect(btnDel,&QPushButton::clicked,this,&Widget::StDelOneItem);
-
     QHBoxLayout* hlyt = new QHBoxLayout;
     hlyt->addWidget(btnAdd);
-    hlyt->addWidget(btnDel);
     hlyt->addStretch(1);
 
+    _tabWidget = new QTabWidget(this);
+    _tabWidget->addTab(_ltView,tr("ListView"));
+
     QVBoxLayout* vlyt = new QVBoxLayout;
-    vlyt->addWidget(_ltView,1);
+    vlyt->addWidget(_tabWidget,1);
     vlyt->addLayout(hlyt);
 
     setLayout(vlyt);
@@ -83,10 +79,4 @@ void Widget::StAddOneRandomItem()
     index = _model->index(row);
     _model->setData(index,QVariant::fromValue(clo));
 
-}
-
-void Widget::StDelOneItem()
-{
-    int row = _model->rowCount(QModelIndex());
-    _model->removeRow(row - 1);
 }

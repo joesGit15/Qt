@@ -9,8 +9,11 @@ class ListItemDelegate : public QAbstractItemDelegate
 public:
     ListItemDelegate(QObject *parent = 0);
 
+protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
+
+    bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index);
 };
 
 #endif // LISTITEMDELEGATE_H

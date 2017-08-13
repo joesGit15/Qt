@@ -31,3 +31,6 @@ SOURCES += main.cpp\
 HEADERS  += widget.h \
     listitemdelegate.h \
     listmodel.h
+
+RESOURCES += \
+    res.qrc

@@ -22,7 +22,6 @@ protected:
 
 private slots:
     void StAddOneRandomItem();
-    void StDelOneItem();
 
 private:
     QListView*        _ltView = 0;
