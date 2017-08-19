@@ -3,12 +3,6 @@
 
 #include <QWidget>
 
-QT_BEGIN_NAMESPACE
-class QListView;
-class ListModel;
-class QTabWidget;
-QT_END_NAMESPACE
-
 class Widget : public QWidget
 {
     Q_OBJECT
@@ -19,14 +13,6 @@ public:
 
 protected:
     void showEvent(QShowEvent *) override;
-
-private slots:
-    void StAddOneRandomItem();
-
-private:
-    QListView*        _ltView = 0;
-    ListModel*        _model = 0;
-    QTabWidget*       _tabWidget = 0;
 };
 
 #endif // WIDGET_H

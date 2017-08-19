@@ -1,7 +1,5 @@
 #-------------------------------------------------
-#
 # Project created by QtCreator 2017-08-12T07:52:15
-#
 #-------------------------------------------------
 
 QT       += core gui
@@ -25,12 +23,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         widget.cpp \
-    listitemdelegate.cpp \
-    listmodel.cpp
+    module_editorFactory_widget/editorfactorwidget.cpp \
+    module_colorViewModelDelegate/colorlistviewwidget.cpp \
+    module_colorViewModelDelegate/listmodel.cpp \
+    module_colorViewModelDelegate/listitemdelegate.cpp \
+    module_editorFactory_widget/colorlisteditor.cpp
 
 HEADERS  += widget.h \
-    listitemdelegate.h \
-    listmodel.h
+    module_editorFactory_widget/editorfactorwidget.h \
+    module_colorViewModelDelegate/colorlistviewwidget.h \
+    module_colorViewModelDelegate/listmodel.h \
+    module_colorViewModelDelegate/listitemdelegate.h \
+    module_editorFactory_widget/colorlisteditor.h
 
 RESOURCES += \
     res.qrc

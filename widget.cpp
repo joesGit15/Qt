@@ -1,49 +1,28 @@
 #include "widget.h"
-#include "listmodel.h"
-#include "listitemdelegate.h"
+#include "./module_editorFactory_widget/editorfactorwidget.h"
+#include "./module_colorViewModelDelegate/colorlistviewwidget.h"
 
-#include <QtWidgets/QListView>
-#include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QVBoxLayout>
-#include <QtWidgets/QPushButton>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QTabWidget>
+#include <QtWidgets/QGridLayout>
+#include <QtCore/QTime>
 
 #include <QtGui/QScreen>
-
-#include <QtCore/QTime>
-#include <QtCore/QDebug>
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
 {
-    ListItemDelegate* delegate = new ListItemDelegate(this);
-    _ltView = new QListView(this);
-    _ltView->setItemDelegate(delegate);
-    _ltView->setSelectionMode(QAbstractItemView::ExtendedSelection);
-    _ltView->setSelectionRectVisible(true);
-    _ltView->setMouseTracking(true);
+    ColorListViewWidget* colorList = new ColorListViewWidget(this);
+    EditorFactorWidget* editorFactorWgt = new EditorFactorWidget(this);
 
-    _model = new ListModel(this);
-    _ltView->setModel(_model);
+    QTabWidget* tabWget = new QTabWidget(this);
+    tabWget->addTab(colorList,tr("Color List"));
+    tabWget->addTab(editorFactorWgt,tr("EditorFactor"));
+    tabWget->setCurrentIndex(1);
 
-    QPushButton* btnAdd = new QPushButton(tr("Add"),this);
-    btnAdd->setAutoRepeat(true);
-    btnAdd->setAutoRepeatInterval(100);
-    connect(btnAdd,&QPushButton::clicked,this,&Widget::StAddOneRandomItem);
-
-    QHBoxLayout* hlyt = new QHBoxLayout;
-    hlyt->addWidget(btnAdd);
-    hlyt->addStretch(1);
-
-    _tabWidget = new QTabWidget(this);
-    _tabWidget->addTab(_ltView,tr("ListView"));
-
-    QVBoxLayout* vlyt = new QVBoxLayout;
-    vlyt->addWidget(_tabWidget,1);
-    vlyt->addLayout(hlyt);
-
-    setLayout(vlyt);
+    QGridLayout* glyt = new QGridLayout;
+    glyt->addWidget(tabWget);
+    setLayout(glyt);
 
     srand(QTime::currentTime().msec());
 }
@@ -62,21 +41,4 @@ void Widget::showEvent(QShowEvent *)
     int x = (s.width() - w)/2;
     int y = (s.height() - h)/2;
     move(x,y);
-}
-
-void Widget::StAddOneRandomItem()
-{
-    int row;
-    QModelIndex index;
-
-    Color clo;
-    clo.r = rand()%256;
-    clo.g = rand()%256;
-    clo.b = rand()%256;
-
-    row = _model->rowCount(QModelIndex());
-    _model->insertRow(row);
-    index = _model->index(row);
-    _model->setData(index,QVariant::fromValue(clo));
-
 }
