@@ -47,7 +47,7 @@ EditorFactorWidget::EditorFactorWidget(QWidget *parent)
     item = new QTableWidgetItem(tr("Color Color"),QVariant::String);
     _tableWget->setHorizontalHeaderItem(Color_Color,item);
 
-    QPushButton* btnAddRow = new QPushButton(tr("Add Row"),this);
+    QPushButton* btnAddRow = new QPushButton(tr("Add"),this);
     connect(btnAddRow,&QPushButton::clicked,
             this,&EditorFactorWidget::StAddRow);
 

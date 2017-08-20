@@ -1,5 +1,4 @@
-#include "mainwindow.h"
-
+#include "widget.h"
 #include "./module_editorFactory_widget/editorfactorwidget.h"
 #include "./module_colorViewModelDelegate/colorlistviewwidget.h"
 
@@ -10,9 +9,9 @@
 
 #include <QtGui/QScreen>
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
+Widget::Widget(QWidget *parent)
+    : QWidget(parent)
 {
-    setWindowTitle(tr("Qt App"));
     ColorListViewWidget* colorList = new ColorListViewWidget(this);
     EditorFactorWidget* editorFactorWgt = new EditorFactorWidget(this);
 
@@ -21,17 +20,20 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     tabWget->addTab(editorFactorWgt,tr("EditorFactor"));
     tabWget->setCurrentIndex(1);
 
-    QWidget* wget = new QWidget(this);
-    setCentralWidget(wget);
-
     QGridLayout* glyt = new QGridLayout;
     glyt->addWidget(tabWget);
-    wget->setLayout(glyt);
+    setLayout(glyt);
+
 
     srand(QTime::currentTime().msec());
 }
 
-void MainWindow::showEvent(QShowEvent *)
+Widget::~Widget()
+{
+
+}
+
+void Widget::showEvent(QShowEvent *)
 {
     QSize s = QApplication::primaryScreen()->size();
     int w = s.width() * 0.8;

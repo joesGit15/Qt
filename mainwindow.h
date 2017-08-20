@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
+#include <QtWidgets/QMainWindow>
 
 class MainWindow : public QMainWindow
 {
@@ -9,9 +9,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
 
-signals:
-
-public slots:
+protected:
+    void showEvent(QShowEvent *) override;
 };
 
 #endif // MAINWINDOW_H
