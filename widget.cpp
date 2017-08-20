@@ -35,7 +35,7 @@ Widget::~Widget()
 void Widget::showEvent(QShowEvent *)
 {
     QSize s = QApplication::primaryScreen()->size();
-    int w = s.width() * 0.5;
+    int w = s.width() * 0.8;
     int h = s.height() * 0.8;
     resize(w,h);
     int x = (s.width() - w)/2;

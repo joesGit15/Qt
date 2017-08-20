@@ -51,4 +51,6 @@ void ColorListViewWidget::StAddOneRandomItem()
     _model->insertRow(row);
     index = _model->index(row);
     _model->setData(index,QVariant::fromValue(clo));
+
+    _ltView->scrollToBottom();
 }

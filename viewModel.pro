@@ -27,14 +27,16 @@ SOURCES += main.cpp\
     module_colorViewModelDelegate/colorlistviewwidget.cpp \
     module_colorViewModelDelegate/listmodel.cpp \
     module_colorViewModelDelegate/listitemdelegate.cpp \
-    module_editorFactory_widget/colorlisteditor.cpp
+    module_editorFactory_widget/colorlisteditor.cpp \
+    module_editorFactory_widget/coloritemdelegate.cpp
 
 HEADERS  += widget.h \
     module_editorFactory_widget/editorfactorwidget.h \
     module_colorViewModelDelegate/colorlistviewwidget.h \
     module_colorViewModelDelegate/listmodel.h \
     module_colorViewModelDelegate/listitemdelegate.h \
-    module_editorFactory_widget/colorlisteditor.h
+    module_editorFactory_widget/colorlisteditor.h \
+    module_editorFactory_widget/coloritemdelegate.h
 
 RESOURCES += \
     res.qrc

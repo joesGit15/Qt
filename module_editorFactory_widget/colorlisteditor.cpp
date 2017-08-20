@@ -9,12 +9,15 @@ ColorListEditor::ColorListEditor(QWidget *parent)
 
 QColor ColorListEditor::color() const
 {
-    return qvariant_cast<QColor>(itemData(currentIndex(),Qt::DecorationRole));
+    QVariant var = itemData(currentIndex(),Qt::DecorationRole);
+    QColor clo = var.value<QColor>();
+    return clo;
 }
 
 void ColorListEditor::setColor(QColor col)
 {
-    setCurrentIndex(findData(col,int(Qt::DecorationRole)));
+    int idx = findData(col,Qt::DecorationRole);
+    setCurrentIndex(idx);
 }
 
 void ColorListEditor::populateList()

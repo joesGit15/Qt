@@ -1,5 +1,6 @@
 #include "editorfactorwidget.h"
 #include "colorlisteditor.h"
+#include "coloritemdelegate.h"
 
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QVBoxLayout>
@@ -17,6 +18,8 @@
 
 #include <QtGui/QColor>
 
+#include <QtCore/QDebug>
+
 EditorFactorWidget::EditorFactorWidget(QWidget *parent)
     : QWidget(parent)
 {
@@ -26,7 +29,11 @@ EditorFactorWidget::EditorFactorWidget(QWidget *parent)
     factor->registerEditor(QVariant::Color,colorListCreator);
     QItemEditorFactory::setDefaultFactory(factor);
 
+    ColorItemDelegate* delegate = new ColorItemDelegate(this);
+
     _tableWget = new QTableWidget(0,4,this);
+    _tableWget->setItemDelegateForColumn(3,delegate);
+
     _tableWget->horizontalHeader()->setStretchLastSection(true);
     _tableWget->setSelectionBehavior(QAbstractItemView::SelectRows);
 
@@ -59,6 +66,9 @@ void EditorFactorWidget::showEvent(QShowEvent *event)
 {
     (void)event;
     InitTableWidgetColumnWidth();
+
+    connect(_tableWget,&QTableWidget::itemChanged,
+            this,&EditorFactorWidget::StItemChanged);
 }
 
 void EditorFactorWidget::resizeEvent(QResizeEvent *event)
@@ -69,6 +79,9 @@ void EditorFactorWidget::resizeEvent(QResizeEvent *event)
 
 void EditorFactorWidget::StAddRow()
 {
+    disconnect(_tableWget,&QTableWidget::itemChanged,
+            this,&EditorFactorWidget::StItemChanged);
+
     int row = _tableWget->rowCount();
     _tableWget->insertRow(row);
 
@@ -81,29 +94,57 @@ void EditorFactorWidget::StAddRow()
 
     item = new QTableWidgetItem(QVariant::String);
     item->setData(Qt::DisplayRole,cloName);
-    item->setData(Qt::BackgroundRole,clo);
+    //item->setData(Qt::BackgroundRole,clo);
     _tableWget->setItem(row,Color_Name,item);
 
     item = new QTableWidgetItem(QVariant::String);
     QString text = tr("R=%1 G=%2 B=%3 A=%4").
             arg(clo.red()).arg(clo.green()).arg(clo.blue()).arg(clo.alpha());
     item->setData(Qt::DisplayRole,text);
-    item->setData(Qt::BackgroundRole,clo);
     _tableWget->setItem(row,Color_Rgba,item);
 
     item = new QTableWidgetItem(QVariant::String);
     item->setData(Qt::DisplayRole,clo.name());
-    item->setData(Qt::BackgroundRole,clo);
     _tableWget->setItem(row,Color_Hex,item);
 
     item = new QTableWidgetItem(QVariant::Color);
     item->setData(Qt::DisplayRole,clo);
-    item->setData(Qt::BackgroundRole,clo);
     _tableWget->setItem(row,Color_Color,item);
 
-    QScrollBar* bar = _tableWget->verticalScrollBar();
-    int maxVal = bar->maximum();
-    bar->setValue(maxVal);
+    _tableWget->scrollToBottom();
+
+    connect(_tableWget,&QTableWidget::itemChanged,
+            this,&EditorFactorWidget::StItemChanged);
+}
+
+void EditorFactorWidget::StItemChanged(QTableWidgetItem *item)
+{
+    if(item->column() != Color_Color){
+        return;
+    }
+
+    QString text;
+    QStringList colorNames = QColor::colorNames();
+    QColor clo = item->data(Qt::DisplayRole).value<QColor>();
+    for(const QString &str:colorNames){
+        if(clo == QColor(str)){
+            text = str;
+            break;
+        }
+    }
+
+    int row = item->row();
+
+    item = _tableWget->item(row,Color_Name);
+    item->setData(Qt::DisplayRole,text);
+
+    item = _tableWget->item(row,Color_Rgba);
+    text = tr("R=%1 G=%2 B=%3 A=%4").
+            arg(clo.red()).arg(clo.green()).arg(clo.blue()).arg(clo.alpha());
+    item->setData(Qt::DisplayRole,text);
+
+    item = _tableWget->item(row,Color_Hex);
+    item->setData(Qt::DisplayRole,clo.name());
 }
 
 void EditorFactorWidget::InitTableWidgetColumnWidth()

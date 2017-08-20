@@ -5,6 +5,7 @@
 
 QT_BEGIN_NAMESPACE
 class QTableWidget;
+class QTableWidgetItem;
 QT_END_NAMESPACE
 
 class EditorFactorWidget : public QWidget
@@ -26,13 +27,13 @@ protected:
 
 private slots:
     void StAddRow();
+    void StItemChanged(QTableWidgetItem* item);
 
 private:
     void InitTableWidgetColumnWidth();
 
 private:
     QTableWidget* _tableWget = 0;
-
 };
 
 #endif // EDITORFACTORWIDGET_H
