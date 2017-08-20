@@ -29,6 +29,7 @@ SOURCES += main.cpp\
     module_colorViewModelDelegate/listitemdelegate.cpp \
     module_editorFactory_widget/colorlisteditor.cpp \
     module_editorFactory_widget/coloritemdelegate.cpp \
+    module_imageProcess/imageprocesswidget.cpp
 
 HEADERS  += mainwindow.h \
     module_editorFactory_widget/editorfactorwidget.h \
@@ -37,6 +38,7 @@ HEADERS  += mainwindow.h \
     module_colorViewModelDelegate/listitemdelegate.h \
     module_editorFactory_widget/colorlisteditor.h \
     module_editorFactory_widget/coloritemdelegate.h \
+    module_imageProcess/imageprocesswidget.h
 
 RESOURCES += \
     res.qrc
