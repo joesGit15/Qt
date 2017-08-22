@@ -29,7 +29,10 @@ SOURCES += main.cpp\
     module_colorViewModelDelegate/listitemdelegate.cpp \
     module_editorFactory_widget/colorlisteditor.cpp \
     module_editorFactory_widget/coloritemdelegate.cpp \
-    module_imageProcess/imageprocesswidget.cpp
+    module_imageProcess/imageprocesswidget.cpp \
+    module_imageProcess/module_previewlist/styleditemdelegate.cpp \
+    module_imageProcess/module_previewlist/progressdialog.cpp \
+    module_imageProcess/module_previewlist/listwidget.cpp \
 
 HEADERS  += mainwindow.h \
     module_editorFactory_widget/editorfactorwidget.h \
@@ -38,7 +41,10 @@ HEADERS  += mainwindow.h \
     module_colorViewModelDelegate/listitemdelegate.h \
     module_editorFactory_widget/colorlisteditor.h \
     module_editorFactory_widget/coloritemdelegate.h \
-    module_imageProcess/imageprocesswidget.h
+    module_imageProcess/imageprocesswidget.h \
+    module_imageProcess/module_previewlist/styleditemdelegate.h \
+    module_imageProcess/module_previewlist/progressdialog.h \
+    module_imageProcess/module_previewlist/listwidget.h
 
 RESOURCES += \
     res.qrc
