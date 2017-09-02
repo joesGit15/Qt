@@ -2,6 +2,10 @@
 
 #include "./ModelView/colorViewModelDelegate/colorlistviewwidget.h"
 #include "./ModelView/editorFactory_widget/editorfactorwidget.h"
+#ifdef joe
+#include "./ModelView/tableWidgetThumnail/thumnailWidget.h"
+#endif
+
 #include "./imageProcess/imageprocesswidget.h"
 
 #include <QtWidgets/QApplication>
@@ -18,6 +22,10 @@
 
 #include <QtGui/QScreen>
 
+#ifdef joe
+#include <QtCore/QTimer>
+#endif
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
     setWindowTitle(tr("Qt App"));
@@ -30,13 +38,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     /** begin: other widget */
     _modelView = new QWidget(this);
-    ColorListViewWidget* colorList = new ColorListViewWidget(this);
+    ColorListViewWidget* colorList      = new ColorListViewWidget(this);
     EditorFactorWidget* editorFactorWgt = new EditorFactorWidget(this);
+    ThumnailWidget* Thumnail       = new ThumnailWidget(this);
 
     QTabWidget* tabWget = new QTabWidget(this);
     tabWget->addTab(colorList,tr("Color ListView"));
     tabWget->addTab(editorFactorWgt,tr("Color EditorFactor"));
-    tabWget->setCurrentIndex(1);
+#ifdef joe
+    tabWget->addTab(Thumnail,tr("Table Widget Thumnail"));
+    tabWget->setCurrentIndex(0);
+#endif
 
     QGridLayout* glyt = new QGridLayout;
     glyt->addWidget(tabWget);
@@ -53,7 +65,7 @@ void MainWindow::showEvent(QShowEvent *)
     QSize s = QApplication::primaryScreen()->size();
     int w = s.width() * 0.8;
     int h = s.height() * 0.8;
-    resize(w,h);
+    setMinimumSize(w,h);
     int x = (s.width() - w)/2;
     int y = (s.height() - h)/2;
     move(x,y);

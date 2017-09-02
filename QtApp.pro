@@ -10,7 +10,7 @@ TARGET = QtApp
 VERSION = 00.00.01
 
 CONFIG(debug,debug|release){
-
+    DEFINES += joe
 }else{
 
 }
@@ -32,7 +32,10 @@ SOURCES += main.cpp\
     imageProcess/module_previewlist/styleditemdelegate.cpp \
     imageProcess/module_previewlist/progressdialog.cpp \
     imageProcess/module_previewlist/listwidget.cpp \
-    imageProcess/imageprocesswidget.cpp
+    imageProcess/imageprocesswidget.cpp \
+    ModelView/tableWidgetThumnail/tablewidget.cpp \
+    ModelView/tableWidgetThumnail/thumnailWidget.cpp \
+    ModelView/tableWidgetThumnail/itemdelegate.cpp
 
 HEADERS  += mainwindow.h \
     ModelView/editorFactory_widget/editorfactorwidget.h \
@@ -44,7 +47,10 @@ HEADERS  += mainwindow.h \
     imageProcess/module_previewlist/styleditemdelegate.h \
     imageProcess/module_previewlist/progressdialog.h \
     imageProcess/module_previewlist/listwidget.h \
-    imageProcess/imageprocesswidget.h
+    imageProcess/imageprocesswidget.h \
+    ModelView/tableWidgetThumnail/tablewidget.h \
+    ModelView/tableWidgetThumnail/thumnailWidget.h \
+    ModelView/tableWidgetThumnail/itemdelegate.h
 
 RESOURCES += \
     res.qrc
