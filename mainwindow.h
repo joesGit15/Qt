@@ -27,7 +27,7 @@ protected:
 private slots:
     void openFiles();
     void showImageProcessWidget();
-    void showOtherWidget();
+    void showModelView();
 
 private:
     void initMenus();
@@ -35,7 +35,7 @@ private:
 private:
     QTabWidget*             _tabWidget        = 0;
     ImageProcessWidget*     _imageProcessWget = 0;
-    QWidget*                _otherWidget      = 0;
+    QWidget*                _modelView      = 0;
 };
 
 #endif // MAINWINDOW_H

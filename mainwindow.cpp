@@ -1,8 +1,8 @@
 #include "mainwindow.h"
 
-#include "./module_editorFactory_widget/editorfactorwidget.h"
-#include "./module_colorViewModelDelegate/colorlistviewwidget.h"
-#include "./module_imageProcess/imageprocesswidget.h"
+#include "./ModelView/colorViewModelDelegate/colorlistviewwidget.h"
+#include "./ModelView/editorFactory_widget/editorfactorwidget.h"
+#include "./imageProcess/imageprocesswidget.h"
 
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QTabWidget>
@@ -29,18 +29,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     /** end: image process widget */
 
     /** begin: other widget */
-    _otherWidget = new QWidget(this);
+    _modelView = new QWidget(this);
     ColorListViewWidget* colorList = new ColorListViewWidget(this);
     EditorFactorWidget* editorFactorWgt = new EditorFactorWidget(this);
 
     QTabWidget* tabWget = new QTabWidget(this);
-    tabWget->addTab(colorList,tr("Color List"));
-    tabWget->addTab(editorFactorWgt,tr("EditorFactor"));
+    tabWget->addTab(colorList,tr("Color ListView"));
+    tabWget->addTab(editorFactorWgt,tr("Color EditorFactor"));
     tabWget->setCurrentIndex(1);
 
     QGridLayout* glyt = new QGridLayout;
     glyt->addWidget(tabWget);
-    _otherWidget->setLayout(glyt);
+    _modelView->setLayout(glyt);
     srand(QTime::currentTime().msec());
     /** end: other widget */
 
@@ -90,9 +90,9 @@ void MainWindow::showImageProcessWidget()
     _tabWidget->addTab(_imageProcessWget,tr("Image Process"));
 }
 
-void MainWindow::showOtherWidget()
+void MainWindow::showModelView()
 {
-    _tabWidget->addTab(_otherWidget,tr("Other Process"));
+    _tabWidget->addTab(_modelView,tr("Model/View"));
 }
 
 void MainWindow::initMenus()
@@ -101,8 +101,8 @@ void MainWindow::initMenus()
     QMenu* appMenu  = mBar->addMenu(tr("&App"));
     appMenu->addAction(tr("&Image Process"),
                         this,&MainWindow::showImageProcessWidget);
-    appMenu->addAction(tr("&Other Process"),
-                        this,&MainWindow::showOtherWidget);
+    appMenu->addAction(tr("&Model View"),
+                        this,&MainWindow::showModelView);
     appMenu->addSeparator();
     appMenu->addAction(tr("Exit out"),
                         this,&MainWindow::close);
