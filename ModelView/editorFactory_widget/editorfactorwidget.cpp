@@ -11,6 +11,22 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QPushButton>
 
+/** editor factor */
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QSpinBox>
+#include <QtWidgets/QDoubleSpinBox>
+
+#include <QtWidgets/QTimeEdit>
+#include <QtWidgets/QDateEdit>
+#include <QtWidgets/QDateTimeEdit>
+
+#include <QtWidgets/QLabel>
+
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QTextEdit>
+#include <QtWidgets/QPlainTextEdit>
+
+
 #include <QtWidgets/QItemEditorFactory>
 #include <QtWidgets/QItemEditorCreator>
 #include <QtWidgets/QItemEditorCreatorBase>
@@ -18,16 +34,48 @@
 
 #include <QtGui/QColor>
 
-#include <QtCore/QDebug>
-
 EditorFactorWidget::EditorFactorWidget(QWidget *parent)
     : QWidget(parent)
 {
     QItemEditorFactory *factor = new QItemEditorFactory;
-    QItemEditorCreatorBase* colorListCreator =
-            new QStandardItemEditorCreator<ColorListEditor>();
-    factor->registerEditor(QVariant::Color,colorListCreator);
+///! [0]
+    QItemEditorCreatorBase* editor;
+
+    /** Customize editor for QColor */
+    editor = new QStandardItemEditorCreator<ColorListEditor>();
+    factor->registerEditor(QVariant::Color,editor);
+
+    /** add Bool editor as QComboBox */
+    editor = new QStandardItemEditorCreator<QComboBox>();
+    factor->registerEditor(QVariant::Bool,editor);
+
+    editor = new QStandardItemEditorCreator<QDoubleSpinBox>();
+    factor->registerEditor(QVariant::Double,editor);
+
+    /** int or unsigned int */
+    editor = new QStandardItemEditorCreator<QSpinBox>();
+    factor->registerEditor(QVariant::Int,editor);
+
+    editor = new QStandardItemEditorCreator<QTimeEdit>();
+    factor->registerEditor(QVariant::Time,editor);
+
+    editor = new QStandardItemEditorCreator<QDateEdit>();
+    factor->registerEditor(QVariant::Date,editor);
+
+    editor = new QStandardItemEditorCreator<QDateTimeEdit>();
+    factor->registerEditor(QVariant::DateTime,editor);
+
+    editor = new QStandardItemEditorCreator<QLabel>();
+    factor->registerEditor(QVariant::Pixmap,editor);
+
+    /** add QString editor as QPlainTextEdit, default editor is QLineEdit */
+    editor = new QStandardItemEditorCreator<QPlainTextEdit>();
+    factor->registerEditor(QVariant::String,editor);
+
+    /** Both new and existing delegates will use the new factory */
+    /** All the default editor will remove*/
     QItemEditorFactory::setDefaultFactory(factor);
+///! [0]
 
     ColorItemDelegate* delegate = new ColorItemDelegate(this);
 
@@ -47,7 +95,7 @@ EditorFactorWidget::EditorFactorWidget(QWidget *parent)
     item = new QTableWidgetItem(tr("Color Color"),QVariant::String);
     _tableWget->setHorizontalHeaderItem(Color_Color,item);
 
-    QPushButton* btnAddRow = new QPushButton(tr("Add Row"),this);
+    QPushButton* btnAddRow = new QPushButton(tr("Add"),this);
     connect(btnAddRow,&QPushButton::clicked,
             this,&EditorFactorWidget::StAddRow);
 
@@ -94,6 +142,8 @@ void EditorFactorWidget::StAddRow()
 
     item = new QTableWidgetItem(QVariant::String);
     item->setData(Qt::DisplayRole,cloName);
+    /** set item can not to edit */
+    item->setFlags(item->flags() & (~Qt::ItemIsEditable));
     //item->setData(Qt::BackgroundRole,clo);
     _tableWget->setItem(row,Color_Name,item);
 
@@ -101,10 +151,12 @@ void EditorFactorWidget::StAddRow()
     QString text = tr("R=%1 G=%2 B=%3 A=%4").
             arg(clo.red()).arg(clo.green()).arg(clo.blue()).arg(clo.alpha());
     item->setData(Qt::DisplayRole,text);
+    item->setFlags(item->flags() & (~Qt::ItemIsEditable));
     _tableWget->setItem(row,Color_Rgba,item);
 
     item = new QTableWidgetItem(QVariant::String);
     item->setData(Qt::DisplayRole,clo.name());
+    item->setFlags(item->flags() & (~Qt::ItemIsEditable));
     _tableWget->setItem(row,Color_Hex,item);
 
     item = new QTableWidgetItem(QVariant::Color);
