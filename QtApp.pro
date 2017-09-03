@@ -2,7 +2,7 @@
 # Project created by QtCreator 2017-08-12T07:52:15
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TEMPLATE = app
@@ -35,7 +35,8 @@ SOURCES += main.cpp\
     imageProcess/imageprocesswidget.cpp \
     ModelView/tableWidgetThumnail/tablewidget.cpp \
     ModelView/tableWidgetThumnail/thumnailWidget.cpp \
-    ModelView/tableWidgetThumnail/itemdelegate.cpp
+    ModelView/tableWidgetThumnail/itemdelegate.cpp \
+    NetWork/CrawlImg/httpwindow.cpp
 
 HEADERS  += mainwindow.h \
     ModelView/editorFactory_widget/editorfactorwidget.h \
@@ -50,7 +51,11 @@ HEADERS  += mainwindow.h \
     imageProcess/imageprocesswidget.h \
     ModelView/tableWidgetThumnail/tablewidget.h \
     ModelView/tableWidgetThumnail/thumnailWidget.h \
-    ModelView/tableWidgetThumnail/itemdelegate.h
+    ModelView/tableWidgetThumnail/itemdelegate.h \
+    NetWork/CrawlImg/httpwindow.h
 
 RESOURCES += \
     res.qrc
+
+FORMS += \
+    NetWork/CrawlImg/authenticationdialog.ui
