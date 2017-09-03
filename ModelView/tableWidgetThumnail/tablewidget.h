@@ -15,7 +15,9 @@ class TableWidget : public QTableWidget
 
 public:
     TableWidget(QWidget *parent = 0);
+    void AddRows(const QStringList& paths);
 
+private:
     void AddRow(const QString& path);
 };
 

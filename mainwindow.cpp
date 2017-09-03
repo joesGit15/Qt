@@ -2,9 +2,7 @@
 
 #include "./ModelView/colorViewModelDelegate/colorlistviewwidget.h"
 #include "./ModelView/editorFactory_widget/editorfactorwidget.h"
-#ifdef joe
 #include "./ModelView/tableWidgetThumnail/thumnailWidget.h"
-#endif
 
 #include "./imageProcess/imageprocesswidget.h"
 
@@ -21,10 +19,6 @@
 #include <QtCore/QStandardPaths>
 
 #include <QtGui/QScreen>
-
-#ifdef joe
-#include <QtCore/QTimer>
-#endif
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -45,18 +39,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     QTabWidget* tabWget = new QTabWidget(this);
     tabWget->addTab(colorList,tr("Color ListView"));
     tabWget->addTab(editorFactorWgt,tr("Color EditorFactor"));
-#ifdef joe
     tabWget->addTab(Thumnail,tr("Table Widget Thumnail"));
-    tabWget->setCurrentIndex(0);
-#endif
-
     QGridLayout* glyt = new QGridLayout;
     glyt->addWidget(tabWget);
     _modelView->setLayout(glyt);
     srand(QTime::currentTime().msec());
     /** end: other widget */
-
     _tabWidget = new QTabWidget(this);
+    _tabWidget->addTab(_imageProcessWget,tr("Image Process"));
+    _tabWidget->addTab(_modelView,tr("Model/View"));
     setCentralWidget(_tabWidget);
 }
 

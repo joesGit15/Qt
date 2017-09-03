@@ -4,6 +4,9 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QFileDialog>
+
+#include <QtCore/QStandardPaths>
 
 ThumnailWidget::ThumnailWidget(QWidget *parent)
     : QWidget(parent)
@@ -28,6 +31,24 @@ ThumnailWidget::ThumnailWidget(QWidget *parent)
 
 void ThumnailWidget::StOpenImages()
 {
-    QString path = ":/png/imgs/tmp.jpg";
-    _tableWget->AddRow(path);
+    QStringList filters,paths;
+    QFileDialog dlg(this);
+    QString defaultDir = "";
+
+    if("" == defaultDir){
+        defaultDir = QStandardPaths::standardLocations(
+                    QStandardPaths::PicturesLocation).first();
+    }
+
+    dlg.setDirectory(defaultDir);
+    filters << "Image files(*.png *.jpg)"
+            << "Any files(*)";
+    dlg.setNameFilters(filters);
+    dlg.setFileMode(QFileDialog::ExistingFiles);
+    dlg.setOption(QFileDialog::DontUseNativeDialog);
+
+    if(QDialog::Accepted == dlg.exec()){
+        paths =dlg.selectedFiles();
+        _tableWget->AddRows(paths);
+    }
 }
