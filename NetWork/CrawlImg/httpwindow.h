@@ -42,10 +42,8 @@ private:
     QFile *OpenFileForWrite(const QString &fileName);
 
 private:
-    QLabel*         _statusLabel    = 0;
     QLineEdit*      _urlLineEdit    = 0;
     QPushButton*    _downloadButton = 0;
-    QCheckBox*      _launchCheckBox = 0;
 
     QLineEdit*      _defaultFileLineEdit        = 0;
     QLineEdit*      _downloadDirectoryLineEdit  = 0;
