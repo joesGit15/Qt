@@ -1,8 +1,24 @@
-#include <QtWidgets>
-#include <QtNetwork>
-#include <QUrl>
-
 #include "httpwindow.h"
+
+#include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QFormLayout>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QTextBrowser>
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QDialogButtonBox>
+
+#include <QtCore/QDir>
+#include <QtCore/QFileInfo>
+#include <QtCore/QStandardPaths>
+#include <QtCore/QRegularExpression>
+#include <QtCore/QRegularExpressionMatch>
+#include <QtCore/QRegularExpressionMatchIterator>
+
+#include <QtNetwork/QAuthenticator>
+#include <QtNetwork/QNetworkReply>
+#include <QtNetwork/QNetworkRequest>
 
 #ifndef QT_NO_SSL
 static const char defaultUrl[] = "https://www.qt.io/";
@@ -21,37 +37,18 @@ HttpWindow::HttpWindow(QWidget *parent)
     _urlLineEdit = new QLineEdit(defaultUrl,this);
     _urlLineEdit->setClearButtonEnabled(true);
 
-    _defaultFileLineEdit = new QLineEdit(defaultFileName,this);
-
-    _downloadDirectoryLineEdit = new QLineEdit;
-    QString downloadDirectory = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
-    if (downloadDirectory.isEmpty() || !QFileInfo(downloadDirectory).isDir()){
-        downloadDirectory = QDir::currentPath();
-    }
-    _downloadDirectoryLineEdit->setText(QDir::toNativeSeparators(downloadDirectory));
-
-    _downloadButton = new QPushButton(tr("Download"),this);
-    _downloadButton->setDefault(true);
-
-    QPushButton *quitButton = new QPushButton(tr("Quit"));
-    quitButton->setAutoDefault(false);
+    _btnDownload = new QPushButton(tr("Download"),this);
+    _btnDownload->setDefault(true);
 
     QFormLayout *formLayout = new QFormLayout;
     formLayout->addRow(tr("&URL:"), _urlLineEdit);
-    formLayout->addRow(tr("&Download directory:"), _downloadDirectoryLineEdit);
-    formLayout->addRow(tr("Default &file:"), _defaultFileLineEdit);
 
-    QSpacerItem* spaceitem = new QSpacerItem(0,0,QSizePolicy::Ignored,
-                                             QSizePolicy::MinimumExpanding);
-
-    QDialogButtonBox *buttonBox = new QDialogButtonBox;
-    buttonBox->addButton(_downloadButton, QDialogButtonBox::ActionRole);
-    buttonBox->addButton(quitButton, QDialogButtonBox::RejectRole);
+    _textBrowser = new QTextBrowser(this);
 
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     mainLayout->addLayout(formLayout);
-    mainLayout->addItem(spaceitem);
-    mainLayout->addWidget(buttonBox);
+    mainLayout->addWidget(_textBrowser);
+    mainLayout->addWidget(_btnDownload);
 
     connect(_urlLineEdit, &QLineEdit::textChanged,
             this, &HttpWindow::StEnableDownloadButton);
@@ -62,10 +59,8 @@ HttpWindow::HttpWindow(QWidget *parent)
     connect(&_qnam, &QNetworkAccessManager::sslErrors,
             this, &HttpWindow::StSslErrors);
 #endif
-    connect(_downloadButton, &QAbstractButton::clicked,
+    connect(_btnDownload, &QAbstractButton::clicked,
             this, &HttpWindow::StDownloadFile);
-    connect(quitButton, &QAbstractButton::clicked,
-            this, &QWidget::close);
 }
 
 void HttpWindow::StartRequest(const QUrl &requestedUrl)
@@ -106,74 +101,19 @@ void HttpWindow::StDownloadFile()
         return;
     }
 
-    QString fileName = newUrl.fileName();
-    if (fileName.isEmpty()){
-        fileName = _defaultFileLineEdit->text().trimmed();
-    }
-
-    if (fileName.isEmpty()){
-        fileName = defaultFileName;
-    }
-
-    QString downloadDirectory;
-    downloadDirectory = QDir::cleanPath(_downloadDirectoryLineEdit->text().trimmed());
-    if (!downloadDirectory.isEmpty() && QFileInfo(downloadDirectory).isDir()){
-        fileName.prepend(downloadDirectory + '/');
-    }
-
-    if (QFile::exists(fileName)) {
-        QString title,text;
-        title = tr("Overwrite Existing File");
-        text = tr("There already exists a file called %1 in the current directory. Overwrite?").arg(fileName);
-        QMessageBox::StandardButton btn;
-        btn = QMessageBox::question(this,title,text,QMessageBox::Yes|QMessageBox::No, QMessageBox::No);
-        if (btn == QMessageBox::No){
-            return;
-        }
-
-        QFile::remove(fileName);
-    }
-
-    _file = OpenFileForWrite(fileName);
-    if (!_file){
-        return;
-    }
-
-    _downloadButton->setEnabled(false);
-
+    _btnDownload->setEnabled(false);
     StartRequest(newUrl);
-}
-
-QFile *HttpWindow::OpenFileForWrite(const QString &fileName)
-{
-    QScopedPointer<QFile> file(new QFile(fileName));
-    if (!file->open(QIODevice::WriteOnly)) {
-        QMessageBox::information(this, tr("Error"),
-                                 tr("Unable to save the file %1: %2.")
-                                 .arg(QDir::toNativeSeparators(fileName),
-                                      file->errorString()));
-        return Q_NULLPTR;
-    }
-    return file.take();
 }
 
 void HttpWindow::StCancelDownload()
 {
     _httpRequestAborted = true;
     _reply->abort();
-    _downloadButton->setEnabled(true);
+    _btnDownload->setEnabled(true);
 }
 
 void HttpWindow::StHttpFinished()
 {
-    QFileInfo fi;
-    if (_file) {
-        fi.setFile(_file->fileName());
-        _file->close();
-        delete _file;
-        _file = Q_NULLPTR;
-    }
-
     if (_httpRequestAborted) {
         _reply->deleteLater();
         _reply = Q_NULLPTR;
@@ -181,11 +121,7 @@ void HttpWindow::StHttpFinished()
     }
 
     if (_reply->error()) {
-        QFile::remove(fi.absoluteFilePath());
-#if 0
-        _statusLabel->setText(tr("Download failed:\n%1.").arg(_reply->errorString()));
-#endif
-        _downloadButton->setEnabled(true);
+        _btnDownload->setEnabled(true);
         _reply->deleteLater();
         _reply = Q_NULLPTR;
         return;
@@ -201,43 +137,32 @@ void HttpWindow::StHttpFinished()
         if (QMessageBox::question(this, tr("Redirect"),
                                   tr("Redirect to %1 ?").arg(redirectedUrl.toString()),
                                   QMessageBox::Yes | QMessageBox::No) == QMessageBox::No) {
-            _downloadButton->setEnabled(true);
+            _btnDownload->setEnabled(true);
             return;
         }
-        _file = OpenFileForWrite(fi.absoluteFilePath());
-        if (!_file) {
-            _downloadButton->setEnabled(true);
-            return;
-        }
+
         StartRequest(redirectedUrl);
         return;
     }
-#if 0
-    QString dir = QDir::toNativeSeparators(fi.absolutePath());
-    QString text = tr("Downloaded %1 bytes to %2\nin\n%3")
-            .arg(fi.size())
-            .arg(fi.fileName(),QDir::toNativeSeparators(fi.absolutePath()));
-    _statusLabel->setText(text);
 
-    if (_launchCheckBox->isChecked())
-        QDesktopServices::openUrl(QUrl::fromLocalFile(fi.absoluteFilePath()));
-#endif
-    _downloadButton->setEnabled(true);
+    _btnDownload->setEnabled(true);
 }
 
 void HttpWindow::StHttpReadyRead()
 {
-    // this slot gets called every time the QNetworkReply has new data.
-    // We read all of its new data and write it into the file.
-    // That way we use less RAM than when reading it at the finished()
-    // signal of the QNetworkReply
-    if (_file)
-        _file->write(_reply->readAll());
+    QRegularExpressionMatch match;
+    QRegularExpression re("(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]");
+    QRegularExpressionMatchIterator i = re.globalMatch(QString(_reply->readAll()));
+
+    while(i.hasNext()){
+        match = i.next();
+        _textBrowser->append(match.captured());
+    }
 }
 
 void HttpWindow::StEnableDownloadButton()
 {
-    _downloadButton->setEnabled(!_urlLineEdit->text().isEmpty());
+    _btnDownload->setEnabled(!_urlLineEdit->text().isEmpty());
 }
 
 void HttpWindow::StAuthenticationRequired(QNetworkReply*,QAuthenticator *authenticator)

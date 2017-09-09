@@ -9,13 +9,12 @@
 
 QT_BEGIN_NAMESPACE
 class QFile;
-class QLabel;
 class QLineEdit;
 class QPushButton;
 class QSslError;
 class QAuthenticator;
 class QNetworkReply;
-class QCheckBox;
+class QTextBrowser;
 QT_END_NAMESPACE
 
 class HttpWindow : public QWidget
@@ -39,17 +38,11 @@ private slots:
 #endif
 
 private:
-    QFile *OpenFileForWrite(const QString &fileName);
-
-private:
-    QLineEdit*      _urlLineEdit    = 0;
-    QPushButton*    _downloadButton = 0;
-
-    QLineEdit*      _defaultFileLineEdit        = 0;
-    QLineEdit*      _downloadDirectoryLineEdit  = 0;
+    QLineEdit*      _urlLineEdit = 0;
+    QTextBrowser*   _textBrowser = 0;
+    QPushButton*    _btnDownload = 0;
 
     QUrl _url;
-    QFile*                  _file       = 0;
     QNetworkReply*          _reply      = 0;
     QNetworkAccessManager   _qnam;
     bool _httpRequestAborted    = false;
