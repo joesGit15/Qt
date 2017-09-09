@@ -1,11 +1,12 @@
 #include <QApplication>
-#include "httpwindow.h"
+
+#include "thumnailWidget.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    HttpWindow w;
+    ThumnailWidget w;
     w.show();
 
     return a.exec();

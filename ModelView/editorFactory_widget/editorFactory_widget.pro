@@ -4,10 +4,10 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = CrawlImgs
+TARGET = EditorFactory
 TEMPLATE = app
 VERSION = 00.00.01
 
@@ -24,8 +24,12 @@ linux {
 }
 
 SOURCES += \
-    main.cpp \
-    httpwindow.cpp
+    editorfactorwidget.cpp \
+    colorlisteditor.cpp \
+    coloritemdelegate.cpp \
+    main.cpp
 
 HEADERS  += \
-    httpwindow.h
+    editorfactorwidget.h \
+    colorlisteditor.h \
+    coloritemdelegate.h

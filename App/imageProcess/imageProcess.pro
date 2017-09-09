@@ -4,10 +4,10 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = CrawlImgs
+TARGET = imageProcessWidget
 TEMPLATE = app
 VERSION = 00.00.01
 
@@ -25,7 +25,7 @@ linux {
 
 SOURCES += \
     main.cpp \
-    httpwindow.cpp
+    imageprocesswidget.cpp
 
 HEADERS  += \
-    httpwindow.h
+    imageprocesswidget.h

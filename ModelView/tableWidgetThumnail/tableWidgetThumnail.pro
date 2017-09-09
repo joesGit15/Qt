@@ -4,10 +4,10 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = CrawlImgs
+TARGET = TableWidgetThumnail
 TEMPLATE = app
 VERSION = 00.00.01
 
@@ -24,8 +24,15 @@ linux {
 }
 
 SOURCES += \
-    main.cpp \
-    httpwindow.cpp
+    thumnailWidget.cpp \
+    tablewidget.cpp \
+    itemdelegate.cpp \
+    main.cpp
 
 HEADERS  += \
-    httpwindow.h
+    thumnailWidget.h \
+    tablewidget.h \
+    itemdelegate.h
+
+RESOURCES += \
+    res.qrc

@@ -3,7 +3,6 @@
 #include <QUrl>
 
 #include "httpwindow.h"
-#include "ui_authenticationdialog.h"
 
 #ifndef QT_NO_SSL
 static const char defaultUrl[] = "https://www.qt.io/";
@@ -243,6 +242,7 @@ void HttpWindow::StEnableDownloadButton()
 
 void HttpWindow::StAuthenticationRequired(QNetworkReply*,QAuthenticator *authenticator)
 {
+#if 0
     Ui::Dialog ui;
     QDialog authenticationDialog;
     ui.setupUi(&authenticationDialog);
@@ -257,6 +257,7 @@ void HttpWindow::StAuthenticationRequired(QNetworkReply*,QAuthenticator *authent
         authenticator->setUser(ui.userEdit->text());
         authenticator->setPassword(ui.passwordEdit->text());
     }
+#endif
 }
 
 #ifndef QT_NO_SSL

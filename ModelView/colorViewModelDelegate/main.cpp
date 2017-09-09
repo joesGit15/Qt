@@ -1,11 +1,11 @@
 #include <QApplication>
-#include "httpwindow.h"
+#include "colorlistviewwidget.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    HttpWindow w;
+    ColorListViewWidget w;
     w.show();
 
     return a.exec();
