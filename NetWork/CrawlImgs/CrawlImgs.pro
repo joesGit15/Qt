@@ -25,7 +25,9 @@ linux {
 
 SOURCES += \
     main.cpp \
-    httpwindow.cpp
+    httpwindow.cpp \
+    appsettings.cpp
 
 HEADERS  += \
-    httpwindow.h
+    httpwindow.h \
+    appsettings.h

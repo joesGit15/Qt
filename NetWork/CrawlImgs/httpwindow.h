@@ -2,18 +2,17 @@
 #define HTTPWINDOW_H
 
 #include <QtWidgets/QWidget>
-#include <QtWidgets/QProgressDialog>
 
-#include <QtNetwork/QNetworkAccessManager>
 #include <QtCore/QUrl>
+#include <QtNetwork/QNetworkReply>
+#include <QtNetwork/QNetworkAccessManager>
 
+class AppSettings;
 QT_BEGIN_NAMESPACE
-class QFile;
-class QLineEdit;
+class QComboBox;
 class QPushButton;
 class QSslError;
 class QAuthenticator;
-class QNetworkReply;
 class QTextBrowser;
 QT_END_NAMESPACE
 
@@ -27,18 +26,22 @@ public:
     void StartRequest(const QUrl &requestedUrl);
 
 private slots:
+    void StReplyError(QNetworkReply::NetworkError code);
+
     void StDownloadFile();
     void StCancelDownload();
     void StHttpFinished();
     void StHttpReadyRead();
-    void StEnableDownloadButton();
     void StAuthenticationRequired(QNetworkReply*,QAuthenticator *);
 #ifndef QT_NO_SSL
     void StSslErrors(QNetworkReply*,const QList<QSslError> &errors);
 #endif
 
 private:
-    QLineEdit*      _urlLineEdit = 0;
+    QComboBox*      _cbBoxUrl    = 0;
+    QComboBox*      _cbBoxReg    = 0;
+
+    AppSettings*    _appSet      = 0;
     QTextBrowser*   _textBrowser = 0;
     QPushButton*    _btnDownload = 0;
 
@@ -48,14 +51,4 @@ private:
     bool _httpRequestAborted    = false;
 };
 
-class ProgressDialog : public QProgressDialog
-{
-    Q_OBJECT
-
-public:
-    explicit ProgressDialog(const QUrl &url, QWidget *parent = 0);
-
-public slots:
-   void StNetworkReplyProgress(qint64 bytesRead, qint64 totalBytes);
-};
 #endif
