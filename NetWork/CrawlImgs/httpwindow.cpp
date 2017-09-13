@@ -12,6 +12,7 @@
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QDialogButtonBox>
 
+#include <QtCore/QTimer>
 #include <QtCore/QRegularExpression>
 #include <QtCore/QRegularExpressionMatch>
 #include <QtCore/QRegularExpressionMatchIterator>
@@ -44,9 +45,15 @@ HttpWindow::HttpWindow(QWidget *parent)
         }
     }
 
+    _regHtml = "(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|](/|\.html)";
+    _regImg  = "(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]\.(jpg|png)";
+
     QStringList regs;
-    regs << "(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]";
+    regs << "(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]"
+         << _regHtml << _regImg;
+
     _cbBoxReg = new QComboBox(this);
+    _cbBoxReg->setEnabled(false);
     _cbBoxReg->setEditable(true);
     for(const QString& reg:regs){
         _cbBoxReg->addItem(reg);
@@ -56,9 +63,11 @@ HttpWindow::HttpWindow(QWidget *parent)
     formLayout->addRow(tr("&URL:"), _cbBoxUrl);
     formLayout->addRow(tr("&Reg:"), _cbBoxReg);
 
+    QPushButton* btnClear = new QPushButton(tr("Clear"),this);
     _btnDownload = new QPushButton(tr("Download"),this);
     QHBoxLayout* hlyt = new QHBoxLayout;
     hlyt->addStretch(1);
+    hlyt->addWidget(btnClear);
     hlyt->addWidget(_btnDownload);
 
     _textBrowser = new QTextBrowser(this);
@@ -68,39 +77,10 @@ HttpWindow::HttpWindow(QWidget *parent)
     uivlyt->addLayout(hlyt);
     uivlyt->addWidget(_textBrowser);
 
-    connect(&_qnam, &QNetworkAccessManager::authenticationRequired,
-            this, &HttpWindow::StAuthenticationRequired);
-#ifndef QT_NO_SSL
-    connect(&_qnam, &QNetworkAccessManager::sslErrors,
-            this, &HttpWindow::StSslErrors);
-#endif
+    connect(btnClear,&QPushButton::clicked,
+           this,&HttpWindow::StClearTextBrowser);
     connect(_btnDownload, &QAbstractButton::clicked,
             this, &HttpWindow::StDownloadFile);
-}
-
-void HttpWindow::StartRequest(const QUrl &requestedUrl)
-{
-    _url = requestedUrl;
-    _httpRequestAborted = false;
-
-    _reply = _qnam.get(QNetworkRequest(_url));
-    connect(_reply,
-            static_cast<void (QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error),
-            this,&HttpWindow::StReplyError);
-    connect(_reply, &QNetworkReply::finished,
-            this, &HttpWindow::StHttpFinished);
-    connect(_reply, &QIODevice::readyRead,
-            this, &HttpWindow::StHttpReadyRead);
-}
-
-void HttpWindow::StReplyError(QNetworkReply::NetworkError code)
-{
-    QString error;
-    error = tr("Reply Error Code:%1").arg(code);
-    _textBrowser->append(error);
-
-    QObject* obj = sender();
-    obj->deleteLater();
 }
 
 void HttpWindow::StDownloadFile()
@@ -122,95 +102,119 @@ void HttpWindow::StDownloadFile()
         _cbBoxUrl->addItem(urlSpec);
     }
 
+    _urlId = 0;
+    _urls.append(urlSpec);
+    QTimer::singleShot(100,this,&HttpWindow::BeginToCrawl);
+}
+
+void HttpWindow::BeginToCrawl()
+{
+    if(_urlId >= _urls.count()){
+        _textBrowser->append("End Crawl");
+        return;
+    }
+
+    QString url;
+    QUrl newUrl;
+    for(int i=_urlId; i<_urls.count(); i++){
+        url = _urls.at(i);
+        _urlId++;
+        newUrl = QUrl::fromUserInput(url);
+        if (newUrl.isValid()) {
+            break;
+        }
+    }
+
+    if(!newUrl.isValid()){
+        return;
+    }
+
+    _textBrowser->append(tr("------------------%1-------------------").arg(_urlId));
     StartRequest(newUrl);
 }
 
-void HttpWindow::StCancelDownload()
+void HttpWindow::StartRequest(const QUrl &requestedUrl)
 {
-    _httpRequestAborted = true;
-    _reply->abort();
+    QNetworkReply *reply = _qnam.get(QNetworkRequest(requestedUrl));
+    connect(reply,
+            static_cast<void (QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error),
+            this,&HttpWindow::StReplyError);
+    connect(reply, &QNetworkReply::finished,
+            this, &HttpWindow::StHttpFinished);
+    connect(reply, &QIODevice::readyRead,
+            this, &HttpWindow::StHttpReadyRead);
+}
+
+void HttpWindow::StReplyError(QNetworkReply::NetworkError code)
+{
+    QString error;
+    error = tr("Reply Error Code:%1").arg(code);
+    _textBrowser->append(error);
+
+    QObject* obj = sender();
+    obj->deleteLater();
 }
 
 void HttpWindow::StHttpFinished()
 {
-    if (_httpRequestAborted || _reply->error()) {
-        _reply->deleteLater();
-        _reply = 0;
+    QObject* obj = sender();
+    QNetworkReply* reply = qobject_cast<QNetworkReply*>(obj);
+    QUrl url = reply->url();
+
+    if (reply->error()) {
+        reply->deleteLater();
         return;
     }
 
     QVariant redirectionTarget;
-    redirectionTarget = _reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
+    redirectionTarget = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
 
-    _reply->deleteLater();
-    _reply = 0;
-
+    reply->deleteLater();
     if(redirectionTarget.isNull()){
         return;
     }
 
     QUrl redirectedUrl;
-    redirectedUrl = _url.resolved(redirectionTarget.toUrl());
-    QString msg = tr("Redirect to %1 ?").arg(redirectedUrl.toString());
-
-    QMessageBox::StandardButton sbtn;
-    sbtn = QMessageBox::question(this,tr("Redirect"),msg,QMessageBox::Yes|QMessageBox::No);
-    if (sbtn == QMessageBox::Yes) {
-        StartRequest(redirectedUrl);
-    }
+    redirectedUrl = url.resolved(redirectionTarget.toUrl());
+    StartRequest(redirectedUrl);
 }
 
 void HttpWindow::StHttpReadyRead()
 {
-    QString regStr = _cbBoxReg->currentText().trimmed();
+    QObject* obj = sender();
+    QNetworkReply* reply = qobject_cast<QNetworkReply*>(obj);
 
+    QRegularExpression re;
+    QByteArray htmlContent;
     QRegularExpressionMatch match;
-    QRegularExpression re(regStr);
-    QRegularExpressionMatchIterator i = re.globalMatch(QString(_reply->readAll()));
+    QRegularExpressionMatchIterator i;
 
+    htmlContent = reply->readAll();
+    re.setPattern(_regHtml);
+    i = re.globalMatch(QString(htmlContent));
+    while(i.hasNext()){
+        match = i.next();
+        if(_urls.count() > 50){
+            break;
+        }
+        _urls.append(match.captured());
+    }
+
+    re.setPattern(_regImg);
+    i = re.globalMatch(QString(htmlContent));
     while(i.hasNext()){
         match = i.next();
         _textBrowser->append(match.captured());
     }
+
     QScrollBar* bar = _textBrowser->verticalScrollBar();
     int max = bar->maximum();
     bar->setValue(max);
+
+    QTimer::singleShot(3000,this,&HttpWindow::BeginToCrawl);
 }
 
-void HttpWindow::StAuthenticationRequired(QNetworkReply*,QAuthenticator *authenticator)
+void HttpWindow::StClearTextBrowser()
 {
-#if 0
-    Ui::Dialog ui;
-    QDialog authenticationDialog;
-    ui.setupUi(&authenticationDialog);
-
-    authenticationDialog.adjustSize();
-    ui.siteDescription->setText(tr("%1 at %2").arg(authenticator->realm(), _url.host()));
-
-    ui.userEdit->setText(_url.userName());
-    ui.passwordEdit->setText(_url.password());
-
-    if (authenticationDialog.exec() == QDialog::Accepted) {
-        authenticator->setUser(ui.userEdit->text());
-        authenticator->setPassword(ui.passwordEdit->text());
-    }
-#endif
+    _textBrowser->clear();
 }
-
-#ifndef QT_NO_SSL
-void HttpWindow::StSslErrors(QNetworkReply*,const QList<QSslError> &errors)
-{
-    QString errorString;
-    foreach (const QSslError &error, errors) {
-        if (!errorString.isEmpty())
-            errorString += '\n';
-        errorString += error.errorString();
-    }
-
-    if (QMessageBox::warning(this, tr("SSL Errors"),
-                             tr("One or more SSL errors has occurred:\n%1").arg(errorString),
-                             QMessageBox::Ignore | QMessageBox::Abort) == QMessageBox::Ignore) {
-        _reply->ignoreSslErrors();
-    }
-}
-#endif

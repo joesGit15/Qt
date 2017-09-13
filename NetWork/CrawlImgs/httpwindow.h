@@ -29,13 +29,13 @@ private slots:
     void StReplyError(QNetworkReply::NetworkError code);
 
     void StDownloadFile();
-    void StCancelDownload();
     void StHttpFinished();
     void StHttpReadyRead();
-    void StAuthenticationRequired(QNetworkReply*,QAuthenticator *);
-#ifndef QT_NO_SSL
-    void StSslErrors(QNetworkReply*,const QList<QSslError> &errors);
-#endif
+
+    void StClearTextBrowser();
+
+private:
+    void BeginToCrawl();
 
 private:
     QComboBox*      _cbBoxUrl    = 0;
@@ -45,10 +45,13 @@ private:
     QTextBrowser*   _textBrowser = 0;
     QPushButton*    _btnDownload = 0;
 
-    QUrl _url;
-    QNetworkReply*          _reply      = 0;
     QNetworkAccessManager   _qnam;
-    bool _httpRequestAborted    = false;
+
+    QString         _regHtml;
+    QString         _regImg;
+
+    int             _urlId;
+    QStringList     _urls;
 };
 
 #endif
