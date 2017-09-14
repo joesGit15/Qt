@@ -7,4 +7,5 @@ SUBDIRS += \
     Gui \
     Test \
     App \
-    ModelView
+    ModelView \
+    Sql
