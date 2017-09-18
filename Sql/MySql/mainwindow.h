@@ -25,6 +25,10 @@ public:
 protected:
     void showEvent(QShowEvent *event) override;
 
+private slots:
+    void StDatabaseConnectError(const QString &error);
+    void StDatabaseConnectInfo(const QString &info);
+
 private:
     QMdiArea*               _mdiArea = 0;
     QList<QDockWidget*>     _ltDocks;

@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "DatabaseConnect.h"
 
 #include <QtWidgets/QMdiArea>
 #include <QtWidgets/QDockWidget>
@@ -15,6 +16,8 @@ MainWindow::MainWindow(QWidget *parent)
     QDockWidget* dock = 0;
     dock = new QDockWidget(tr("Database"),this);
     dock->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
+    DatabaseConnect* DBConnect = new DatabaseConnect(this);
+    dock->setWidget(DBConnect);
     _ltDocks.append(dock); ///< use the DockIdx::Main to get
 
     dock = new QDockWidget(tr("Info"),this);
@@ -28,6 +31,10 @@ MainWindow::MainWindow(QWidget *parent)
     addDockWidget(Qt::TopDockWidgetArea,_ltDocks[DockIdx::Main]);
     splitDockWidget(_ltDocks[DockIdx::Main],_ltDocks[DockIdx::Info],Qt::Horizontal);
 
+    connect(DBConnect,&DatabaseConnect::SigError,
+            this,&MainWindow::StDatabaseConnectError);
+    connect(DBConnect,&DatabaseConnect::SigInfo,
+            this,&MainWindow::StDatabaseConnectInfo);
 #if 0
     /** put two widgets in tabs */
     addDockWidget(Qt::TopDockWidgetArea,dockWget);
@@ -49,4 +56,14 @@ void MainWindow::showEvent(QShowEvent *event)
     size.append(int(h*0.2));
     size.append(int(h*0.2));
     resizeDocks(_ltDocks,size,Qt::Vertical);
+}
+
+void MainWindow::StDatabaseConnectError(const QString &error)
+{
+    _info->append(error);
+}
+
+void MainWindow::StDatabaseConnectInfo(const QString &info)
+{
+    _info->append(info);
 }

@@ -18,8 +18,9 @@ linux {
 }
 
 SOURCES += main.cpp\
-        widget.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    DatabaseConnect.cpp
 
-HEADERS  += widget.h \
-    mainwindow.h
+HEADERS  += \
+    mainwindow.h \
+    DatabaseConnect.h

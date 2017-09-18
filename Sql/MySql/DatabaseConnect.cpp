@@ -1,25 +1,20 @@
-#include "widget.h"
+#include "DatabaseConnect.h"
 
 #include <QtSql/QSqlError>
 
 #include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QFrame>
-#include <QtWidgets/QTextEdit>
 
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlDriver>
 #include <QtSql/QSqlRecord>
 #include <QtSql/QSqlQueryModel>
 
-#include <QtCore/QDebug>
-
-Widget::Widget(QWidget *parent)
+DatabaseConnect::DatabaseConnect(QWidget *parent)
     : QWidget(parent)
 {
     _db = QSqlDatabase::addDatabase("QMYSQL");
@@ -43,9 +38,6 @@ Widget::Widget(QWidget *parent)
     QPushButton* btnUse = new QPushButton(tr("Use Selected"),this);
     btnUse->setMinimumWidth(100);
 
-    _data = new QTextEdit(this);
-    _data->setReadOnly(true);
-
     /** left formlayout */
     QFormLayout* lflyt = new QFormLayout;
     lflyt->addRow(tr("&Hostname"),_hostname);
@@ -68,44 +60,36 @@ Widget::Widget(QWidget *parent)
     hlyt->addLayout(cflyt);
     hlyt->addStretch(1);
 
-    QFrame* hline = new QFrame(this);
-    hline->setFrameShape(QFrame::HLine);
-
-    QVBoxLayout* vlyt = new QVBoxLayout;
-    vlyt->addLayout(hlyt);
-    vlyt->addWidget(hline);
-    vlyt->addWidget(_data);
-
-    setLayout(vlyt);
+    setLayout(hlyt);
 
     connect(btnConnect,&QPushButton::clicked,
-            this,&Widget::StConnectDatabase);
+            this,&DatabaseConnect::StConnectDatabase);
 
     connect(_databases,&QComboBox::currentTextChanged,
-            this,&Widget::StSelectedDatabaseChanged);
+            this,&DatabaseConnect::StSelectedDatabaseChanged);
     connect(_tables,&QComboBox::currentTextChanged,
-            this,&Widget::StSelectedTableChanged);
+            this,&DatabaseConnect::StSelectedTableChanged);
 }
 
-Widget::~Widget()
+DatabaseConnect::~DatabaseConnect()
 {
     if(_db.isOpen()){
         _db.close();
     }
 }
 
-void Widget::showEvent(QShowEvent *event)
+void DatabaseConnect::showEvent(QShowEvent *event)
 {
     (void)event;
 }
 
-void Widget::StConnectDatabase()
+void DatabaseConnect::StConnectDatabase()
 {
     QObject* obj = sender();
     QPushButton* btn = qobject_cast<QPushButton*>(obj);
 
     disconnect(_databases,&QComboBox::currentTextChanged,
-            this,&Widget::StSelectedDatabaseChanged);
+            this,&DatabaseConnect::StSelectedDatabaseChanged);
 
     if(btn->text() == tr("Open")){
         QString str;
@@ -118,9 +102,9 @@ void Widget::StConnectDatabase()
         str = _userpwd->text().trimmed();
         _db.setPassword(str);
         if(!_db.open()){
-            _data->append(_db.lastError().text());
+            emit SigError(_db.lastError().text());
         }else{
-            _data->append(tr("Open Database OK"));
+            emit SigInfo(tr("Open Database OK"));
             btn->setText(tr("Close"));
         }
 
@@ -128,7 +112,7 @@ void Widget::StConnectDatabase()
         QSqlQuery query;
         QString database;
         if(!query.exec("show databases")){
-            _data->append(query.lastError().text());
+            emit SigError(query.lastError().text());
             goto _END;
         }
 
@@ -148,7 +132,7 @@ void Widget::StConnectDatabase()
 
     if(btn->text() == tr("Close")){
         _db.close();
-        _data->append(tr("Close Database OK"));
+        emit SigInfo(tr("Close Database OK"));
         btn->setText(tr("Open"));
 
         goto _END;
@@ -156,10 +140,10 @@ void Widget::StConnectDatabase()
 
 _END:
     connect(_databases,&QComboBox::currentTextChanged,
-            this,&Widget::StSelectedDatabaseChanged);
+            this,&DatabaseConnect::StSelectedDatabaseChanged);
 }
 
-void Widget::StSelectedDatabaseChanged(const QString &database)
+void DatabaseConnect::StSelectedDatabaseChanged(const QString &database)
 {
     Q_ASSERT(database != "");
 
@@ -167,7 +151,7 @@ void Widget::StSelectedDatabaseChanged(const QString &database)
     QString table,sql;
 
     disconnect(_tables,&QComboBox::currentTextChanged,
-            this,&Widget::StSelectedTableChanged);
+            this,&DatabaseConnect::StSelectedTableChanged);
 
     /** use database; */
     sql = QString("use %1").arg(database);
@@ -194,14 +178,14 @@ void Widget::StSelectedDatabaseChanged(const QString &database)
     goto _END;
 
 _ERROR:
-    _data->append(query.lastError().text());
+    emit SigError(query.lastError().text());
 
 _END:
     connect(_tables,&QComboBox::currentTextChanged,
-            this,&Widget::StSelectedTableChanged);
+            this,&DatabaseConnect::StSelectedTableChanged);
 }
 
-void Widget::StSelectedTableChanged(const QString &table)
+void DatabaseConnect::StSelectedTableChanged(const QString &table)
 {
     Q_ASSERT(table != "");
 
@@ -213,7 +197,7 @@ void Widget::StSelectedTableChanged(const QString &table)
 
     sql = QString("desc %1").arg(table);
     if(!query.exec(sql)){
-        _data->append(query.lastError().text());
+        emit SigError(query.lastError().text());
         return;
     }
 
@@ -224,6 +208,6 @@ void Widget::StSelectedTableChanged(const QString &table)
         for(j=0; j < record.count(); ++j){
             text += QString("%1\t").arg(record.fieldName(j));
         }
-        _data->append(text);
+        //_data->append(text);
     }
 }
