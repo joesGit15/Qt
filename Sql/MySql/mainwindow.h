@@ -4,9 +4,10 @@
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
-class QMdiArea;
+class QTabWidget;
 class QDockWidget;
 class QTextEdit;
+class QTableView;
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
@@ -30,10 +31,16 @@ private slots:
     void StDatabaseConnectInfo(const QString &info);
 
 private:
-    QMdiArea*               _mdiArea = 0;
+    void SetTableViewDefaultOpts(QTableView *tbv);
+
+private:
+    QTabWidget*             _tabWidget = 0;
     QList<QDockWidget*>     _ltDocks;
 
     QTextEdit*              _info = 0;
+
+    QTableView*             _tbvDesc = 0;
+    QTableView*             _tbvData = 0;
 };
 
 #endif // MAINWINDOW_H

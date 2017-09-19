@@ -1,17 +1,22 @@
 #include "mainwindow.h"
 #include "DatabaseConnect.h"
 
-#include <QtWidgets/QMdiArea>
+#include <QtWidgets/QTabWidget>
 #include <QtWidgets/QDockWidget>
 #include <QtWidgets/QTextEdit>
+#include <QtWidgets/QTableView>
+#include <QtWidgets/QHeaderView>
+
+#include <QtSql/QSqlQueryModel>
+#include <QtSql/QSqlTableModel>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     setDockNestingEnabled(true);
 
-    _mdiArea = new QMdiArea(this);
-    setCentralWidget(_mdiArea);
+    _tabWidget = new QTabWidget(this);
+    setCentralWidget(_tabWidget);
 
     QDockWidget* dock = 0;
     dock = new QDockWidget(tr("Database"),this);
@@ -31,15 +36,22 @@ MainWindow::MainWindow(QWidget *parent)
     addDockWidget(Qt::TopDockWidgetArea,_ltDocks[DockIdx::Main]);
     splitDockWidget(_ltDocks[DockIdx::Main],_ltDocks[DockIdx::Info],Qt::Horizontal);
 
+    _tbvDesc = new QTableView(this);
+    _tbvData = new QTableView(this);
+
+    SetTableViewDefaultOpts(_tbvDesc);
+    SetTableViewDefaultOpts(_tbvData);
+
+    _tbvDesc->setModel(DBConnect->TableDescModel());
+    _tbvData->setModel(DBConnect->TableDataModel());
+
+    _tabWidget->addTab(_tbvDesc,tr("Table Desc"));
+    _tabWidget->addTab(_tbvData,tr("Table Data"));
+
     connect(DBConnect,&DatabaseConnect::SigError,
             this,&MainWindow::StDatabaseConnectError);
     connect(DBConnect,&DatabaseConnect::SigInfo,
             this,&MainWindow::StDatabaseConnectInfo);
-#if 0
-    /** put two widgets in tabs */
-    addDockWidget(Qt::TopDockWidgetArea,dockWget);
-    tabifyDockWidget(dockWget,dockWgetInfo);
-#endif
 }
 
 void MainWindow::showEvent(QShowEvent *event)
@@ -66,4 +78,13 @@ void MainWindow::StDatabaseConnectError(const QString &error)
 void MainWindow::StDatabaseConnectInfo(const QString &info)
 {
     _info->append(info);
+}
+
+void MainWindow::SetTableViewDefaultOpts(QTableView *tbv)
+{
+    QHeaderView* header;
+    tbv->setSelectionBehavior(QTableView::SelectRows);
+    header = tbv->horizontalHeader();
+    header->setSectionResizeMode(QHeaderView::ResizeToContents);
+    header->setStretchLastSection(true);
 }

@@ -7,6 +7,8 @@
 QT_BEGIN_NAMESPACE
 class QLineEdit;
 class QComboBox;
+class QSqlQueryModel;
+class QSqlTableModel;
 QT_END_NAMESPACE
 
 class DatabaseConnect : public QWidget
@@ -17,9 +19,19 @@ public:
     DatabaseConnect(QWidget *parent = 0);
     ~DatabaseConnect();
 
+    inline QSqlQueryModel* TableDescModel(){
+        return _tbDescModel;
+    }
+    inline QSqlTableModel* TableDataModel(){
+        return _tbDataModel;
+    }
+
 signals:
     void SigError(const QString &srror);
     void SigInfo(const QString &info);
+
+    void SigTableDescModelUpdate();
+    void SigTableDataModelUpdate();
 
 protected:
     void showEvent(QShowEvent *event) override;
@@ -39,6 +51,9 @@ private:
 
     QComboBox*      _databases  = 0;
     QComboBox*      _tables     = 0;
+
+    QSqlQueryModel* _tbDescModel = 0;
+    QSqlTableModel* _tbDataModel = 0;
 };
 
 #endif // DATABASECONNECT_H

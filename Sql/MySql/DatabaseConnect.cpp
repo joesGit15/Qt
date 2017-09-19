@@ -13,10 +13,14 @@
 #include <QtSql/QSqlDriver>
 #include <QtSql/QSqlRecord>
 #include <QtSql/QSqlQueryModel>
+#include <QtSql/QSqlTableModel>
 
 DatabaseConnect::DatabaseConnect(QWidget *parent)
     : QWidget(parent)
 {
+    _tbDescModel = new QSqlQueryModel(this);
+    _tbDataModel = new QSqlTableModel(this);
+
     _db = QSqlDatabase::addDatabase("QMYSQL");
 
     _hostname = new QLineEdit(this);
@@ -189,25 +193,25 @@ void DatabaseConnect::StSelectedTableChanged(const QString &table)
 {
     Q_ASSERT(table != "");
 
-    int i,j;
-    QString sql,text;
+    QString sql;
     QSqlQuery query;
-    QSqlRecord record;
-    QSqlQueryModel queryModel;
 
+    /** desc tablename */
     sql = QString("desc %1").arg(table);
     if(!query.exec(sql)){
         emit SigError(query.lastError().text());
         return;
     }
 
-    queryModel.setQuery(query);
-    for(i=0; i < queryModel.rowCount(); ++i){
-        record = queryModel.record(i);
-        text = "";
-        for(j=0; j < record.count(); ++j){
-            text += QString("%1\t").arg(record.fieldName(j));
-        }
-        //_data->append(text);
+    _tbDescModel->setQuery(query);
+#if 0
+    /** select * from tablename; */
+    sql = QString("select * from %1").arg(table);
+    if(!query.exec(sql)){
+        emit SigError(query.lastError().text());
+        return;
     }
+
+    _tbDataModel->setQuery(query);
+#endif
 }
