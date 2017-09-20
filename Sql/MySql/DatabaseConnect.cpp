@@ -15,13 +15,15 @@
 #include <QtSql/QSqlQueryModel>
 #include <QtSql/QSqlTableModel>
 
+#include <QtCore/QDebug>
+
 DatabaseConnect::DatabaseConnect(QWidget *parent)
     : QWidget(parent)
 {
-    _tbDescModel = new QSqlQueryModel(this);
-    _tbDataModel = new QSqlTableModel(this);
-
     _db = QSqlDatabase::addDatabase("QMYSQL");
+
+    _tbDescModel = new QSqlQueryModel(this);
+    _tbDataModel = new QSqlTableModel(this,_db);
 
     _hostname = new QLineEdit(this);
     _hostname->setPlaceholderText(tr("localhost"));
@@ -204,14 +206,10 @@ void DatabaseConnect::StSelectedTableChanged(const QString &table)
     }
 
     _tbDescModel->setQuery(query);
-#if 0
-    /** select * from tablename; */
-    sql = QString("select * from %1").arg(table);
-    if(!query.exec(sql)){
-        emit SigError(query.lastError().text());
-        return;
-    }
 
-    _tbDataModel->setQuery(query);
-#endif
+    /** select * from tablename; */
+    _tbDataModel->setTable(table);
+    _tbDataModel->select();
+
+    /** show processlist; */
 }
