@@ -1,26 +1,25 @@
+#include "mainwindow.h"
 #include <QApplication>
-#include "httpwindow.h"
-
 #include <QtGui/QScreen>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-
-    HttpWindow widget;
+    MainWindow window;
 
     QRect rect = QGuiApplication::primaryScreen()->availableGeometry();
+
     int w,h,x,y;
     w = rect.width() *0.8;
     h = rect.height()*0.8;
 
-    widget.resize(w,h);
+    window.resize(w,h);
 
     x = rect.left() + (rect.width()-w )/2;
     y = rect.top()  + (rect.height()-h)/2;
-    widget.move(x,y);
+    window.move(x,y);
 
-    widget.show();
+    window.show();
 
     return a.exec();
 }

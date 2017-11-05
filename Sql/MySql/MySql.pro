@@ -1,21 +1,15 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2017-09-09T10:18:07
+# Project created by QtCreator 2017-09-14T21:02:09
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui sql
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = CrawlImgs
+TARGET = MySql
 TEMPLATE = app
-VERSION = 00.00.01
-
-CONFIG(debug,debug|release){
-
-}else{
-
-}
 
 linux {
     DESTDIR = $$OUT_PWD/target
@@ -23,11 +17,10 @@ linux {
     OBJECTS_DIR = $$OUT_PWD/tmp/Obj
 }
 
-SOURCES += \
-    main.cpp \
-    httpwindow.cpp \
-    appsettings.cpp
+SOURCES += main.cpp\
+    mainwindow.cpp \
+    DatabaseConnect.cpp
 
 HEADERS  += \
-    httpwindow.h \
-    appsettings.h
+    mainwindow.h \
+    DatabaseConnect.h
