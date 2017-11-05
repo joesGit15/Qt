@@ -8,4 +8,5 @@ SUBDIRS += \
     Test \
     App \
     ModelView \
-    Sql
+    Sql \
+    QML
