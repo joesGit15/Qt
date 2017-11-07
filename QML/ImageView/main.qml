@@ -2,6 +2,7 @@ import QtQuick 2.6
 import QtQuick.Window 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.0
+import QtQuick.Layouts 1.1
 
 ApplicationWindow {
     property real percent: 0.6;
@@ -61,71 +62,80 @@ ApplicationWindow {
         id: fileDlg;
         visible: false;
         folder: shortcuts.pictures;
-        /*
-        title: qsTr("Please choose a file");
-        nameFilters: ["Image files (*.jpg *.png)","All files(*)"]
-        selectFolder: false;
-        selectMultiple: true;
-        */
 
         onAccepted: {
             if(fileDlg.selectFolder){
                 console.log("open folder" + fileDlg.folder);
             }else{
+                var filepath,idx,filename;
                 var urls = fileDlg.fileUrls;
                 for(var i=0; i < urls.length; i++){
-                    datamodel.append({"filepath": urls[i]});
+                    filepath = urls[i].toString();
+                    if(-1 !== filepath.indexOf('/')){
+                        idx = filepath.lastIndexOf('/');
+                    }else{
+                        idx = filepath.lastIndexOf('\\');
+                    }
+
+                    filename = filepath.substr(idx+1);
+                    id_datamodel.append({"filename": filename});
                 }
+            }
+        }
+    }
+
+    RowLayout {
+        spacing: 10;
+        anchors.fill: parent;
+
+        Rectangle {
+            id:id_list;
+            height: parent.height;
+            width: parent.width;
+
+            ListModel { id: id_datamodel; }
+            Component{
+                id: id_itemdelegate;
+                Row {
+                    spacing: 10;
+                    Rectangle{
+                        width: id_list.width;
+                        height: 50;
+                        color:"#aabbcc";
+
+                        Text {
+                            anchors.fill: parent;
+
+                            width: parent.width;
+                            height: parent.height;
+
+                            padding: 5;
+
+                            elide: Text.ElideMiddle;
+                            //color: "#aabbcc"; // before-color
+                            font.family: "Loma";
+
+                            text: filename;
+                        }
+                    }
+                }
+            }
+
+            ListView {
+                anchors.fill: parent;
+                model: id_datamodel;
+                delegate: id_itemdelegate;
             }
         }
 
         /*
-        Component.onCompleted: {
-            visible = true;
+        Rectangle {
+            anchors.left: list.right;
+            height: parent.height;
+            width: parent.width - list.width;
+            //Layout.alignment: Qt.AlignRight;
+            color: "#223344";
         }
         */
-    }
-
-/*
-    ListModel {
-        id: datamodel;
-
-        ListElement {
-            filepath: ""
-        }
-    }
-
-    ListView{
-        width: 100;
-        height: 200;
-        model: datamodel;
-        delegate: Text {
-            text: filepath;
-        }
-    }
-*/
-    Rectangle{
-        width: 200;
-        height: 200;
-
-        ListModel {
-            id: datamodel;
-        }
-
-        Component{
-            id: itemdelegate;
-            Row {
-                spacing: 10;
-                Text {
-                    text: filepath;
-                }
-            }
-        }
-
-        ListView {
-            anchors.fill: parent;
-            model: datamodel;
-            delegate: itemdelegate;
-        }
     }
 }
