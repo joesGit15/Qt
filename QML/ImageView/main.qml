@@ -85,55 +85,70 @@ ApplicationWindow {
     }
 
     RowLayout {
-        spacing: 10;
         anchors.fill: parent;
 
         Rectangle {
             id:id_list;
+
+            property int itemH: 30;
+
             height: parent.height;
-            width: parent.width;
+            width: 250;
 
             ListModel { id: id_datamodel; }
+
             Component{
                 id: id_itemdelegate;
-                Row {
-                    spacing: 10;
-                    Rectangle{
-                        width: id_list.width;
-                        height: 50;
-                        color:"#aabbcc";
+                Item {
+                    width: id_list.width;
+                    height: id_list.itemH;
 
-                        Text {
-                            anchors.fill: parent;
+                    Text {
+                        anchors.fill: parent;
 
-                            width: parent.width;
-                            height: parent.height;
+                        padding: 5;
 
-                            padding: 5;
+                        elide: Text.ElideMiddle;
+                        font.family: "Loma";
 
-                            elide: Text.ElideMiddle;
-                            //color: "#aabbcc"; // before-color
-                            font.family: "Loma";
+                        text: filename;
+                    }
+                }
+            }
 
-                            text: filename;
+            Component {
+                id:id_highlight;
+                Rectangle {
+                    width: id_list.width;
+                    height: id_list.itemH;
+                    color: "lightblue";
+                    y: id_listView.currentItem.y;
+                    Behavior on y{
+                        SpringAnimation {
+                            spring: 3;
+                            damping: 0.2;
                         }
                     }
                 }
             }
 
             ListView {
+                id: id_listView;
                 anchors.fill: parent;
                 model: id_datamodel;
                 delegate: id_itemdelegate;
+                focus: true;
+
+                highlight: id_highlight;
+                highlightFollowsCurrentItem: false;
             }
         }
 
         /*
         Rectangle {
-            anchors.left: list.right;
+            anchors.left: id_list.right;
             height: parent.height;
-            width: parent.width - list.width;
-            //Layout.alignment: Qt.AlignRight;
+            width: parent.width - id_list.width;
             color: "#223344";
         }
         */
