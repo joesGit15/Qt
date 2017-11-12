@@ -97,17 +97,10 @@ ApplicationWindow {
             Component{
                 id: id_itemdelegate;
                 Item {
+                    id: id_delegate
                     width: id_list.itemlen;
                     height: id_list.itemlen;
-/*
-                    Text {
-                        anchors.fill: parent;
-                        padding: 5;
-                        elide: Text.ElideMiddle;
-                        font.family: "Loma";
-                        text: filename;
-                    }
-*/
+
                     Image {
                         anchors.fill: parent
                         anchors.margins: 5
@@ -116,6 +109,15 @@ ApplicationWindow {
                         horizontalAlignment: Image.AlignHCenter
                         verticalAlignment: Image.AlignVCenter
                     }
+
+                    /*
+                    Rectangle{
+                        anchors.fill: parent
+                        // must used id at here
+                        color: id_delegate.ListView.isCurrentItem ?
+                                   Qt.rgba(0,0,1,0.2) : Qt.rgba(0,0,1,0);
+                    }
+                    */
 
                     MouseArea{
                         anchors.fill: parent;
@@ -131,7 +133,7 @@ ApplicationWindow {
                 Rectangle {
                     width: id_list.itemlen;
                     height: id_list.itemlen;
-                    color: "lightblue";
+                    color: "blue";
                     x: id_listView.currentItem.x;
                     Behavior on x{
                         SpringAnimation {
@@ -164,7 +166,7 @@ ApplicationWindow {
 
         Rectangle {
             width: parent.width
-            height: parent.height - id_list.height;
+            height: parent.height - id_list.height
 
             color: "#38373c"
 
@@ -175,7 +177,7 @@ ApplicationWindow {
                 fillMode: Image.PreserveAspectFit
                 horizontalAlignment: Image.AlignHCenter
                 verticalAlignment: Image.AlignVCenter
-                source: "";
+                source: ""
             }
         }
     }
