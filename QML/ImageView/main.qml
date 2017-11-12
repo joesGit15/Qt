@@ -76,8 +76,8 @@ ApplicationWindow {
                     }
 
                     filename = filepath.substr(idx+1);
-                    id_datamodel.append({"filename": filename,
-                                            "filepath":filepath});
+                    //{"filename": filename, "filepath":filepath}
+                    id_datamodel.append({"filepath":filepath});
                 }
             }
         }
