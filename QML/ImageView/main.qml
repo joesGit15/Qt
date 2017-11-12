@@ -83,29 +83,38 @@ ApplicationWindow {
         }
     }
 
-    Row {
+    Column {
         anchors.fill: parent;
 
         Rectangle {
-            id:id_list;
-            property int itemH: 30;
+            id:id_list
+            property int itemlen: 100
 
-            width: 250;
-            height: parent.height;
+            width: parent.width
+            height: itemlen
 
             ListModel { id: id_datamodel; }
             Component{
                 id: id_itemdelegate;
                 Item {
-                    width: id_list.width;
-                    height: id_list.itemH;
-
+                    width: id_list.itemlen;
+                    height: id_list.itemlen;
+/*
                     Text {
                         anchors.fill: parent;
                         padding: 5;
                         elide: Text.ElideMiddle;
                         font.family: "Loma";
                         text: filename;
+                    }
+*/
+                    Image {
+                        anchors.fill: parent
+                        anchors.margins: 5
+                        source: filepath
+                        fillMode: Image.PreserveAspectFit
+                        horizontalAlignment: Image.AlignHCenter
+                        verticalAlignment: Image.AlignVCenter
                     }
 
                     MouseArea{
@@ -116,14 +125,15 @@ ApplicationWindow {
                     }
                 }
             }
+
             Component {
                 id:id_highlight;
                 Rectangle {
-                    width: id_list.width;
-                    height: id_list.itemH;
+                    width: id_list.itemlen;
+                    height: id_list.itemlen;
                     color: "lightblue";
-                    y: id_listView.currentItem.y;
-                    Behavior on y{
+                    x: id_listView.currentItem.x;
+                    Behavior on x{
                         SpringAnimation {
                             spring: 3;
                             damping: 0.2;
@@ -133,14 +143,15 @@ ApplicationWindow {
 
             }
             ListView {
-                id: id_listView;
-                anchors.fill: parent;
-                model: id_datamodel;
-                delegate: id_itemdelegate;
-                focus: true;
+                id: id_listView
+                anchors.fill: parent
+                orientation: ListView.Horizontal
+                model: id_datamodel
+                delegate: id_itemdelegate
+                focus: true
 
-                highlight: id_highlight;
-                highlightFollowsCurrentItem: false;
+                highlight: id_highlight
+                highlightFollowsCurrentItem: true
                 /* Can Print which c++ class of qml object, and you can watch head file to find some things*/
                 /* Component.onCompleted: { console.log(id_listView); } */
                 onCurrentIndexChanged: {
@@ -152,8 +163,8 @@ ApplicationWindow {
         }
 
         Rectangle {
-            width: parent.width - id_list.width;
-            height: parent.height;
+            width: parent.width
+            height: parent.height - id_list.height;
 
             color: "#38373c"
 
