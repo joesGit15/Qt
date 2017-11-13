@@ -3,4 +3,5 @@ TEMPLATE = subdirs
 SUBDIRS += \
     ImageView \
     Layout \
-    CPlusInQML
+    CPlusInQML \
+    QMLInCplus
