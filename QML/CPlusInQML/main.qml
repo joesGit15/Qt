@@ -47,11 +47,10 @@ Window {
         }
 
         Row {
-            width: parent.width
+            anchors.horizontalCenter: parent.horizontalCenter
             height:parent.hval
 
             spacing: 10
-            leftPadding: 10
             topPadding: (parent.hval - id_btnStart.height)/2
 
             ComboBox {
