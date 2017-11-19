@@ -5,7 +5,7 @@ import QtQuick.Dialogs 1.0
 import Qt.User.FileOperator 1.0
 
 ApplicationWindow {
-    property real percent: 0.6;
+    readonly property real percent: 0.6;
 
     visible: true;
 
@@ -41,6 +41,14 @@ ApplicationWindow {
                     Qt.quit();
                 }
             }
+
+            MenuItem {
+                text: qsTr("Clear")
+                shortcut: StandardKey.Close
+                onTriggered: {
+                    id_datamodel.clear();
+                }
+            }
         }
     }
 
@@ -53,12 +61,32 @@ ApplicationWindow {
         title: qsTr("Please select images")
         nameFilters: ["Image files (*.jpg *.png)","All files(*)"]
 
-        onAccepted: {
-            var urls = fileDlg.fileUrls;
+        function updateListModel(urls){
             urls = fileOperator.getAllUrls(urls);
-            for(var i=0; i < urls.length; i++){
-                id_datamodel.append({"filepath":urls[i]});
+            id_datamodel.clear();
+            var path,i;
+            for(i=0; i < urls.length; i++){
+                path = urls[i];
+                id_datamodel.append({"filepath":path});
             }
+
+            var currentidx = -1;
+            for(i=0; i < id_datamodel.count; i++){
+                path = id_datamodel.get(i).filepath;
+                if(!fileOperator.isDir(path)){
+                    currentidx = i;
+                    break;
+                }
+            }
+
+            if(-1 === currentidx){
+                currentidx = 0;
+            }
+            id_listView.currentIndex = currentidx;
+        }
+
+        onAccepted: {
+            updateListModel(fileDlg.fileUrls);
         }
     }
 
@@ -72,21 +100,33 @@ ApplicationWindow {
             width: parent.width
             height: itemlen
 
-            ListModel { id: id_datamodel; }
-            Component{
+            ListModel {
+                id: id_datamodel;
+            }
+
+            Component {
                 id: id_itemdelegate;
                 Item {
                     id: id_delegate
-                    width: id_list.itemlen;
-                    height: id_list.itemlen;
+                    width: id_list.itemlen
+                    height: id_list.itemlen
 
                     Image {
                         anchors.fill: parent
                         anchors.margins: 5
                         source: {
+                            if(typeof(filepath) === "undefined"){
+                                return "";
+                            }
+
                             var path;
-                            if(fileOperator.isDir(filepath)){
-                                path = "qrc:/img/imgs/directory.png";
+                            id_filename.visible = false;
+                            if(0 === index){
+                                path = "qrc:/img/imgs/parent_folder.png";
+                            }else if(fileOperator.isDir(filepath)){
+                                path = "qrc:/img/imgs/folder.png";
+                                id_filename.visible = true;
+                                id_filename.text = fileOperator.filename(filepath);
                             }else{
                                 path = filepath;
                             }
@@ -95,6 +135,22 @@ ApplicationWindow {
                         fillMode: Image.PreserveAspectFit
                         horizontalAlignment: Image.AlignHCenter
                         verticalAlignment: Image.AlignVCenter
+
+                        Text {
+                            id: id_filename
+                            anchors.centerIn: parent
+                            elide: Text.ElideMiddle
+                            width: parent.width-5
+                            horizontalAlignment: Text.AlignHCenter
+                            color: "#196cbe"
+                        }
+                    }
+
+                    function changeFolder(idx){
+                        var path = id_datamodel.get(idx).filepath;
+                        if(fileOperator.isDir(path)){
+                            fileDlg.updateListModel([path]);
+                        }
                     }
 
                     MouseArea{
@@ -102,6 +158,13 @@ ApplicationWindow {
                         onClicked: {
                             id_listView.currentIndex = index;
                         }
+                        onDoubleClicked: {
+                            changeFolder(index);
+                        }
+                    }
+
+                    Keys.onReturnPressed: {
+                        changeFolder(index);
                     }
                 }
             }
@@ -122,6 +185,7 @@ ApplicationWindow {
                 }
 
             }
+
             ListView {
                 id: id_listView
                 anchors.fill: parent
@@ -137,6 +201,10 @@ ApplicationWindow {
                 onCurrentIndexChanged: {
                     var idx = id_listView.currentIndex;
                     var itm = id_datamodel.get(idx);
+                    if(typeof(itm) === "undefined"){
+                        return;
+                    }
+
                     if(fileOperator.isDir(itm.filepath)){
                         img.source = "";
                     }else{
@@ -155,7 +223,6 @@ ApplicationWindow {
             Image {
                 id: img
                 anchors.fill: parent
-                //mipmap: true
                 fillMode: Image.PreserveAspectFit
                 horizontalAlignment: Image.AlignHCenter
                 verticalAlignment: Image.AlignVCenter

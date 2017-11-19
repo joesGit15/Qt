@@ -13,6 +13,7 @@ public:
 
     Q_INVOKABLE QList<QUrl> getAllUrls(const QList<QUrl> &ltUrl);
     Q_INVOKABLE bool isDir(const QUrl &url);
+    Q_INVOKABLE QString filename(const QUrl& url);
 
 };
 

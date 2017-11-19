@@ -4,4 +4,5 @@ SUBDIRS += \
     ImageView \
     Layout \
     CPlusInQML \
-    QMLInCplus
+    QMLInCplus \
+    StackView

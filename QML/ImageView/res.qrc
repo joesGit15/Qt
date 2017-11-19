@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/img">
-        <file>imgs/directory.png</file>
+        <file>imgs/parent_folder.png</file>
+        <file>imgs/folder.png</file>
     </qresource>
 </RCC>
