@@ -2,6 +2,8 @@ import QtQuick 2.7
 import QtQuick.Window 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.1
+import Qt.labs.settings 1.0
+
 import Qt.User.FileOperator 1.0
 
 ApplicationWindow {
@@ -17,6 +19,34 @@ ApplicationWindow {
     y:(Screen.height-height)/2;
 
     title: qsTr("Image View");
+
+    Settings {
+        id: id_settings
+        property url lastpath:""
+
+        Component.onCompleted: {
+            /*
+              only use these value.
+            Qt.application.name = "ImageView";
+            Qt.application.organization = "WT Group";
+            Qt.application.domain = "WT.com";
+            */
+        }
+    }
+
+    Component.onCompleted: {
+        if(id_settings.lastpath != ""){
+            var urls = [id_settings.lastpath];
+            fileDlg.updateListModel(urls);
+        }
+    }
+
+    Component.onDestruction: {
+        if(id_datamodel.count > 0){
+            var url = id_datamodel.get(0).filepath;
+            id_settings.lastpath = url;
+        }
+    }
 
     FileOperator{id:fileOperator}
 
