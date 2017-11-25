@@ -1,7 +1,7 @@
 import QtQuick 2.7
 import QtQuick.Window 2.0
 import QtQuick.Controls 1.4
-import QtQuick.Dialogs 1.0
+import QtQuick.Dialogs 1.1
 import Qt.User.FileOperator 1.0
 
 ApplicationWindow {
@@ -22,11 +22,11 @@ ApplicationWindow {
 
     menuBar: MenuBar {
         Menu {
-            title: qsTr("&File");
+            title: qsTr("&File")
 
             MenuItem {
-                text: qsTr("Open Image...");
-                shortcut: StandardKey.Open;
+                text: qsTr("Open Image...")
+                shortcut: StandardKey.Open
                 onTriggered: {
                     fileDlg.open();
                 }
@@ -34,9 +34,41 @@ ApplicationWindow {
 
             MenuSeparator{}
 
+            MessageDialog {
+                id:id_removeMsgDlg
+                title: qsTr("Remove Information Dialog")
+                icon: StandardIcon.Question
+                text: qsTr("Are you sure to remove current image?")
+                standardButtons: StandardButton.Cancel | StandardButton.Ok
+                visible: false
+                onAccepted: {
+                    var idx = id_listView.currentIndex;
+                    if(idx >=0 && idx < id_listView.count){
+                        var path = id_datamodel.get(idx).filepath;
+                        fileOperator.removefile(path);
+                        id_datamodel.remove(idx);
+                        id_listView.currentIndexChanged(idx);
+                    }
+                }
+            }
+
             MenuItem {
-                text: qsTr("Quit");
-                shortcut: StandardKey.Quit;
+                text: qsTr("Remove Current")
+                shortcut: StandardKey.Delete
+                onTriggered:{
+                    var idx = id_listView.currentIndex;
+                    var path = id_datamodel.get(idx).filepath;
+                    if(!fileOperator.isDir(path)){
+                        id_removeMsgDlg.open();
+                    }
+                }
+            }
+
+            MenuSeparator{}
+
+            MenuItem {
+                text: qsTr("Quit")
+                shortcut: StandardKey.Quit
                 onTriggered: {
                     Qt.quit();
                 }

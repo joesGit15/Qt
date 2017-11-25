@@ -71,3 +71,9 @@ QString FileOperator::filename(const QUrl &url)
     QFileInfo info(filepath);
     return info.baseName();
 }
+
+void FileOperator::removefile(const QUrl &url)
+{
+    QString filepath = url.path();
+    QFile::remove(filepath);
+}
