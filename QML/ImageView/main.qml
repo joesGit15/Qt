@@ -7,7 +7,9 @@ import Qt.labs.settings 1.0
 import Qt.User.FileOperator 1.0
 
 ApplicationWindow {
-    readonly property real percent: 0.6;
+    id: id_window
+
+    readonly property real percent: 0.6
 
     visible: true;
 
@@ -15,8 +17,12 @@ ApplicationWindow {
     height: Screen.height*percent;
     //x:(Screen.desktopAvailableWidth - width)/2;
     // the desktopAvailableHeight will two screen width
+
+    /*
+      bing value. when you move the dialog, the x,y not change. it is bing.
     x:(Screen.width-width)/2;
     y:(Screen.height-height)/2;
+    */
 
     title: qsTr("Image View");
 
@@ -35,6 +41,10 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
+        id_window.x = (Screen.width - id_window.width)/2;
+        id_window.y = (Screen.height - id_window.height)/2;
+        console.log(id_window.x + ":" + id_window.y);
+
         if(id_settings.lastpath != ""){
             var urls = [id_settings.lastpath];
             fileDlg.updateListModel(urls);
@@ -123,7 +133,7 @@ ApplicationWindow {
                 shortcut: "Right"
                 onTriggered: {
                     var idx = id_listView.currentIndex;
-                    if(idx+1 < id_listView.count-1){
+                    if(idx+1 < id_listView.count){
                         id_listView.currentIndex = idx+1;
                     }
                 }

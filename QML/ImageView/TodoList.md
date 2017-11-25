@@ -8,5 +8,5 @@
 8. [undo]open big image the ui is block.
 9. [done][20171125]add home and end key to skip current item
 10. [undo]MessageBox can be max size, to forbidden max size
-11. [undo]add setting
+11. [done][20171125]add setting
 12. [undo]home and end, highitem move slowly
