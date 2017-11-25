@@ -41,12 +41,48 @@ ApplicationWindow {
                     Qt.quit();
                 }
             }
+        }
+
+        Menu {
+            title: qsTr("&View")
 
             MenuItem {
-                text: qsTr("Clear")
-                shortcut: StandardKey.Close
+                text: qsTr("Previous")
+                shortcut: "Left"
                 onTriggered: {
-                    id_datamodel.clear();
+                    var idx = id_listView.currentIndex;
+                    if(idx-1 >= 0 && id_listView.count > 0){
+                        id_listView.currentIndex = idx-1;
+                    }
+                }
+            }
+            MenuItem {
+                text: qsTr("Next")
+                shortcut: "Right"
+                onTriggered: {
+                    var idx = id_listView.currentIndex;
+                    if(idx+1 < id_listView.count-1){
+                        id_listView.currentIndex = idx+1;
+                    }
+                }
+            }
+            MenuItem {
+                text: qsTr("First")
+                shortcut: "Home"
+                onTriggered: {
+                    if(id_listView.count > 0){
+                        id_listView.currentIndex = 0;
+                    }
+                }
+            }
+            MenuItem {
+                text: qsTr("Last")
+                shortcut: "End"
+                onTriggered: {
+                    var count = id_listView.count;
+                    if(count > 0){
+                        id_listView.currentIndex = count-1;
+                    }
                 }
             }
         }
@@ -178,7 +214,7 @@ ApplicationWindow {
                     x: id_listView.currentItem.x;
                     Behavior on x{
                         SpringAnimation {
-                            spring: 3;
+                            spring: 4;
                             damping: 0.2;
                         }
                     }
