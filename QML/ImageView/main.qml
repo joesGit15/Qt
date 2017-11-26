@@ -1,6 +1,10 @@
 import QtQuick 2.7
 import QtQuick.Window 2.0
+
+import QtQuick.Controls 2.1
 import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
+
 import QtQuick.Dialogs 1.1
 import Qt.labs.settings 1.0
 
@@ -43,7 +47,6 @@ ApplicationWindow {
     Component.onCompleted: {
         id_window.x = (Screen.width - id_window.width)/2;
         id_window.y = (Screen.height - id_window.height)/2;
-        console.log(id_window.x + ":" + id_window.y);
 
         if(id_settings.lastpath != ""){
             var urls = [id_settings.lastpath];
@@ -206,7 +209,7 @@ ApplicationWindow {
             property int itemlen: 100
 
             width: parent.width
-            height: itemlen
+            height: itemlen+20
 
             ListModel {
                 id: id_datamodel;
@@ -294,48 +297,182 @@ ApplicationWindow {
 
             }
 
-            ListView {
-                id: id_listView
+            ScrollView {
                 anchors.fill: parent
-                orientation: ListView.Horizontal
-                model: id_datamodel
-                delegate: id_itemdelegate
+                horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOn
+                verticalScrollBarPolicy: Qt.ScrollBarAlwaysOff
                 focus: true
 
-                highlight: id_highlight
-                highlightFollowsCurrentItem: true
-                /* Can Print which c++ class of qml object, and you can watch head file to find some things*/
-                /* Component.onCompleted: { console.log(id_listView); } */
-                onCurrentIndexChanged: {
-                    var idx = id_listView.currentIndex;
-                    var itm = id_datamodel.get(idx);
-                    if(typeof(itm) === "undefined"){
-                        return;
-                    }
+                ListView {
+                    id: id_listView
+                    anchors.fill: parent
+                    orientation: ListView.Horizontal
+                    model: id_datamodel
+                    delegate: id_itemdelegate
+                    focus: true
 
-                    if(fileOperator.isDir(itm.filepath)){
-                        img.source = "";
-                    }else{
-                        img.source = itm.filepath;
+                    highlight: id_highlight
+                    highlightFollowsCurrentItem: true
+                    /* Can Print which c++ class of qml object, and you can watch head file to find some things*/
+                    /* Component.onCompleted: { console.log(id_listView); } */
+                    onCurrentIndexChanged: {
+                        var idx = id_listView.currentIndex;
+                        var itm = id_datamodel.get(idx);
+                        if(typeof(itm) === "undefined"){
+                            return;
+                        }
+
+                        if(fileOperator.isDir(itm.filepath)){
+                            id_img.source = "";
+                        }else{
+                            id_img.source = itm.filepath;
+                        }
                     }
                 }
             }
         }
 
         Rectangle {
+            id: id_imgView
+            clip: true
+            //focus: true
             width: parent.width
             height: parent.height - id_list.height
-
             color: "#38373c"
 
+            Keys.onUpPressed: {
+                //id_vbar.decrease();
+            }
+
+            Keys.onDownPressed: {
+                console.log("-----");
+                //id_vbar.increase();
+            }
+
             Image {
-                id: img
-                anchors.fill: parent
-                fillMode: Image.PreserveAspectFit
-                horizontalAlignment: Image.AlignHCenter
-                verticalAlignment: Image.AlignVCenter
+                id: id_img
                 source: ""
+                onStatusChanged: {
+                    if(id_img.status == Image.Ready){
+                        var S = id_img.sourceSize;
+                        var x = (id_imgView.width -S.width)/2;
+                        var y = (id_imgView.height-S.height)/2;
+
+                        var barSize;
+                        if(x < 0){
+                            x = 0;
+                            barSize = id_imgView.width/S.width;
+                        }else{
+                            barSize = 0.0;// has problem
+                        }
+                        id_hbar.setSize(barSize);
+
+                        if(y < 0){
+                            y = 0;
+                            barSize = id_imgView.height/S.height;
+                        }else{
+                            barSize = 1.0;
+                        }
+                        id_vbar.setSize(barSize);
+                        /** h c scroll bar has problem */
+
+                        id_img.x = x;
+                        id_img.y = y;
+                    }
+                }
+            }
+
+            ScrollBar {
+                id: id_vbar
+                stepSize: 0.01
+                hoverEnabled: true
+                active: hovered || pressed
+                orientation: Qt.Vertical
+                anchors.top: parent.top
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                onPositionChanged: {
+                    var imgS = id_img.sourceSize;
+                    id_img.y = -position*imgS.height;
+                }
+            }
+
+            ScrollBar {
+                id: id_hbar
+                hoverEnabled: true
+                active: hovered || pressed
+                orientation: Qt.Horizontal
+                size:id_img.sourceSize.width/parent.width
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                onPositionChanged: {
+                    //var imgS = id_img.sourceSize;
+                    //id_img.x = -position*imgS.width;
+                }
             }
         }
     }
 }
+
+/*
+        ScrollView {
+            id: id_imgView
+            width: parent.width
+            height: parent.height - id_list.height
+            horizontalScrollBarPolicy: Qt.ScrollBarAsNeeded
+            verticalScrollBarPolicy: Qt.ScrollBarAsNeeded
+
+            style: ScrollViewStyle {
+                frame: Rectangle{
+                    color: "#38373c"
+                }
+            }
+
+            Keys.onUpPressed: {
+            }
+            Keys.onDownPressed: {
+            }
+
+            Image {
+                id: id_img
+                x:10;y:10;
+                source: ""
+                onStatusChanged: {
+                    if(id_img.status == Image.Ready){
+                        var S = id_img.sourceSize;
+                        var x = (id_imgView.width -S.width)/2;
+                        var y = (id_imgView.height-S.height)/2;
+                        if(x < 0)x = 0;
+                        if(y < 0)y = 0;
+                        id_img.x = x;
+                        id_img.y = y;
+                    }
+                }
+            }
+        }
+        */
+
+/*
+Canvas {
+    id: id_canvas
+    //width: 100; height: 100;
+    //width: parent.width
+    //height: parent.height
+    width: parent.width;
+    height: parent.height - id_list.height;
+
+    onPaint: {
+        var ctx = getContext("2d");
+        ctx.fillStyle = Qt.rgba(0.22,0.21,0.24,1);
+        console.log(width + ":" + height);
+        setWidth(100);
+        setHeight(100);
+        ctx.fillRect(0,0,width,height);
+    }
+
+    Component.onCompleted: {
+        requestPaint();
+    }
+}
+*/

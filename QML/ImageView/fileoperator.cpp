@@ -2,8 +2,6 @@
 
 #include <QtCore/qdir.h>
 
-#include <QtCore/qdebug.h>
-
 FileOperator::FileOperator(QObject *parent)
     : QObject(parent)
 {

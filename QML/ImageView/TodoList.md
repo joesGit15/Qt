@@ -10,3 +10,7 @@
 10. [undo]MessageBox can be max size, to forbidden max size
 11. [done][20171125]add setting
 12. [undo]home and end, highitem move slowly
+13. [undo]add icon for app in ubuntu
+14. [undo]add horizontal scroll bar in listview
+15. [undo]add scroll bar in canvas
+16. [doing]scroll bar has some problem

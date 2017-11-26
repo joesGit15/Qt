@@ -15,7 +15,6 @@ public:
     Q_INVOKABLE bool isDir(const QUrl &url);
     Q_INVOKABLE QString filename(const QUrl& url);
     Q_INVOKABLE void removefile(const QUrl& url);
-
 };
 
 #endif // FILEOPERATOR_H
