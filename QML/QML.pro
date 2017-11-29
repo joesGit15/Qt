@@ -5,4 +5,5 @@ SUBDIRS += \
     Layout \
     CPlusInQML \
     QMLInCplus \
-    StackView
+    StackView \
+    ScrollBar
