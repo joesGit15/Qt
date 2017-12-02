@@ -1,12 +1,11 @@
-- [todo]scroll bar has some problem
+- [todo]add icon for app in ubuntu
+- [todo]home and end, highitem move slowly
+- [todo]MessageBox can be max size, to forbidden max size
 
 - [undo]bug last path
-- [undo]can adjust image view size, source size,fit view width,fit view height,and rotate, flip base operators
-- [undo]right way of using ListModel.clear(), does it has begin to ...?
 - [undo]open big image the ui is block.
-- [undo]MessageBox can be max size, to forbidden max size
-- [undo]home and end, highitem move slowly
-- [undo]add icon for app in ubuntu
+- [undo]right way of using ListModel.clear(), does it has begin to ...?
+- [undo]can adjust image view size, source size,fit view width,fit view height,and rotate, flip base operators
 
 - [dele]add scroll bar in canvas
 - [dele]add head item in listview
@@ -18,3 +17,4 @@
 - [done][20171125]add home and end key to skip current item
 - [done][20171125]add setting
 - [done][20171202]add horizontal scroll bar in listview
+- [done][20171202]scroll bar has some problem
