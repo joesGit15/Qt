@@ -19,14 +19,6 @@ ApplicationWindow {
 
     width: Screen.width*percent;
     height: Screen.height*percent;
-    //x:(Screen.desktopAvailableWidth - width)/2;
-    // the desktopAvailableHeight will two screen width
-
-    /*
-      bing value. when you move the dialog, the x,y not change. it is bing.
-    x:(Screen.width-width)/2;
-    y:(Screen.height-height)/2;
-    */
 
     title: qsTr("Image View");
 
@@ -123,7 +115,7 @@ ApplicationWindow {
 
             MenuItem {
                 text: qsTr("Previous")
-                shortcut: "Left"
+                shortcut: "PgUp"
                 onTriggered: {
                     var idx = id_listView.currentIndex;
                     if(idx-1 >= 0 && id_listView.count > 0){
@@ -133,7 +125,7 @@ ApplicationWindow {
             }
             MenuItem {
                 text: qsTr("Next")
-                shortcut: "Right"
+                shortcut: "PgDown"
                 onTriggered: {
                     var idx = id_listView.currentIndex;
                     if(idx+1 < id_listView.count){
@@ -158,6 +150,40 @@ ApplicationWindow {
                     if(count > 0){
                         id_listView.currentIndex = count-1;
                     }
+                }
+            }
+
+            MenuSeparator{}
+
+            MenuItem {
+                text: qsTr("Move right")
+                shortcut: "Right"
+                onTriggered: {
+                    id_hbar.increase();
+                }
+            }
+
+            MenuItem {
+                text: qsTr("Move left")
+                shortcut: "Left"
+                onTriggered: {
+                    id_hbar.decrease();
+                }
+            }
+
+            MenuItem {
+                text: qsTr("Move up")
+                shortcut: "Up"
+                onTriggered: {
+                    id_vbar.decrease();
+                }
+            }
+
+            MenuItem {
+                text: qsTr("Move down")
+                shortcut: "Down"
+                onTriggered: {
+                    id_vbar.increase();
                 }
             }
         }
@@ -209,7 +235,7 @@ ApplicationWindow {
             property int itemlen: 100
 
             width: parent.width
-            height: itemlen+20
+            height: itemlen
 
             ListModel {
                 id: id_datamodel;
@@ -277,6 +303,10 @@ ApplicationWindow {
                     Keys.onReturnPressed: {
                         changeFolder(index);
                     }
+
+                    /** forbidden left and right keys */
+                    Keys.onLeftPressed: {}
+                    Keys.onRightPressed: {}
                 }
             }
 
@@ -297,41 +327,82 @@ ApplicationWindow {
 
             }
 
-            ScrollView {
-                anchors.fill: parent
-                horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOn
-                verticalScrollBarPolicy: Qt.ScrollBarAlwaysOff
+            ListView {
+                id: id_listView
                 focus: true
+                anchors.fill: parent
+                model: id_datamodel
+                delegate: id_itemdelegate
+                orientation: ListView.Horizontal
 
-                ListView {
-                    id: id_listView
-                    anchors.fill: parent
-                    orientation: ListView.Horizontal
-                    model: id_datamodel
-                    delegate: id_itemdelegate
-                    focus: true
+                highlight: id_highlight
+                highlightFollowsCurrentItem: true
+                ScrollBar.horizontal: ScrollBar {}
+                onCurrentIndexChanged: {
+                    var idx = id_listView.currentIndex;
+                    var itm = id_datamodel.get(idx);
+                    if(typeof(itm) === "undefined"){
+                        return;
+                    }
 
-                    highlight: id_highlight
-                    highlightFollowsCurrentItem: true
-                    /* Can Print which c++ class of qml object, and you can watch head file to find some things*/
-                    /* Component.onCompleted: { console.log(id_listView); } */
-                    onCurrentIndexChanged: {
-                        var idx = id_listView.currentIndex;
-                        var itm = id_datamodel.get(idx);
-                        if(typeof(itm) === "undefined"){
-                            return;
-                        }
-
-                        if(fileOperator.isDir(itm.filepath)){
-                            id_img.source = "";
-                        }else{
-                            id_img.source = itm.filepath;
-                        }
+                    if(fileOperator.isDir(itm.filepath)){
+                        id_img.source = "";
+                    }else{
+                        id_img.source = itm.filepath;
                     }
                 }
             }
         }
+        Rectangle {
+            id: id_imgView
+            clip: true
+            color: "#38373c"
+            width: parent.width
+            height: parent.height - id_list.height
 
+            Flickable {
+                anchors.fill: parent
+
+
+                Image {
+                    id: id_img
+                    source: ""
+
+                    function calXY(viewLen,imgLen){
+                        var val = (viewLen - imgLen)/2;
+                        if(val < 0){
+                            return 0;
+                        }else{
+                            return val;
+                        }
+                    }
+                    x: calXY(id_imgView.width,id_img.width)
+                    y: calXY(id_imgView.height,id_img.height)
+                }
+
+                contentWidth: id_img.width
+                contentHeight: id_img.height
+
+                ScrollBar.vertical: ScrollBar {
+                    id: id_vbar
+                    stepSize: 0.02
+                }
+
+                ScrollBar.horizontal: ScrollBar {
+                    id: id_hbar
+                    stepSize: 0.02
+                }
+
+                /// why at here not to get key event
+                //Keys.onUpPressed: id_vbar.decrease();
+                //Keys.onDownPressed: id_vbar.increase();
+                //Keys.onLeftPressed: console.log("img left");
+            }
+        }
+    }
+}
+
+/*
         Rectangle {
             id: id_imgView
             clip: true
@@ -374,7 +445,6 @@ ApplicationWindow {
                             barSize = 1.0;
                         }
                         id_vbar.setSize(barSize);
-                        /** h c scroll bar has problem */
 
                         id_img.x = x;
                         id_img.y = y;
@@ -412,8 +482,7 @@ ApplicationWindow {
                 }
             }
         }
-    }
-}
+  */
 
 /*
         ScrollView {
@@ -452,27 +521,3 @@ ApplicationWindow {
             }
         }
         */
-
-/*
-Canvas {
-    id: id_canvas
-    //width: 100; height: 100;
-    //width: parent.width
-    //height: parent.height
-    width: parent.width;
-    height: parent.height - id_list.height;
-
-    onPaint: {
-        var ctx = getContext("2d");
-        ctx.fillStyle = Qt.rgba(0.22,0.21,0.24,1);
-        console.log(width + ":" + height);
-        setWidth(100);
-        setHeight(100);
-        ctx.fillRect(0,0,width,height);
-    }
-
-    Component.onCompleted: {
-        requestPaint();
-    }
-}
-*/
