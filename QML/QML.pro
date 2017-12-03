@@ -6,4 +6,5 @@ SUBDIRS += \
     CPlusInQML \
     QMLInCplus \
     StackView \
-    ScrollBar
+    ScrollBar \
+    MessageDialog

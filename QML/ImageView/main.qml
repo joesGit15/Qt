@@ -1,11 +1,12 @@
-import QtQuick 2.7
-import QtQuick.Window 2.0
+import QtQuick 2.2
+
+import QtQuick.Dialogs 1.1
 
 import QtQuick.Controls 2.1
 import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
 
-import QtQuick.Dialogs 1.1
+import QtQuick.Window 2.0
+
 import Qt.labs.settings 1.0
 
 import Qt.User.FileOperator 1.0
@@ -22,17 +23,33 @@ ApplicationWindow {
 
     title: qsTr("Image View");
 
+    MessageDialog {
+        id:id_removeMsgDlg
+        modality: Qt.WindowModal
+        title: qsTr("Remove Information Dialog")
+        icon: StandardIcon.Question
+        text: qsTr("Are you sure to remove current image?")
+        standardButtons: StandardButton.Cancel | StandardButton.Ok
+        onAccepted: {
+            var idx = id_listView.currentIndex;
+            if(idx >=0 && idx < id_listView.count){
+                var path = id_datamodel.get(idx).filepath;
+                fileOperator.removefile(path);
+                id_datamodel.remove(idx);
+                id_listView.currentIndexChanged(idx);
+            }
+        }
+    }
+
     Settings {
         id: id_settings
         property url lastpath:""
 
         Component.onCompleted: {
-            /*
-              only use these value.
-            Qt.application.name = "ImageView";
-            Qt.application.organization = "WT Group";
-            Qt.application.domain = "WT.com";
-            */
+            //only use these value.
+            //Qt.application.name = "ImageView";
+            //Qt.application.organization = "WT Group";
+            //Qt.application.domain = "WT.com";
         }
     }
 
@@ -69,23 +86,6 @@ ApplicationWindow {
 
             MenuSeparator{}
 
-            MessageDialog {
-                id:id_removeMsgDlg
-                title: qsTr("Remove Information Dialog")
-                icon: StandardIcon.Question
-                text: qsTr("Are you sure to remove current image?")
-                standardButtons: StandardButton.Cancel | StandardButton.Ok
-                visible: false
-                onAccepted: {
-                    var idx = id_listView.currentIndex;
-                    if(idx >=0 && idx < id_listView.count){
-                        var path = id_datamodel.get(idx).filepath;
-                        fileOperator.removefile(path);
-                        id_datamodel.remove(idx);
-                        id_listView.currentIndexChanged(idx);
-                    }
-                }
-            }
 
             MenuItem {
                 text: qsTr("Remove Current")
@@ -304,7 +304,7 @@ ApplicationWindow {
                         changeFolder(index);
                     }
 
-                    /** forbidden left and right keys */
+                    //forbidden left and right keys
                     Keys.onLeftPressed: {}
                     Keys.onRightPressed: {}
                 }
