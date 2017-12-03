@@ -363,7 +363,6 @@ ApplicationWindow {
             Flickable {
                 anchors.fill: parent
 
-
                 Image {
                     id: id_img
                     source: ""
@@ -378,6 +377,12 @@ ApplicationWindow {
                     }
                     x: calXY(id_imgView.width,id_img.width)
                     y: calXY(id_imgView.height,id_img.height)
+
+                    onStatusChanged: {
+                        if(id_img.status == Image.Ready){
+                            id_vbar.setPosition(0);
+                        }
+                    }
                 }
 
                 contentWidth: id_img.width

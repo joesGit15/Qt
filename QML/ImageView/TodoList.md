@@ -1,14 +1,19 @@
 - [todo]add icon for app in ubuntu
 - [todo]home and end, highitem move slowly
-- [todo]MessageBox can be max size, to forbidden max size
+
+---
 
 - [undo]bug last path
 - [undo]open big image the ui is block.
 - [undo]right way of using ListModel.clear(), does it has begin to ...?
 - [undo]can adjust image view size, source size,fit view width,fit view height,and rotate, flip base operators
 
+---
+
 - [dele]add scroll bar in canvas
 - [dele]add head item in listview
+
+---
 
 - [done][20171111]Image Viewer Frame
 - [done][20171112]change listview item to thumbnail not filename,and the listview has two columns.
@@ -18,3 +23,4 @@
 - [done][20171125]add setting
 - [done][20171202]add horizontal scroll bar in listview
 - [done][20171202]scroll bar has some problem
+- [done][20171203]MessageBox can be max size, to forbidden max size
