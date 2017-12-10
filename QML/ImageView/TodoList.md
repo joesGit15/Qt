@@ -1,4 +1,3 @@
-- [todo]add icon for app in ubuntu
 - [todo]home and end, highitem move slowly
 
 ---
@@ -24,3 +23,4 @@
 - [done][20171202]add horizontal scroll bar in listview
 - [done][20171202]scroll bar has some problem
 - [done][20171203]MessageBox can be max size, to forbidden max size
+- [done][20171210]add icon for app in ubuntu
