@@ -1,15 +1,21 @@
+Type|Description
+---|---
+todo|home and end, highitem move slowly
+
+Type|Description
+---|---
+undo|bug last path
+undo|open big image the ui is block.
+undo|right way of using ListModel.clear(), does it has begin to ...?
+undo|can adjust image view size, source size,fit view width,fit view height,and rotate, flip base operators
+
+Type|Description
+---|---
+dele|add scroll bar in canvas
+dele|add head item in listview
+
 Type|DateTime|Description
 ---|---|---
-todo| |home and end, highitem move slowly
- | | 
-undo| |bug last path
-undo| |open big image the ui is block.
-undo| |right way of using ListModel.clear(), does it has begin to ...?
-undo| |can adjust image view size, source size,fit view width,fit view height,and rotate, flip base operators
- | | 
-dele| |add scroll bar in canvas
-dele| |add head item in listview
- | | 
 done|20171111|Image Viewer Frame
 done|20171112|change listview item to thumbnail not filename,and the listview has two columns.
 done|20171119|add directory item show in listview,and can changed current directory when enter key pressed.
