@@ -17,7 +17,7 @@ linux {
     CONFIG(debug,debug|release){
         LIBS += -L$$PWD/../_LibOut/Linux/Debug -lShared
     }
-    CONFIG(debug,debug|release){
+    CONFIG(release,debug|release){
         LIBS += -L$$PWD/../_LibOut/Linux/Release -lShared
     }
 }
@@ -26,7 +26,7 @@ mac {
     CONFIG(debug,debug|release){
         LIBS += -L$$PWD/../_LibOut/Mac/Debug -lShared
     }
-    CONFIG(debug,debug|release){
+    CONFIG(release,debug|release){
         LIBS += -L$$PWD/../_LibOut/Mac/Release -lShared
     }
 }
