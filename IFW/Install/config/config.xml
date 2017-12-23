@@ -10,4 +10,6 @@
     <StartMenuDir>joe App</StartMenuDir>
     <!-- default install dir -->
     <TargetDir>@HomeDir@/QtDemo/Joe_App_Install</TargetDir>
+    <CreateLocalRepository>true</CreateLocalRepository>
+    <InstallActionColumnVisible>true</InstallActionColumnVisible>
 </Installer>

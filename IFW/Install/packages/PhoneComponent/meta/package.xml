@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<Package>
+    <DisplayName>Phone</DisplayName>
+    <Description>If Phone installed, And PC also auto installed.</Description>
+    <Default>true</Default>
+    <Version>1.0.0</Version>
+    <ReleaseDate>2014-08-25</ReleaseDate>
+    <Script>installscript.js</Script>
+    <SortingPriority>99</SortingPriority>
+</Package>
