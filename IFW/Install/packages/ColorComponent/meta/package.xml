@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package>
-    <DisplayName>Component1 Name</DisplayName>
+    <DisplayName>Color</DisplayName>
     <Description>This example does not install any components. It demonstrates
     modifying the text on the next page.</Description>
     <Version>1.0.0-1</Version>
