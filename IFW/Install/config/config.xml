@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+    <!-- App name -->
+    <Name>Joe App Install</Name>
+    <Version>0.0.1</Version>
+    <!-- windows title -->
+    <Title>Joe App Install</Title>
+    <Publisher>joe</Publisher>
+    <!-- Window Start Menu -->
+    <StartMenuDir>joe App</StartMenuDir>
+    <!-- default install dir -->
+    <TargetDir>@HomeDir@/QtDemo/Joe_App_Install</TargetDir>
+</Installer>

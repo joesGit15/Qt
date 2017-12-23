@@ -9,4 +9,5 @@ SUBDIRS += \
     App \
     ModelView \
     Sql \
-    QML
+    QML \
+    IFW
