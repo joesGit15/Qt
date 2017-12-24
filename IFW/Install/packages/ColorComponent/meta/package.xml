@@ -7,9 +7,10 @@
     <ReleaseDate>2013-01-01</ReleaseDate>
     <Script>installscript.qs</Script>
     <Licenses>
-        <License name="Beer Public License Agreement" file="license.txt" />
+        <License name="Beer Public License Agreement-one" file="license.one.txt" />
+        <License name="Beer Public License Agreement-two" file="license.two.txt" />
     </Licenses>
-    <SortingPriority>97</SortingPriority>
+    <SortingPriority>0</SortingPriority>
     <!--Default>true</Default-->
     <Checkable>false</Checkable>
 </Package>

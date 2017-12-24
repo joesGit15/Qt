@@ -12,4 +12,8 @@
     <TargetDir>@HomeDir@/QtDemo/Joe_App_Install</TargetDir>
     <CreateLocalRepository>true</CreateLocalRepository>
     <InstallActionColumnVisible>true</InstallActionColumnVisible>
+
+    <WizardStyle>Classic</WizardStyle>
+    <StyleSheet>style.qss</StyleSheet>
+    <TitleColor>#FFFFFF</TitleColor>
 </Installer>

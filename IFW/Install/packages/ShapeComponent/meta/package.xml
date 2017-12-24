@@ -5,7 +5,7 @@
     <Version>1.0.1</Version>
     <ReleaseDate>2013-08-21</ReleaseDate>
     <Script>installscript.js</Script>
-    <SortingPriority>98</SortingPriority>
+    <SortingPriority>10</SortingPriority>
     <!-->Can hide the checkbox-->
     <Checkable>false</Checkable>
 </Package>

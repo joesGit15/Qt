@@ -6,5 +6,5 @@
     <Version>1.0.0</Version>
     <ReleaseDate>2014-08-25</ReleaseDate>
     <Script>installscript.js</Script>
-    <SortingPriority>99</SortingPriority>
+    <SortingPriority>90</SortingPriority>
 </Package>

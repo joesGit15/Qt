@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<Package>
+    <DisplayName>Mac</DisplayName>
+    <Description>Only can install in Mac</Description>
+    <Version>1.0.0</Version>
+    <ReleaseDate>2014-08-25</ReleaseDate>
+</Package>
