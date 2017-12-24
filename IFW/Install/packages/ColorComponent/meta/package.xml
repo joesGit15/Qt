@@ -5,10 +5,11 @@
     modifying the text on the next page.</Description>
     <Version>1.0.0-1</Version>
     <ReleaseDate>2013-01-01</ReleaseDate>
-    <Default>true</Default>
     <Script>installscript.qs</Script>
     <Licenses>
         <License name="Beer Public License Agreement" file="license.txt" />
     </Licenses>
     <SortingPriority>97</SortingPriority>
+    <!--Default>true</Default-->
+    <Checkable>false</Checkable>
 </Package>

@@ -2,7 +2,7 @@
 <Package>
     <DisplayName>PC</DisplayName>
     <Description>By default, this component is selected for installation. It depends on component Phone. Dependency is added from inside component script.</Description>
-    <Default>true</Default>
+    <Default>false</Default>
     <Version>1.0.0</Version>
     <ReleaseDate>2014-08-25</ReleaseDate>
     <SortingPriority>100</SortingPriority>
