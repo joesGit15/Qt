@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+    <Name>Dynamic Page Installer</Name>
+    <Version>1.0.0</Version>
+    <Title>Dynamic Page Installer</Title>
+    <Publisher>joe</Publisher>
+    <StartMenuDir>Dynamic Page Installer</StartMenuDir>
+    <TargetDir>@HomeDir@/QtDemo/Joe_Dynamicpage_Install</TargetDir>
+</Installer>
