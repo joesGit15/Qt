@@ -11,5 +11,8 @@
         <UserInterface>licensewidget.ui</UserInterface>
         <UserInterface>readytoinstallwidget.ui</UserInterface>
     </UserInterfaces>
+    <Translations>
+        <Translation>ch.qm</Translation>
+    </Translations>
     <Name>org.dynamicpage</Name>
 </Package>

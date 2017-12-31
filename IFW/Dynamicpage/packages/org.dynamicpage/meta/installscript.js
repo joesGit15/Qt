@@ -9,6 +9,7 @@ var Dir = new function () {
 };
 
 function Component() {
+    qsTr("Use qsTr can translate.");
     if (installer.isInstaller()) {
         component.loaded.connect(this, Component.prototype.installerLoaded);
         ComponentSelectionPage = gui.pageById(QInstaller.ComponentSelection);

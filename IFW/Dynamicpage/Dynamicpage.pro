@@ -17,3 +17,5 @@ FORMS += \
 
 RESOURCES += \
     resources/additional.qrc
+
+TRANSLATIONS += ch.ts
