@@ -2,4 +2,5 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     Install \
-    Dynamicpage
+    Dynamicpage \
+    Online

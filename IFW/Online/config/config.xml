@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+    <Name>Online Installer</Name>
+    <Version>1.0.0</Version>
+    <Title>Online Installer</Title>
+    <Publisher>joe</Publisher>
+    <!-- Directory name is used in component.xml -->
+    <StartMenuDir>Qt_Online_Install</StartMenuDir>
+    <TargetDir>@HomeDir@/QtDemo/Joe_Online_Install</TargetDir>
+    <RemoteRepositories>
+        <Repository>
+            <Url>http://localhost/repository</Url>
+        </Repository>
+    </RemoteRepositories>
+</Installer>
