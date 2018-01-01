@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+    <Name>ImageView Installer</Name>
+    <Version>1.0.0</Version>
+    <Title>ImageView Installer</Title>
+    <Publisher>joe</Publisher>
+    <StartMenuDir>ImageView</StartMenuDir>
+    <TargetDir>@HomeDir@/ImageView</TargetDir>
+</Installer>

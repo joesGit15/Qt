@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    source \
-    source_install \
+    ImageView_src \
+    ImageView_install_src \
