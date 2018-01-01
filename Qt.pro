@@ -10,4 +10,5 @@ SUBDIRS += \
     ModelView \
     Sql \
     QML \
-    IFW
+    IFW \
+    Charts

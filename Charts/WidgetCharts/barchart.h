@@ -1,0 +1,13 @@
+#ifndef BARCHART_H
+#define BARCHART_H
+
+#include <QWidget>
+
+class BarChart : public QWidget
+{
+    Q_OBJECT
+public:
+    explicit BarChart(QWidget *parent = 0);
+};
+
+#endif // BARCHART_H
