@@ -20,11 +20,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         mainwindow.cpp \
     areaseries.cpp \
-    barchart.cpp
+    barchart.cpp \
+    callOut/calloutview.cpp \
+    callOut/calloutitem.cpp
 
 HEADERS  += mainwindow.h \
     areaseries.h \
-    barchart.h
+    barchart.h \
+    callOut/calloutview.h \
+    callOut/calloutitem.h
 
 DESTDIR = $$OUT_PWD/target
 MOC_DIR = $$OUT_PWD/tmp/Moc
