@@ -19,16 +19,22 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    areaseries.cpp \
-    barchart.cpp \
+    areaSeries/areaseries.cpp \
+    barChart/barchart.cpp \
     callOut/calloutview.cpp \
-    callOut/calloutitem.cpp
+    callOut/calloutitem.cpp \
+    chartInteractions/interactionchart.cpp \
+    chartInteractions/interactionchartview.cpp \
+    chartInteractions/interactionwidget.cpp
 
 HEADERS  += mainwindow.h \
-    areaseries.h \
-    barchart.h \
+    areaSeries/areaseries.h \
+    barChart/barchart.h \
     callOut/calloutview.h \
-    callOut/calloutitem.h
+    callOut/calloutitem.h \
+    chartInteractions/interactionchart.h \
+    chartInteractions/interactionchartview.h \
+    chartInteractions/interactionwidget.h
 
 DESTDIR = $$OUT_PWD/target
 MOC_DIR = $$OUT_PWD/tmp/Moc

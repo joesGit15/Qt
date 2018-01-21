@@ -4,12 +4,12 @@
 #include <QtWidgets/qgraphicsview.h>
 #include <QtCharts/qchartglobal.h>
 
-QT_CHARTS_BEGIN_NAMESPACE
-class QChart;
-QT_CHARTS_END_NAMESPACE
-
 class GraphicsCalloutItem;
-QT_CHARTS_USE_NAMESPACE
+
+namespace QtCharts {
+    class QChart;
+}
+using namespace QtCharts;
 
 class CallOutView: public QGraphicsView
 {
