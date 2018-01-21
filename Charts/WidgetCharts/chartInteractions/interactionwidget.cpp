@@ -1,4 +1,4 @@
-#include "chartinteractions.h"
+#include "interactionwidget.h"
 #include "interactionchart.h"
 #include "interactionchartview.h"
 

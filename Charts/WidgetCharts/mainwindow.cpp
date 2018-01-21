@@ -4,6 +4,7 @@
 #include "barChart/barchart.h"
 #include "callOut/calloutview.h"
 #include "chartInteractions/interactionwidget.h"
+#include "chartThemes/themewidget.h"
 
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qtablewidget.h>
@@ -26,6 +27,9 @@ MainWindow::MainWindow(QWidget *parent)
     tab->addTab(widget,widget->objectName());
 
     widget = new tInteractionsWidget(this);
+    tab->addTab(widget,widget->objectName());
+
+    widget = new ThemeWidget(this);
     tab->addTab(widget,widget->objectName());
 }
 

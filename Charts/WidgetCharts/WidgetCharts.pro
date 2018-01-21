@@ -25,7 +25,8 @@ SOURCES += main.cpp\
     callOut/calloutitem.cpp \
     chartInteractions/interactionchart.cpp \
     chartInteractions/interactionchartview.cpp \
-    chartInteractions/interactionwidget.cpp
+    chartInteractions/interactionwidget.cpp \
+    chartThemes/themewidget.cpp
 
 HEADERS  += mainwindow.h \
     areaSeries/areaseries.h \
@@ -34,7 +35,8 @@ HEADERS  += mainwindow.h \
     callOut/calloutitem.h \
     chartInteractions/interactionchart.h \
     chartInteractions/interactionchartview.h \
-    chartInteractions/interactionwidget.h
+    chartInteractions/interactionwidget.h \
+    chartThemes/themewidget.h
 
 DESTDIR = $$OUT_PWD/target
 MOC_DIR = $$OUT_PWD/tmp/Moc
