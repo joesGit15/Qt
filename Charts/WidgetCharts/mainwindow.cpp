@@ -5,6 +5,7 @@
 #include "callOut/calloutview.h"
 #include "chartInteractions/interactionwidget.h"
 #include "chartThemes/themewidget.h"
+#include "customChart/customchartwidget.h"
 
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qtablewidget.h>
@@ -30,6 +31,9 @@ MainWindow::MainWindow(QWidget *parent)
     tab->addTab(widget,widget->objectName());
 
     widget = new ThemeWidget(this);
+    tab->addTab(widget,widget->objectName());
+
+    widget = new CustomChartWidget(this);
     tab->addTab(widget,widget->objectName());
 }
 
