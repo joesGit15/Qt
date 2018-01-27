@@ -6,6 +6,8 @@
 #include "chartInteractions/interactionwidget.h"
 #include "chartThemes/themewidget.h"
 #include "customChart/customchartwidget.h"
+#include "donutchart/donutchartwidget.h"
+#include "donutbreakdown/donutbreakdownwidget.h"
 
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qtablewidget.h>
@@ -34,6 +36,12 @@ MainWindow::MainWindow(QWidget *parent)
     tab->addTab(widget,widget->objectName());
 
     widget = new CustomChartWidget(this);
+    tab->addTab(widget,widget->objectName());
+
+    widget = new DonutChartWidget(this);
+    tab->addTab(widget,widget->objectName());
+
+    widget = new DonutBreakDownWidget(this);
     tab->addTab(widget,widget->objectName());
 }
 

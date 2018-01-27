@@ -27,7 +27,11 @@ SOURCES += main.cpp\
     chartInteractions/interactionchartview.cpp \
     chartInteractions/interactionwidget.cpp \
     chartThemes/themewidget.cpp \
-    customChart/customchartwidget.cpp
+    customChart/customchartwidget.cpp \
+    donutchart/donutchartwidget.cpp \
+    donutbreakdown/donutbreakdownwidget.cpp \
+    donutbreakdown/donutbreakdownchart.cpp \
+    donutbreakdown/mainslice.cpp
 
 HEADERS  += mainwindow.h \
     areaSeries/areaseries.h \
@@ -38,7 +42,11 @@ HEADERS  += mainwindow.h \
     chartInteractions/interactionchartview.h \
     chartInteractions/interactionwidget.h \
     chartThemes/themewidget.h \
-    customChart/customchartwidget.h
+    customChart/customchartwidget.h \
+    donutchart/donutchartwidget.h \
+    donutbreakdown/donutbreakdownwidget.h \
+    donutbreakdown/donutbreakdownchart.h \
+    donutbreakdown/mainslice.h
 
 DESTDIR = $$OUT_PWD/target
 MOC_DIR = $$OUT_PWD/tmp/Moc
