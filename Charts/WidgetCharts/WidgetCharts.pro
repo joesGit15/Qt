@@ -31,7 +31,11 @@ SOURCES += main.cpp\
     donutchart/donutchartwidget.cpp \
     donutbreakdown/donutbreakdownwidget.cpp \
     donutbreakdown/donutbreakdownchart.cpp \
-    donutbreakdown/mainslice.cpp
+    donutbreakdown/mainslice.cpp \
+    barChart/barchartwidget.cpp \
+    barChart/horizontalbarchart.cpp \
+    barChart/horizontalpercentbarchart.cpp \
+    barChart/horizontalstackedbarchart.cpp
 
 HEADERS  += mainwindow.h \
     areaSeries/areaseries.h \
@@ -46,7 +50,11 @@ HEADERS  += mainwindow.h \
     donutchart/donutchartwidget.h \
     donutbreakdown/donutbreakdownwidget.h \
     donutbreakdown/donutbreakdownchart.h \
-    donutbreakdown/mainslice.h
+    donutbreakdown/mainslice.h \
+    barChart/barchartwidget.h \
+    barChart/horizontalbarchart.h \
+    barChart/horizontalpercentbarchart.h \
+    barChart/horizontalstackedbarchart.h
 
 DESTDIR = $$OUT_PWD/target
 MOC_DIR = $$OUT_PWD/tmp/Moc

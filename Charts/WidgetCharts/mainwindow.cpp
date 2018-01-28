@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 
 #include "areaSeries/areaseries.h"
-#include "barChart/barchart.h"
+#include "barChart/barchartwidget.h"
 #include "callOut/calloutview.h"
 #include "chartInteractions/interactionwidget.h"
 #include "chartThemes/themewidget.h"
@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     widget = new AreaSeries(this);
     tab->addTab(widget,widget->objectName());
 
-    widget = new BarChart(this);
+    widget = new BarChartWidget(this);
     tab->addTab(widget,widget->objectName());
 
     widget = new CallOutView(this);
