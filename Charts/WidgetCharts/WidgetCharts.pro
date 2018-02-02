@@ -36,7 +36,8 @@ SOURCES += main.cpp\
     barChart/horizontalbarchart.cpp \
     barChart/horizontalpercentbarchart.cpp \
     barChart/horizontalstackedbarchart.cpp \
-    dynamicspline/dynamicsplinewidget.cpp
+    dynamicspline/dynamicsplinewidget.cpp \
+    legend/legend.cpp
 
 HEADERS  += mainwindow.h \
     areaSeries/areaseries.h \
@@ -56,7 +57,8 @@ HEADERS  += mainwindow.h \
     barChart/horizontalbarchart.h \
     barChart/horizontalpercentbarchart.h \
     barChart/horizontalstackedbarchart.h \
-    dynamicspline/dynamicsplinewidget.h
+    dynamicspline/dynamicsplinewidget.h \
+    legend/legend.h
 
 DESTDIR = $$OUT_PWD/target
 MOC_DIR = $$OUT_PWD/tmp/Moc

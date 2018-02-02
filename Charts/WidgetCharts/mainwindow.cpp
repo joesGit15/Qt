@@ -9,6 +9,7 @@
 #include "donutchart/donutchartwidget.h"
 #include "donutbreakdown/donutbreakdownwidget.h"
 #include "dynamicspline/dynamicsplinewidget.h"
+#include "legend/legend.h"
 
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qtablewidget.h>
@@ -46,6 +47,9 @@ MainWindow::MainWindow(QWidget *parent)
     tab->addTab(widget,widget->objectName());
 
     widget = new DynamicSplineWidget(this);
+    tab->addTab(widget,widget->objectName());
+
+    widget = new Legend(this);
     tab->addTab(widget,widget->objectName());
 }
 
