@@ -51,6 +51,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     widget = new Legend(this);
     tab->addTab(widget,widget->objectName());
+
+    tab->setCurrentIndex(tab->count()-1);
 }
 
 MainWindow::~MainWindow()

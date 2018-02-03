@@ -5,12 +5,10 @@
 
 QT_BEGIN_NAMESPACE
 class QGroupBox;
-class QGridLayout;
 class QDoubleSpinBox;
 QT_END_NAMESPACE
 
 namespace QtCharts {
-    class QChartGlobal;
     class QChart;
     class QChartView;
     class QBarSeries;
@@ -22,9 +20,6 @@ class Legend : public QWidget
     Q_OBJECT
 public:
     explicit Legend(QWidget *parent = 0);
-    void createSeries();
-    void showLegendSpinbox();
-    void hideLegendSpinbox();
 
 public slots:
     void toggleAttached();
@@ -46,7 +41,6 @@ private:
 
     QDoubleSpinBox *_fontSize;
 
-    // For detached layout
     QGroupBox *_legendSettings;
     QDoubleSpinBox *_legendPosX;
     QDoubleSpinBox *_legendPosY;
