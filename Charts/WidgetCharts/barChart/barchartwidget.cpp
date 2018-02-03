@@ -1,6 +1,7 @@
 #include "barchartwidget.h"
 
 #include "barchart.h"
+#include "lineandbar.h"
 #include "horizontalbarchart.h"
 #include "horizontalpercentbarchart.h"
 #include "horizontalstackedbarchart.h"
@@ -29,5 +30,8 @@ BarChartWidget::BarChartWidget(QWidget *parent)
     tbox->addItem(widget,widget->objectName());
 
     widget = new HorizontalStackedBarChart(this);
+    tbox->addItem(widget,widget->objectName());
+
+    widget = new LineAndBar(this);
     tbox->addItem(widget,widget->objectName());
 }
