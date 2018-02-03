@@ -11,6 +11,7 @@
 #include "dynamicspline/dynamicsplinewidget.h"
 #include "legend/legend.h"
 #include "legendmarkers/legendmarkerswidget.h"
+#include "logvalueaxis/logvalueaxis.h"
 
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qtablewidget.h>
@@ -54,6 +55,9 @@ MainWindow::MainWindow(QWidget *parent)
     tab->addTab(widget,widget->objectName());
 
     widget = new LegendMarkersWidget(this);
+    tab->addTab(widget,widget->objectName());
+
+    widget = new LogValueAxis(this);
     tab->addTab(widget,widget->objectName());
 
     tab->setCurrentIndex(tab->count()-1);
