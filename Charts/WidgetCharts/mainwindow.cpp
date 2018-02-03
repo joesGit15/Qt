@@ -10,6 +10,7 @@
 #include "donutbreakdown/donutbreakdownwidget.h"
 #include "dynamicspline/dynamicsplinewidget.h"
 #include "legend/legend.h"
+#include "legendmarkers/legendmarkerswidget.h"
 
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qtablewidget.h>
@@ -50,6 +51,9 @@ MainWindow::MainWindow(QWidget *parent)
     tab->addTab(widget,widget->objectName());
 
     widget = new Legend(this);
+    tab->addTab(widget,widget->objectName());
+
+    widget = new LegendMarkersWidget(this);
     tab->addTab(widget,widget->objectName());
 
     tab->setCurrentIndex(tab->count()-1);
