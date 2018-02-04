@@ -40,7 +40,10 @@ SOURCES += main.cpp\
     legend/legend.cpp \
     legendmarkers/legendmarkerswidget.cpp \
     barChart/lineandbar.cpp \
-    logvalueaxis/logvalueaxis.cpp
+    logvalueaxis/logvalueaxis.cpp \
+    multiaxis/multiaxis.cpp \
+    openglseries/openglseries.cpp \
+    openglseries/datasource.cpp
 
 HEADERS  += mainwindow.h \
     areaSeries/areaseries.h \
@@ -64,7 +67,10 @@ HEADERS  += mainwindow.h \
     legend/legend.h \
     legendmarkers/legendmarkerswidget.h \
     barChart/lineandbar.h \
-    logvalueaxis/logvalueaxis.h
+    logvalueaxis/logvalueaxis.h \
+    multiaxis/multiaxis.h \
+    openglseries/openglseries.h \
+    openglseries/datasource.h
 
 DESTDIR = $$OUT_PWD/target
 MOC_DIR = $$OUT_PWD/tmp/Moc
