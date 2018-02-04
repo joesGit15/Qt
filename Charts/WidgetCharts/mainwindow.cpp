@@ -6,14 +6,13 @@
 #include "chartInteractions/interactionwidget.h"
 #include "chartThemes/themewidget.h"
 #include "customChart/customchartwidget.h"
-#include "donutchart/donutchartwidget.h"
-#include "donutbreakdown/donutbreakdownwidget.h"
 #include "dynamicspline/dynamicsplinewidget.h"
 #include "legend/legend.h"
 #include "legendmarkers/legendmarkerswidget.h"
 #include "logvalueaxis/logvalueaxis.h"
 #include "multiaxis/multiaxis.h"
 #include "openglseries/openglseries.h"
+#include "piechart/piechart.h"
 
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qtablewidget.h>
@@ -44,10 +43,7 @@ MainWindow::MainWindow(QWidget *parent)
     widget = new CustomChartWidget(this);
     tab->addTab(widget,widget->objectName());
 
-    widget = new DonutChartWidget(this);
-    tab->addTab(widget,widget->objectName());
-
-    widget = new DonutBreakDownWidget(this);
+    widget = new PieChart(this);
     tab->addTab(widget,widget->objectName());
 
     widget = new DynamicSplineWidget(this);

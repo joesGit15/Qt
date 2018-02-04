@@ -2,6 +2,10 @@
 
 #include <QtCore/qmath.h>
 
+#include <QtWidgets/qlabel.h>
+
+#include <QtCharts/qxyseries.h>
+
 DataSource::DataSource(QObject *parent) :
     QObject(parent)
 {

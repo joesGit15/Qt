@@ -4,6 +4,8 @@
 #include <QtCore/qobject.h>
 
 #include <QtCore/qtimer.h>
+#include <QtCore/qpoint.h>
+#include <QtCore/qvector.h>
 #include <QtCore/qelapsedtimer.h>
 
 class QLabel;

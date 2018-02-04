@@ -28,10 +28,6 @@ SOURCES += main.cpp\
     chartInteractions/interactionwidget.cpp \
     chartThemes/themewidget.cpp \
     customChart/customchartwidget.cpp \
-    donutchart/donutchartwidget.cpp \
-    donutbreakdown/donutbreakdownwidget.cpp \
-    donutbreakdown/donutbreakdownchart.cpp \
-    donutbreakdown/mainslice.cpp \
     barChart/barchartwidget.cpp \
     barChart/horizontalbarchart.cpp \
     barChart/horizontalpercentbarchart.cpp \
@@ -43,7 +39,15 @@ SOURCES += main.cpp\
     logvalueaxis/logvalueaxis.cpp \
     multiaxis/multiaxis.cpp \
     openglseries/openglseries.cpp \
-    openglseries/datasource.cpp
+    openglseries/datasource.cpp \
+    piechart/donutbreakdown/donutbreakdownchart.cpp \
+    piechart/donutbreakdown/donutbreakdownwidget.cpp \
+    piechart/donutbreakdown/mainslice.cpp \
+    piechart/donutchart/donutchartwidget.cpp \
+    piechart/piechart.cpp \
+    piechart/piechartdrilldown/drilldownchart.cpp \
+    piechart/piechartdrilldown/drilldownslice.cpp \
+    piechart/piechartdrilldown/drilldownwidget.cpp
 
 HEADERS  += mainwindow.h \
     areaSeries/areaseries.h \
@@ -55,10 +59,6 @@ HEADERS  += mainwindow.h \
     chartInteractions/interactionwidget.h \
     chartThemes/themewidget.h \
     customChart/customchartwidget.h \
-    donutchart/donutchartwidget.h \
-    donutbreakdown/donutbreakdownwidget.h \
-    donutbreakdown/donutbreakdownchart.h \
-    donutbreakdown/mainslice.h \
     barChart/barchartwidget.h \
     barChart/horizontalbarchart.h \
     barChart/horizontalpercentbarchart.h \
@@ -70,8 +70,18 @@ HEADERS  += mainwindow.h \
     logvalueaxis/logvalueaxis.h \
     multiaxis/multiaxis.h \
     openglseries/openglseries.h \
-    openglseries/datasource.h
+    openglseries/datasource.h \
+    piechart/donutbreakdown/donutbreakdownchart.h \
+    piechart/donutbreakdown/donutbreakdownwidget.h \
+    piechart/donutbreakdown/mainslice.h \
+    piechart/donutchart/donutchartwidget.h \
+    piechart/piechart.h \
+    piechart/piechartdrilldown/drilldownchart.h \
+    piechart/piechartdrilldown/drilldownslice.h \
+    piechart/piechartdrilldown/drilldownwidget.h
 
 DESTDIR = $$OUT_PWD/target
 MOC_DIR = $$OUT_PWD/tmp/Moc
 OBJECTS_DIR = $$OUT_PWD/tmp/Obj
+
+FORMS +=
