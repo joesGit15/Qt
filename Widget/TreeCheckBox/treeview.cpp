@@ -41,8 +41,7 @@ bool TreeView::CheckedEmpty()
 void TreeView::StItemChanged(QStandardItem *item)
 {
     Q_ASSERT(0 != item);
-    disconnect(_model,&QStandardItemModel::itemChanged,
-            this,&TreeView::StItemChanged);
+    _model->blockSignals(true);
 
     Qt::CheckState state;
     state = item->checkState();
@@ -56,8 +55,7 @@ void TreeView::StItemChanged(QStandardItem *item)
 
     SetParentState(item);
 
-    connect(_model,&QStandardItemModel::itemChanged,
-            this,&TreeView::StItemChanged);
+    _model->blockSignals(false);
 }
 
 void TreeView::InitData()

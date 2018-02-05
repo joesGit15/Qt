@@ -94,8 +94,7 @@ void DatabaseConnect::StConnectDatabase()
     QObject* obj = sender();
     QPushButton* btn = qobject_cast<QPushButton*>(obj);
 
-    disconnect(_databases,&QComboBox::currentTextChanged,
-            this,&DatabaseConnect::StSelectedDatabaseChanged);
+    _databases->blockSignals(true);
 
     if(btn->text() == tr("Open")){
         QString str;
@@ -145,8 +144,7 @@ void DatabaseConnect::StConnectDatabase()
     }
 
 _END:
-    connect(_databases,&QComboBox::currentTextChanged,
-            this,&DatabaseConnect::StSelectedDatabaseChanged);
+    _databases->blockSignals(false);
 }
 
 void DatabaseConnect::StSelectedDatabaseChanged(const QString &database)
@@ -156,8 +154,7 @@ void DatabaseConnect::StSelectedDatabaseChanged(const QString &database)
     QSqlQuery query;
     QString table,sql;
 
-    disconnect(_tables,&QComboBox::currentTextChanged,
-            this,&DatabaseConnect::StSelectedTableChanged);
+    _tables->blockSignals(true);
 
     /** use database; */
     sql = QString("use %1").arg(database);
@@ -187,8 +184,7 @@ _ERROR:
     emit SigError(query.lastError().text());
 
 _END:
-    connect(_tables,&QComboBox::currentTextChanged,
-            this,&DatabaseConnect::StSelectedTableChanged);
+    _tables->blockSignals(false);
 }
 
 void DatabaseConnect::StSelectedTableChanged(const QString &table)

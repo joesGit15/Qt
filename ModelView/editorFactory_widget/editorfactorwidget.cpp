@@ -127,8 +127,7 @@ void EditorFactorWidget::resizeEvent(QResizeEvent *event)
 
 void EditorFactorWidget::StAddRow()
 {
-    disconnect(_tableWget,&QTableWidget::itemChanged,
-            this,&EditorFactorWidget::StItemChanged);
+    _tableWget->blockSignals(true);
 
     int row = _tableWget->rowCount();
     _tableWget->insertRow(row);
@@ -165,8 +164,7 @@ void EditorFactorWidget::StAddRow()
 
     _tableWget->scrollToBottom();
 
-    connect(_tableWget,&QTableWidget::itemChanged,
-            this,&EditorFactorWidget::StItemChanged);
+    _tableWget->blockSignals(false);
 }
 
 void EditorFactorWidget::StItemChanged(QTableWidgetItem *item)
