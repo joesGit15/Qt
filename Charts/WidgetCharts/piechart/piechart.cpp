@@ -6,6 +6,7 @@
 #include "donutchart/donutchartwidget.h"
 #include "donutbreakdown/donutbreakdownwidget.h"
 #include "piechartdrilldown/drilldownwidget.h"
+#include "piechartcustomization/piechartcustomization.h"
 
 PieChart::PieChart(QWidget *parent)
     : QWidget(parent)
@@ -18,6 +19,9 @@ PieChart::PieChart(QWidget *parent)
     setLayout(vlyt);
 
     QWidget *widget = 0;
+
+    widget = new PieChartCustomization(this);
+    tbox->addItem(widget,widget->objectName());
 
     widget = new DrilldownWidget(this);
     tbox->addItem(widget,widget->objectName());

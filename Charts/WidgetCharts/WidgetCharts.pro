@@ -47,7 +47,11 @@ SOURCES += main.cpp\
     piechart/piechart.cpp \
     piechart/piechartdrilldown/drilldownchart.cpp \
     piechart/piechartdrilldown/drilldownslice.cpp \
-    piechart/piechartdrilldown/drilldownwidget.cpp
+    piechart/piechartdrilldown/drilldownwidget.cpp \
+    piechart/piechartcustomization/brushtool.cpp \
+    piechart/piechartcustomization/customslice.cpp \
+    piechart/piechartcustomization/pentool.cpp \
+    piechart/piechartcustomization/piechartcustomization.cpp
 
 HEADERS  += mainwindow.h \
     areaSeries/areaseries.h \
@@ -78,7 +82,11 @@ HEADERS  += mainwindow.h \
     piechart/piechart.h \
     piechart/piechartdrilldown/drilldownchart.h \
     piechart/piechartdrilldown/drilldownslice.h \
-    piechart/piechartdrilldown/drilldownwidget.h
+    piechart/piechartdrilldown/drilldownwidget.h \
+    piechart/piechartcustomization/brushtool.h \
+    piechart/piechartcustomization/customslice.h \
+    piechart/piechartcustomization/pentool.h \
+    piechart/piechartcustomization/piechartcustomization.h
 
 DESTDIR = $$OUT_PWD/target
 MOC_DIR = $$OUT_PWD/tmp/Moc
