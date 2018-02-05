@@ -51,7 +51,8 @@ SOURCES += main.cpp\
     piechart/piechartcustomization/brushtool.cpp \
     piechart/piechartcustomization/customslice.cpp \
     piechart/piechartcustomization/pentool.cpp \
-    piechart/piechartcustomization/piechartcustomization.cpp
+    piechart/piechartcustomization/piechartcustomization.cpp \
+    piechart/nesteddonuts/nesteddonuts.cpp
 
 HEADERS  += mainwindow.h \
     areaSeries/areaseries.h \
@@ -86,7 +87,8 @@ HEADERS  += mainwindow.h \
     piechart/piechartcustomization/brushtool.h \
     piechart/piechartcustomization/customslice.h \
     piechart/piechartcustomization/pentool.h \
-    piechart/piechartcustomization/piechartcustomization.h
+    piechart/piechartcustomization/piechartcustomization.h \
+    piechart/nesteddonuts/nesteddonuts.h
 
 DESTDIR = $$OUT_PWD/target
 MOC_DIR = $$OUT_PWD/tmp/Moc
