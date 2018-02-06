@@ -13,6 +13,7 @@
 #include "multiaxis/multiaxis.h"
 #include "openglseries/openglseries.h"
 #include "piechart/piechart.h"
+#include "scatterchart/scatterchart.h"
 
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qtablewidget.h>
@@ -62,6 +63,9 @@ MainWindow::MainWindow(QWidget *parent)
     tab->addTab(widget,widget->objectName());
 
     widget = new OpenglSeries(this);
+    tab->addTab(widget,widget->objectName());
+
+    widget = new ScatterChart(this);
     tab->addTab(widget,widget->objectName());
 
     tab->setCurrentIndex(tab->count()-1);
