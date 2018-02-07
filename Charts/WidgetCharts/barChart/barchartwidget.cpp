@@ -5,6 +5,7 @@
 #include "horizontalbarchart.h"
 #include "horizontalpercentbarchart.h"
 #include "horizontalstackedbarchart.h"
+#include "stackedbarchartdrilldown/stackedbardrilldown.h"
 
 #include <QtWidgets/qtoolbox.h>
 #include <QtWidgets/qboxlayout.h>
@@ -20,6 +21,10 @@ BarChartWidget::BarChartWidget(QWidget *parent)
     setLayout(vlyt);
 
     QWidget *widget = 0;
+
+    widget = new StackedBarDrilldown(this);
+    tbox->addItem(widget,widget->objectName());
+
     widget = new BarChart(this);
     tbox->addItem(widget,widget->objectName());
 

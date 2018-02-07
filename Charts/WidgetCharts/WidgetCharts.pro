@@ -55,7 +55,10 @@ SOURCES += main.cpp\
     piechart/nesteddonuts/nesteddonuts.cpp \
     scatter/scatter.cpp \
     scatter/scatterchart/scatterchart.cpp \
-    scatter/scatterinteractions/scatterinteractions.cpp
+    scatter/scatterinteractions/scatterinteractions.cpp \
+    barChart/stackedbarchartdrilldown/stackedbardrilldown.cpp \
+    barChart/stackedbarchartdrilldown/bardrilldownchart.cpp \
+    barChart/stackedbarchartdrilldown/drilldownseries.cpp
 
 HEADERS  += mainwindow.h \
     areaSeries/areaseries.h \
@@ -94,7 +97,10 @@ HEADERS  += mainwindow.h \
     piechart/nesteddonuts/nesteddonuts.h \
     scatter/scatter.h \
     scatter/scatterchart/scatterchart.h \
-    scatter/scatterinteractions/scatterinteractions.h
+    scatter/scatterinteractions/scatterinteractions.h \
+    barChart/stackedbarchartdrilldown/stackedbardrilldown.h \
+    barChart/stackedbarchartdrilldown/bardrilldownchart.h \
+    barChart/stackedbarchartdrilldown/drilldownseries.h
 
 DESTDIR = $$OUT_PWD/target
 MOC_DIR = $$OUT_PWD/tmp/Moc
