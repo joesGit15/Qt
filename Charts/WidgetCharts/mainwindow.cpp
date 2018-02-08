@@ -15,6 +15,7 @@
 #include "piechart/piechart.h"
 #include "scatter/scatter.h"
 #include "zoomlinechart/zoomlinechart.h"
+#include "audio/audiowidget.h"
 
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qtablewidget.h>
@@ -70,6 +71,9 @@ MainWindow::MainWindow(QWidget *parent)
     tab->addTab(widget,widget->objectName());
 
     widget = new ZoomLineChart(this);
+    tab->addTab(widget,widget->objectName());
+
+    widget = new AudioWidget(this);
     tab->addTab(widget,widget->objectName());
 
     tab->setCurrentIndex(tab->count()-1);

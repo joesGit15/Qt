@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui charts
+QT       += core gui charts multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -62,7 +62,9 @@ SOURCES += main.cpp\
     barChart/temperaturerecords/temperaturerecords.cpp \
     zoomlinechart/zoomlinechart.cpp \
     zoomlinechart/zoomchart.cpp \
-    zoomlinechart/zoomchartview.cpp
+    zoomlinechart/zoomchartview.cpp \
+    audio/audiowidget.cpp \
+    audio/xyseriesiodevice.cpp
 
 HEADERS  += mainwindow.h \
     areaSeries/areaseries.h \
@@ -108,7 +110,9 @@ HEADERS  += mainwindow.h \
     barChart/temperaturerecords/temperaturerecords.h \
     zoomlinechart/zoomlinechart.h \
     zoomlinechart/zoomchart.h \
-    zoomlinechart/zoomchartview.h
+    zoomlinechart/zoomchartview.h \
+    audio/audiowidget.h \
+    audio/xyseriesiodevice.h
 
 DESTDIR = $$OUT_PWD/target
 MOC_DIR = $$OUT_PWD/tmp/Moc
