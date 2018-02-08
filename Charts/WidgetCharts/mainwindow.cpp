@@ -14,6 +14,7 @@
 #include "openglseries/openglseries.h"
 #include "piechart/piechart.h"
 #include "scatter/scatter.h"
+#include "zoomlinechart/zoomlinechart.h"
 
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qtablewidget.h>
@@ -66,6 +67,9 @@ MainWindow::MainWindow(QWidget *parent)
     tab->addTab(widget,widget->objectName());
 
     widget = new Scatter(this);
+    tab->addTab(widget,widget->objectName());
+
+    widget = new ZoomLineChart(this);
     tab->addTab(widget,widget->objectName());
 
     tab->setCurrentIndex(tab->count()-1);

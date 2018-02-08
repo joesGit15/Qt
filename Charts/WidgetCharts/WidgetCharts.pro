@@ -59,7 +59,10 @@ SOURCES += main.cpp\
     barChart/stackedbarchartdrilldown/stackedbardrilldown.cpp \
     barChart/stackedbarchartdrilldown/bardrilldownchart.cpp \
     barChart/stackedbarchartdrilldown/drilldownseries.cpp \
-    barChart/temperaturerecords/temperaturerecords.cpp
+    barChart/temperaturerecords/temperaturerecords.cpp \
+    zoomlinechart/zoomlinechart.cpp \
+    zoomlinechart/zoomchart.cpp \
+    zoomlinechart/zoomchartview.cpp
 
 HEADERS  += mainwindow.h \
     areaSeries/areaseries.h \
@@ -102,7 +105,10 @@ HEADERS  += mainwindow.h \
     barChart/stackedbarchartdrilldown/stackedbardrilldown.h \
     barChart/stackedbarchartdrilldown/bardrilldownchart.h \
     barChart/stackedbarchartdrilldown/drilldownseries.h \
-    barChart/temperaturerecords/temperaturerecords.h
+    barChart/temperaturerecords/temperaturerecords.h \
+    zoomlinechart/zoomlinechart.h \
+    zoomlinechart/zoomchart.h \
+    zoomlinechart/zoomchartview.h
 
 DESTDIR = $$OUT_PWD/target
 MOC_DIR = $$OUT_PWD/tmp/Moc
