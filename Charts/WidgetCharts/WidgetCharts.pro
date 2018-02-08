@@ -58,7 +58,8 @@ SOURCES += main.cpp\
     scatter/scatterinteractions/scatterinteractions.cpp \
     barChart/stackedbarchartdrilldown/stackedbardrilldown.cpp \
     barChart/stackedbarchartdrilldown/bardrilldownchart.cpp \
-    barChart/stackedbarchartdrilldown/drilldownseries.cpp
+    barChart/stackedbarchartdrilldown/drilldownseries.cpp \
+    barChart/temperaturerecords/temperaturerecords.cpp
 
 HEADERS  += mainwindow.h \
     areaSeries/areaseries.h \
@@ -100,7 +101,8 @@ HEADERS  += mainwindow.h \
     scatter/scatterinteractions/scatterinteractions.h \
     barChart/stackedbarchartdrilldown/stackedbardrilldown.h \
     barChart/stackedbarchartdrilldown/bardrilldownchart.h \
-    barChart/stackedbarchartdrilldown/drilldownseries.h
+    barChart/stackedbarchartdrilldown/drilldownseries.h \
+    barChart/temperaturerecords/temperaturerecords.h
 
 DESTDIR = $$OUT_PWD/target
 MOC_DIR = $$OUT_PWD/tmp/Moc
