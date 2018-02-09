@@ -10,6 +10,7 @@
 #include "temperaturerecords/temperaturerecords.h"
 
 #include "barmodelmapper/tablewidget.h"
+#include "boxplotchart/boxplotchart.h"
 
 #include <QtWidgets/qtoolbox.h>
 #include <QtWidgets/qboxlayout.h>
@@ -25,6 +26,9 @@ BarChartWidget::BarChartWidget(QWidget *parent)
     setLayout(vlyt);
 
     QWidget *widget = 0;
+
+    widget = new BoxPlotChart(this);
+    tbox->addItem(widget,widget->objectName());
 
     widget = new TableWidget(this);
     tbox->addItem(widget,widget->objectName());

@@ -66,7 +66,9 @@ SOURCES += main.cpp\
     audio/audiowidget.cpp \
     audio/xyseriesiodevice.cpp \
     barChart/barmodelmapper/customtablemodel.cpp \
-    barChart/barmodelmapper/tablewidget.cpp
+    barChart/barmodelmapper/tablewidget.cpp \
+    barChart/boxplotchart/boxplotchart.cpp \
+    barChart/boxplotchart/boxdatareader.cpp
 
 HEADERS  += mainwindow.h \
     areaSeries/areaseries.h \
@@ -116,10 +118,15 @@ HEADERS  += mainwindow.h \
     audio/audiowidget.h \
     audio/xyseriesiodevice.h \
     barChart/barmodelmapper/customtablemodel.h \
-    barChart/barmodelmapper/tablewidget.h
+    barChart/barmodelmapper/tablewidget.h \
+    barChart/boxplotchart/boxplotchart.h \
+    barChart/boxplotchart/boxdatareader.h
 
 DESTDIR = $$OUT_PWD/target
 MOC_DIR = $$OUT_PWD/tmp/Moc
 OBJECTS_DIR = $$OUT_PWD/tmp/Obj
 
 FORMS +=
+
+RESOURCES += \
+    barChart/boxplotchart/boxplotdata.qrc
