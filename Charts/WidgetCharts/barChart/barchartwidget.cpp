@@ -9,6 +9,8 @@
 #include "stackedbarchartdrilldown/stackedbardrilldown.h"
 #include "temperaturerecords/temperaturerecords.h"
 
+#include "barmodelmapper/tablewidget.h"
+
 #include <QtWidgets/qtoolbox.h>
 #include <QtWidgets/qboxlayout.h>
 
@@ -23,6 +25,9 @@ BarChartWidget::BarChartWidget(QWidget *parent)
     setLayout(vlyt);
 
     QWidget *widget = 0;
+
+    widget = new TableWidget(this);
+    tbox->addItem(widget,widget->objectName());
 
     widget = new TemperatureRecords(this);
     tbox->addItem(widget,widget->objectName());

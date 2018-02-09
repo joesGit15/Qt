@@ -14,6 +14,8 @@ using namespace QtCharts;
 TemperatureRecords::TemperatureRecords(QWidget *parent)
     : QWidget(parent)
 {
+    setObjectName("TemperatureRecords");
+
     QBarSet *low = new QBarSet("Min");
     QBarSet *high = new QBarSet("Max");
 

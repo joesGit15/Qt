@@ -64,7 +64,9 @@ SOURCES += main.cpp\
     zoomlinechart/zoomchart.cpp \
     zoomlinechart/zoomchartview.cpp \
     audio/audiowidget.cpp \
-    audio/xyseriesiodevice.cpp
+    audio/xyseriesiodevice.cpp \
+    barChart/barmodelmapper/customtablemodel.cpp \
+    barChart/barmodelmapper/tablewidget.cpp
 
 HEADERS  += mainwindow.h \
     areaSeries/areaseries.h \
@@ -112,7 +114,9 @@ HEADERS  += mainwindow.h \
     zoomlinechart/zoomchart.h \
     zoomlinechart/zoomchartview.h \
     audio/audiowidget.h \
-    audio/xyseriesiodevice.h
+    audio/xyseriesiodevice.h \
+    barChart/barmodelmapper/customtablemodel.h \
+    barChart/barmodelmapper/tablewidget.h
 
 DESTDIR = $$OUT_PWD/target
 MOC_DIR = $$OUT_PWD/tmp/Moc
