@@ -16,6 +16,7 @@
 #include "scatter/scatter.h"
 #include "zoomlinechart/zoomlinechart.h"
 #include "audio/audiowidget.h"
+#include "datetimeaxis/datetimeaxis.h"
 
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qtablewidget.h>
@@ -27,6 +28,9 @@ MainWindow::MainWindow(QWidget *parent)
     setCentralWidget(tab);
 
     QWidget *widget = 0;
+
+    widget = new DatetimeAxis(this);
+    tab->addTab(widget,widget->objectName());
 
     widget = new AreaSeries(this);
     tab->addTab(widget,widget->objectName());
@@ -75,8 +79,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     widget = new AudioWidget(this);
     tab->addTab(widget,widget->objectName());
-
-    tab->setCurrentIndex(tab->count()-1);
 }
 
 MainWindow::~MainWindow()

@@ -70,7 +70,8 @@ SOURCES += main.cpp\
     barChart/boxplotchart/boxplotchart.cpp \
     barChart/boxplotchart/boxdatareader.cpp \
     barChart/candlestickchart/candlestickdatareader.cpp \
-    barChart/candlestickchart/barcandlestickchart.cpp
+    barChart/candlestickchart/barcandlestickchart.cpp \
+    datetimeaxis/datetimeaxis.cpp
 
 HEADERS  += mainwindow.h \
     areaSeries/areaseries.h \
@@ -124,7 +125,8 @@ HEADERS  += mainwindow.h \
     barChart/boxplotchart/boxplotchart.h \
     barChart/boxplotchart/boxdatareader.h \
     barChart/candlestickchart/candlestickdatareader.h \
-    barChart/candlestickchart/barcandlestickchart.h
+    barChart/candlestickchart/barcandlestickchart.h \
+    datetimeaxis/datetimeaxis.h
 
 DESTDIR = $$OUT_PWD/target
 MOC_DIR = $$OUT_PWD/tmp/Moc
@@ -134,4 +136,5 @@ FORMS +=
 
 RESOURCES += \
     barChart/boxplotchart/boxplotdata.qrc \
-    barChart/candlestickchart/candlestickdata.qrc
+    barChart/candlestickchart/candlestickdata.qrc \
+    datetimeaxis/sundata.qrc
