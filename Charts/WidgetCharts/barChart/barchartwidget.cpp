@@ -11,6 +11,7 @@
 
 #include "barmodelmapper/tablewidget.h"
 #include "boxplotchart/boxplotchart.h"
+#include "candlestickchart/barcandlestickchart.h"
 
 #include <QtWidgets/qtoolbox.h>
 #include <QtWidgets/qboxlayout.h>
@@ -26,6 +27,9 @@ BarChartWidget::BarChartWidget(QWidget *parent)
     setLayout(vlyt);
 
     QWidget *widget = 0;
+
+    widget = new BarCandlestickChart(this);
+    tbox->addItem(widget,widget->objectName());
 
     widget = new BoxPlotChart(this);
     tbox->addItem(widget,widget->objectName());

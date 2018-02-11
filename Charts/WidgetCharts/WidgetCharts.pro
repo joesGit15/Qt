@@ -68,7 +68,9 @@ SOURCES += main.cpp\
     barChart/barmodelmapper/customtablemodel.cpp \
     barChart/barmodelmapper/tablewidget.cpp \
     barChart/boxplotchart/boxplotchart.cpp \
-    barChart/boxplotchart/boxdatareader.cpp
+    barChart/boxplotchart/boxdatareader.cpp \
+    barChart/candlestickchart/candlestickdatareader.cpp \
+    barChart/candlestickchart/barcandlestickchart.cpp
 
 HEADERS  += mainwindow.h \
     areaSeries/areaseries.h \
@@ -120,7 +122,9 @@ HEADERS  += mainwindow.h \
     barChart/barmodelmapper/customtablemodel.h \
     barChart/barmodelmapper/tablewidget.h \
     barChart/boxplotchart/boxplotchart.h \
-    barChart/boxplotchart/boxdatareader.h
+    barChart/boxplotchart/boxdatareader.h \
+    barChart/candlestickchart/candlestickdatareader.h \
+    barChart/candlestickchart/barcandlestickchart.h
 
 DESTDIR = $$OUT_PWD/target
 MOC_DIR = $$OUT_PWD/tmp/Moc
@@ -129,4 +133,5 @@ OBJECTS_DIR = $$OUT_PWD/tmp/Obj
 FORMS +=
 
 RESOURCES += \
-    barChart/boxplotchart/boxplotdata.qrc
+    barChart/boxplotchart/boxplotdata.qrc \
+    barChart/candlestickchart/candlestickdata.qrc
