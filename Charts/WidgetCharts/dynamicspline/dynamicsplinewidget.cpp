@@ -1,12 +1,14 @@
 #include "dynamicsplinewidget.h"
 
-#include <QtCharts/qchartview.h>
 #include <QtCharts/qchart.h>
-#include <QtCharts/qsplineseries.h>
+#include <QtCharts/qchartview.h>
 #include <QtCharts/qvalueaxis.h>
+#include <QtCharts/qsplineseries.h>
 
 #include <QtCore/qtimer.h>
 #include <QtCore/qdatetime.h>
+
+#include <QtWidgets/qpushbutton.h>
 #include <QtWidgets/qboxlayout.h>
 
 DynamicSplineWidget::DynamicSplineWidget(QWidget *parent)
@@ -39,17 +41,29 @@ DynamicSplineWidget::DynamicSplineWidget(QWidget *parent)
     view->setChart(chart);
     view->setRenderHint(QPainter::Antialiasing);
 
+    QPushButton *btn = new QPushButton(this);
+    btn->setText(tr("Start"));
+    btn->setCheckable(true);
+    btn->setChecked(false);
+    connect(btn,&QPushButton::clicked,
+            this,&DynamicSplineWidget::stBtnClicked);
+
+    QHBoxLayout *hlyt = new QHBoxLayout;
+    hlyt->addWidget(btn);
+    hlyt->addStretch();
+
     QVBoxLayout *vlyt = new QVBoxLayout;
+    vlyt->addLayout(hlyt);
     vlyt->addWidget(view);
     setLayout(vlyt);
 
     qsrand(uint(QTime::currentTime().msec()));
-    QTimer *t = new QTimer(this);
-    connect(t,&QTimer::timeout,this,&DynamicSplineWidget::StTimerOut);
-    t->start(1000);
+    _t = new QTimer(this);
+    connect(_t,&QTimer::timeout,
+            this,&DynamicSplineWidget::stTimerOut);
 }
 
-void DynamicSplineWidget::StTimerOut()
+void DynamicSplineWidget::stTimerOut()
 {
     QChart* chart = _chart;
     QValueAxis* axis = _axis;
@@ -66,5 +80,18 @@ void DynamicSplineWidget::StTimerOut()
     if(_x > 100){
         QTimer* t = qobject_cast<QTimer*>(sender());
         t->stop();
+    }
+}
+
+void DynamicSplineWidget::stBtnClicked()
+{
+    QPushButton* btn = qobject_cast<QPushButton*>(sender());
+
+    if(btn->isChecked()){
+        btn->setText(tr("Pause"));
+        _t->start(1000);
+    }else{
+        btn->setText(tr("Start"));
+        _t->stop();
     }
 }

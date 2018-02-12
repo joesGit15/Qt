@@ -148,3 +148,7 @@ RESOURCES += \
     barChart/boxplotchart/boxplotdata.qrc \
     barChart/candlestickchart/candlestickdata.qrc \
     datetimeaxis/sundata.qrc
+
+CONFIG(debug,debug|release){
+}else{
+}

@@ -31,6 +31,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     QWidget *widget = 0;
 
+    widget = new BarChartWidget(this);
+    tab->addTab(widget,widget->objectName());
+
     widget = new PolarChart(this);
     tab->addTab(widget,widget->objectName());
 
@@ -41,9 +44,6 @@ MainWindow::MainWindow(QWidget *parent)
     tab->addTab(widget,widget->objectName());
 
     widget = new AreaSeries(this);
-    tab->addTab(widget,widget->objectName());
-
-    widget = new BarChartWidget(this);
     tab->addTab(widget,widget->objectName());
 
     widget = new CallOutView(this);

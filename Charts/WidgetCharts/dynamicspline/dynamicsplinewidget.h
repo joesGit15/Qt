@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+class QTimer;
+
 namespace QtCharts {
     class QChart;
     class QValueAxis;
@@ -17,7 +19,8 @@ public:
     explicit DynamicSplineWidget(QWidget *parent = 0);
 
 private slots:
-    void StTimerOut();
+    void stTimerOut();
+    void stBtnClicked();
 
 private:
     qreal _x = 5;
@@ -25,6 +28,8 @@ private:
     QChart*          _chart  = 0;
     QValueAxis*      _axis   = 0;
     QSplineSeries*   _series = 0;
+
+    QTimer* _t = 0;
 };
 
 #endif // DYNAMICSPLINEWIDGET_H
