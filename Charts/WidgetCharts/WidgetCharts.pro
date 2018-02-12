@@ -74,7 +74,9 @@ SOURCES += main.cpp\
     datetimeaxis/datetimeaxis.cpp \
     modeldata/modeldata.cpp \
     modeldata/charttablemodel.cpp \
-    modeldata/charttablewidget.cpp
+    modeldata/charttablewidget.cpp \
+    polarchart/polarchart.cpp \
+    polarchart/chartview.cpp
 
 HEADERS  += mainwindow.h \
     areaSeries/areaseries.h \
@@ -132,7 +134,9 @@ HEADERS  += mainwindow.h \
     datetimeaxis/datetimeaxis.h \
     modeldata/modeldata.h \
     modeldata/charttablemodel.h \
-    modeldata/charttablewidget.h
+    modeldata/charttablewidget.h \
+    polarchart/polarchart.h \
+    polarchart/chartview.h
 
 DESTDIR = $$OUT_PWD/target
 MOC_DIR = $$OUT_PWD/tmp/Moc

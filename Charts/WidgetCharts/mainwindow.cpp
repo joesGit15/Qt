@@ -18,6 +18,7 @@
 #include "audio/audiowidget.h"
 #include "datetimeaxis/datetimeaxis.h"
 #include "modeldata/modeldata.h"
+#include "polarchart/polarchart.h"
 
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qtablewidget.h>
@@ -29,6 +30,9 @@ MainWindow::MainWindow(QWidget *parent)
     setCentralWidget(tab);
 
     QWidget *widget = 0;
+
+    widget = new PolarChart(this);
+    tab->addTab(widget,widget->objectName());
 
     widget = new ModelData(this);
     tab->addTab(widget,widget->objectName());
