@@ -7,32 +7,34 @@
 
 #include <QtCore/qtimer.h>
 
-#include <QtCore/qdebug.h>
-
 #define MAX_ROW 50
 
 AX_Widget::AX_Widget(QWidget *parent)
     : QWidget(parent)
 {
+    int i;
+
     QHBoxLayout* hlyt = new QHBoxLayout;
     QTableView* view = new QTableView(this);
-    _view = view;
     hlyt->addWidget(view);
     setLayout(hlyt);
 
-    //view->setMouseTracking(true);
-    view->setModel(new AX_TableModel(this));
-    view->setItemDelegate(new AX_StyleitemDelegate(this));
-#if 1
-    for(int i=0; i < 10; i++){
-        addRow();
+    _view = view;
+
+    AX_TableModel* model = new AX_TableModel(this);
+    view->setModel(model);
+
+    /**  */
+    view->setItemDelegateForColumn(0,new AX_FirstitemDelegate(this));
+    AX_StyleitemDelegate* delegate = new AX_StyleitemDelegate(this);
+    for(i = 1; i < model->columnCount(); i++){
+        view->setItemDelegateForColumn(i,delegate);
     }
-#else
+
     QTimer* t = new QTimer(this);
     t->setInterval(1000);
     connect(t,&QTimer::timeout,this,&AX_Widget::addRow);
     t->start();
-#endif
 }
 
 AX_Widget::~AX_Widget()
@@ -52,7 +54,7 @@ void AX_Widget::addRow()
     view->setRowHeight(row,60);
 
     for(i=0; i<model->columnCount(); i++){
-        view->setColumnWidth(i,150);
+        view->setColumnWidth(i,200);
     }
 
     if(sender() == 0){

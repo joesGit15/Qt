@@ -3,7 +3,7 @@
 AX_TableModel::AX_TableModel(QObject *parent)
     :QAbstractTableModel(parent)
 {
-
+    _header << tr("First") << tr("Second") << tr("Three") << tr("Four") << tr("Five");
 }
 
 int AX_TableModel::rowCount(const QModelIndex &parent) const
@@ -15,13 +15,34 @@ int AX_TableModel::columnCount(const QModelIndex &parent) const
 {
     (void)parent;
 
-    int column = 5;
-#if 0
-    if(_table.size() > 0){
-        column = _table.first().size();
-    }
-#endif
+    int column = _header.size();
     return column;
+}
+
+bool AX_TableModel::setHeaderData(int section, Qt::Orientation orientation,
+                                  const QVariant &value, int role)
+{
+    if(Qt::Horizontal == orientation){
+        if(Qt::DisplayRole == role){
+            (void)section; (void)value;
+            /** you can set header label at here */
+            return true;
+        }
+    }
+    return false;
+}
+
+QVariant AX_TableModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    QVariant var;
+    if(Qt::Horizontal == orientation){
+        if(Qt::DisplayRole == role){
+            if(section >= 0 && section < _header.size()){
+                var = _header.at(section);
+            }
+        }
+    }
+    return var;
 }
 
 QVariant AX_TableModel::data(const QModelIndex &index, int role) const

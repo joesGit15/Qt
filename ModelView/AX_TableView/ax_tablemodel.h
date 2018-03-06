@@ -16,6 +16,9 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
+    bool setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role);
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+
     QVariant data(const QModelIndex &index, int role) const;
 
     bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex());
@@ -24,6 +27,7 @@ public:
 
 private:
     QVector<Row> _table;
+    QStringList  _header;
 };
 
 #endif // AX_TABLEMODEL_H

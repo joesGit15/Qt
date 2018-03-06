@@ -30,3 +30,6 @@ SOURCES += main.cpp\
 HEADERS  += ax_widget.h \
     ax_tablemodel.h \
     ax_styleitemdelegate.h
+
+RESOURCES += \
+    res.qrc
