@@ -1,6 +1,6 @@
 #include "piechart.h"
 
-#include <Qtwidgets/qtoolbox.h>
+#include <QtWidgets/qtoolbox.h>
 #include <QtWidgets/qboxlayout.h>
 
 #include "donutchart/donutchartwidget.h"
