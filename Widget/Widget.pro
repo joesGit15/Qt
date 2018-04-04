@@ -4,4 +4,5 @@ SUBDIRS += \
     TreeCheckBox \
     DragListWidget \
     NotificationsBtn \
-    TabWidget
+    TabWidget \
+    DrawStringFitWidth
