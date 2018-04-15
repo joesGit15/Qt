@@ -7,7 +7,6 @@ SUBDIRS += \
     Gui \
     Test \
     App \
-    ModelView \
     Sql \
     QML \
     IFW \

@@ -5,4 +5,10 @@ SUBDIRS += \
     DragListWidget \
     NotificationsBtn \
     TabWidget \
-    DrawStringFitWidth
+    DrawStringFitWidth \
+    ColorViewModelDelegate \
+    EditorFactory \
+    TableWidgetThumnail \
+    AX_TableView \
+    TableHeaderCheckBox
+
