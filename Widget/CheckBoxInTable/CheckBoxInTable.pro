@@ -8,10 +8,14 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = TableHeaderCheckBox
+TARGET = CheckBoxInTable
 TEMPLATE = app
 
 SOURCES += main.cpp\
-        dialog.cpp
+        dialog.cpp \
+    checkboxheaderview.cpp \
+    tablemodel.cpp
 
-HEADERS  += dialog.h
+HEADERS  += dialog.h \
+    checkboxheaderview.h \
+    tablemodel.h

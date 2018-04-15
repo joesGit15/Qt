@@ -10,5 +10,5 @@ SUBDIRS += \
     EditorFactory \
     TableWidgetThumnail \
     AX_TableView \
-    TableHeaderCheckBox
+    CheckBoxInTable
 
