@@ -1,4 +1,5 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    imageProcess
+    imageProcess \
+    AX_2018
