@@ -7,4 +7,5 @@ SUBDIRS += \
     QMLInCplus \
     StackView \
     ScrollBar \
-    MessageDialog
+    MessageDialog \
+    WeChat
