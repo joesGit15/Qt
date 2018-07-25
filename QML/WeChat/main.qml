@@ -27,7 +27,9 @@ ApplicationWindow {
             }
 
             Old.ToolButton {
-                anchors.right: idAddBtn.left
+                width: parent.height - 4
+                height: parent.height - 4
+                anchors.right: idTBtnAdd.left
                 anchors.rightMargin: parent.nHMargin
                 anchors.verticalCenter: parent.verticalCenter
                 iconName: qsTr("Search")
@@ -36,7 +38,9 @@ ApplicationWindow {
             }
 
             Old.ToolButton {
-                id: idAddBtn
+                id: idTBtnAdd
+                width: parent.height - 4
+                height: parent.height - 4
                 anchors.right: parent.right
                 anchors.rightMargin: parent.nHMargin
                 anchors.verticalCenter: parent.verticalCenter
@@ -48,23 +52,24 @@ ApplicationWindow {
     }
 
     footer: TabBar {
-        id: bar
         width: parent.width
+
         background: Rectangle {
             color: "#eeeeee"
         }
 
-        TabButton {
-            text: qsTr("Home")
+        Button {
+            id: idTBtnWeChat
+            //text: qsTr("WeChat")
+
+            background: Rectangle {
+                anchors.fill: parent
+                //border.color: idTBtnWeChat.down ? "#17a81a" : "#21be2b"
+            }
         }
-        TabButton {
-            text: qsTr("Discover")
-        }
-        TabButton {
-            text: qsTr("Activity")
-        }
-        TabButton {
-            text: qsTr("School")
+
+        Button {
+            id: idBtnContacts
         }
     }
 }
