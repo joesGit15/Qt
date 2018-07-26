@@ -2,5 +2,13 @@
     <qresource prefix="/">
         <file>imgs/add.png</file>
         <file>imgs/search.png</file>
+        <file>imgs/contacts.png</file>
+        <file>imgs/contacts_active.png</file>
+        <file>imgs/discover.png</file>
+        <file>imgs/discover_active.png</file>
+        <file>imgs/me.png</file>
+        <file>imgs/me_active.png</file>
+        <file>imgs/wechat.png</file>
+        <file>imgs/wechat_active.png</file>
     </qresource>
 </RCC>

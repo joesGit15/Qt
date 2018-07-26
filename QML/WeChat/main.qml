@@ -1,15 +1,18 @@
 import QtQuick 2.6
-import QtQuick.Controls 1.4 as Old
 import QtQuick.Controls 2.1
+import QtQuick.Layouts 1.1
 
 ApplicationWindow {
+    property int nToolHeight: 50
+
+    id: idApp
     visible: true
     width: 640
     height: 480
     title: qsTr("WeChat")
 
     header: ToolBar {
-        height: 50
+        height: idApp.nToolHeight
 
         Rectangle {
             property int nHMargin: 15
@@ -26,50 +29,53 @@ ApplicationWindow {
                 font.pointSize: 14
             }
 
-            Old.ToolButton {
-                width: parent.height - 4
-                height: parent.height - 4
-                anchors.right: idTBtnAdd.left
-                anchors.rightMargin: parent.nHMargin
+            ToolButton {
+                id: idBtnSearch
+                height: parent.height
+                width:  parent.height
+                anchors.right: idBtnAdd.left
+                //anchors.rightMargin: parent.nHMargin
                 anchors.verticalCenter: parent.verticalCenter
-                iconName: qsTr("Search")
-                iconSource: "qrc:/imgs/search.png"
                 onClicked: {console.log("Search btn clicked");}
+
+                contentItem: Image {
+                    source: "qrc:/imgs/search.png"
+                }
             }
 
-            Old.ToolButton {
-                id: idTBtnAdd
-                width: parent.height - 4
-                height: parent.height - 4
+            ToolButton {
+                id: idBtnAdd
+                width: parent.height
+                height: parent.height
                 anchors.right: parent.right
                 anchors.rightMargin: parent.nHMargin
                 anchors.verticalCenter: parent.verticalCenter
-                iconName: qsTr("Add")
-                iconSource: "qrc:/imgs/add.png"
                 onClicked: {console.log("Add btn clicked");}
+
+                contentItem: Image {
+                    source: "qrc:/imgs/add.png"
+                }
             }
         }
     }
 
     footer: TabBar {
-        width: parent.width
+        height: idApp.nToolHeight
 
         background: Rectangle {
             color: "#eeeeee"
         }
 
-        Button {
-            id: idTBtnWeChat
-            //text: qsTr("WeChat")
-
-            background: Rectangle {
-                anchors.fill: parent
-                //border.color: idTBtnWeChat.down ? "#17a81a" : "#21be2b"
+        TabButton {
+            //width: parent.height
+            height: parent.height
+            anchors.verticalCenter: parent.verticalCenter
+            contentItem: Image {
+                fillMode: Image.PreserveAspectFit
+                source: "qrc:/imgs/wechat_active.png"
             }
         }
-
-        Button {
-            id: idBtnContacts
-        }
+        TabButton { text: qsTr("Discover") }
+        TabButton { text: qsTr("Activity") }
     }
 }
