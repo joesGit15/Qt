@@ -10,5 +10,6 @@ SUBDIRS += \
     EditorFactory \
     TableWidgetThumnail \
     AX_TableView \
-    CheckBoxInTable
+    CheckBoxInTable \
+    ViewBigFile
 
