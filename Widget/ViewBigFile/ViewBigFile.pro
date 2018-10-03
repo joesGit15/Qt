@@ -14,8 +14,18 @@ TEMPLATE = app
 SOURCES += main.cpp\
         dialog.cpp \
     GenerateBigFile/generatebigfilewgt.cpp \
-    ViewBigFile/viewbigfilewgt.cpp
+    ViewBigFile/viewbigfilewgt.cpp \
+    basefun.cpp
 
 HEADERS  += dialog.h \
     GenerateBigFile/generatebigfilewgt.h \
-    ViewBigFile/viewbigfilewgt.h
+    ViewBigFile/viewbigfilewgt.h \
+    basefun.h
+
+CONFIG(debug,debug|release){
+    DEFINES += DEBUG
+}
+
+linux:CONFIG(debug,debug|release) {
+    DEFINES += LINUX_DEBUG
+}

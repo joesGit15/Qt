@@ -4,7 +4,7 @@
 #include <QWidget>
 
 class QLineEdit;
-class QTextEdit;
+class QPlainTextEdit;
 
 class ViewBigFileWgt : public QWidget
 {
@@ -14,9 +14,12 @@ public:
 
     void setFilename(const QString &filename);
 
+private slots:
+    void slotBtnOpenClicked();
+
 private:
-    QLineEdit* _ledit;
-    QTextEdit* _tedit;
+    QLineEdit*      _ledit;
+    QPlainTextEdit* _tedit;
 };
 
 #endif // VIEWBIGFILEWGT_H

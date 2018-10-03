@@ -1,47 +1,8 @@
 #include "generatebigfilewgt.h"
 
+#include "../basefun.h"
+
 #include <QtWidgets>
-
-QString Convert(uint32_t u32Num)
-{
-    char szHex[11];
-    sprintf(szHex,"0x%08X",u32Num);
-    return QString(szHex);
-}
-
-QString Convert(uint64_t u64ByteSize)
-{
-    char szBuffer[50];
-    uint8_t uLevel = 0;
-
-    QString text;
-
-    while(u64ByteSize > 1024){
-        u64ByteSize /= 1024;
-        uLevel++;
-    }
-
-    switch (uLevel) {
-    case 0:
-        szBuffer[0] = '\0';
-        break;///bytes
-    case 1:
-        sprintf(szBuffer,"%liKB",u64ByteSize);
-        break;///K
-    case 2:
-        sprintf(szBuffer,"%liMB",u64ByteSize);
-        break;///M
-    case 3:
-        sprintf(szBuffer,"%liGB",u64ByteSize);
-        break;///G
-    default:
-        szBuffer[0] = '\0';
-        break;
-    }
-
-    text = QString(szBuffer);
-    return text;
-}
 
 GenerateBigFileWgt::GenerateBigFileWgt(QWidget *parent)
     : QWidget(parent)
@@ -50,6 +11,7 @@ GenerateBigFileWgt::GenerateBigFileWgt(QWidget *parent)
     QSpinBox* sbox;
     QHBoxLayout *hlyt;
     QPushButton *btn;
+    QLineEdit *ledit;
 
     hlyt = new QHBoxLayout;
 
@@ -78,11 +40,16 @@ GenerateBigFileWgt::GenerateBigFileWgt(QWidget *parent)
     /* 2147483647 * 4bytes ~= 8G */
     sbox->setRange(0,INT_MAX);
     sbox->setSingleStep(10);
-    sbox->setValue(1024*100);
+    sbox->setValue(256*1024);
     hlyt->addWidget(lbl);
     hlyt->addWidget(sbox);
 
-    hlyt->addStretch(1);
+    lbl = new QLabel(tr("Filename:"),this);
+    ledit = new QLineEdit(this);
+    _ledit = ledit;
+    ledit->setPlaceholderText(tr("binary file name:a.bin"));
+    hlyt->addWidget(lbl);
+    hlyt->addWidget(ledit);
 
     btn = new QPushButton(tr("Begin..."),this);
     connect(btn,&QPushButton::clicked,
@@ -100,12 +67,16 @@ void GenerateBigFileWgt::slotBtnBeginClicked()
     uint32_t nBase,nStep,nCount;
 
     QFile file;
-    QString text,filename,tmpText;
+    QString text,tmpText,filename;
 
     nBase  = _sboxBaseNum->value();
     nStep  = _sboxStep->value();
     nCount = _sboxCount->value();
     if(0 == nCount){
+        return;
+    }
+
+    if("" == _ledit->text().trimmed()){
         return;
     }
 
@@ -127,7 +98,8 @@ void GenerateBigFileWgt::slotBtnBeginClicked()
     }
 
     filename = QCoreApplication::applicationDirPath();
-    filename += "/a.bin";
+    filename += "/";
+    filename += _ledit->text().trimmed();
 
     file.setFileName(filename);
     if(!file.open(QIODevice::WriteOnly)){

@@ -4,6 +4,7 @@
 #include <QWidget>
 
 class QSpinBox;
+class QLineEdit;
 
 class GenerateBigFileWgt : public QWidget
 {
@@ -21,6 +22,8 @@ private:
     QSpinBox*  _sboxBaseNum;
     QSpinBox*  _sboxStep;
     QSpinBox*  _sboxCount;
+
+    QLineEdit* _ledit;
 };
 
 #endif // GENERATEBIGFILEWGT_H

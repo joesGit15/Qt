@@ -11,5 +11,6 @@ SUBDIRS += \
     TableWidgetThumnail \
     AX_TableView \
     CheckBoxInTable \
-    ViewBigFile
+    ViewBigFile \
+    HexEdit
 
