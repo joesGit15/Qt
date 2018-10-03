@@ -2,6 +2,10 @@
 
 #include "../basefun.h"
 
+#ifdef DEBUG
+#include <time.h>
+#endif
+
 #include <QtWidgets>
 
 GenerateBigFileWgt::GenerateBigFileWgt(QWidget *parent)
@@ -59,6 +63,8 @@ GenerateBigFileWgt::GenerateBigFileWgt(QWidget *parent)
     setLayout(hlyt);
 }
 
+#if 1
+//12738- should in thread to work
 void GenerateBigFileWgt::slotBtnBeginClicked()
 {
     int nRet;
@@ -102,31 +108,29 @@ void GenerateBigFileWgt::slotBtnBeginClicked()
     filename += _ledit->text().trimmed();
 
     file.setFileName(filename);
+
+#ifdef DEBUG
+    clock_t t;
+    t = clock();
+#endif
+
     if(!file.open(QIODevice::WriteOnly)){
         QMessageBox::information(this,tr("Information"),file.errorString(),
                                  QMessageBox::Ok);
         return;
     }
+
     QDataStream out(&file);
-
-    QProgressDialog progress("Generate files...", "Abort", 0, nCount, this);
-    progress.setWindowModality(Qt::WindowModal);
-
     for (uint32_t i = 0; i < nCount; i++) {
         nBase += nStep;
         out << nBase;
-
-        text = tr("Total Count %1 -> %2").arg(nCount - i).arg(i);
-        progress.setLabelText(text);
-
-        progress.setValue(i);
-        if (progress.wasCanceled()) {
-            break;
-        }
     }
-
-    progress.setValue(nCount);
     file.close();
+
+#ifdef DEBUG
+    qDebug("%li", clock() - t);
+#endif
 
     emit sigGenerateOk(filename);
 }
+#endif

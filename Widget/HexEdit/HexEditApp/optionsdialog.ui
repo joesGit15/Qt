@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>347</width>
-    <height>553</height>
+    <height>564</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -227,7 +227,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="lbBytesPerLine">
         <property name="text">
-         <string>Bytes per Line</string>
+         <string>Bytes per Line:</string>
         </property>
        </widget>
       </item>
