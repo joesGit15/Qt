@@ -59,6 +59,14 @@ Qt Creator -> File -> New File or Project -> Other Project -> Qt Custom Designer
 
 我喜欢引导,悟性高了,大彻大悟,悟性不够,还需积累磨炼.
 
+### 小计
+
+对于pro文件中,有使用到qmake内部的变量, 查看全部变量的值的方法就是运行:
+
+```
+qmake -query #queries all current PROPERTY/VALUE pairs
+```
+
 ---
 
 
