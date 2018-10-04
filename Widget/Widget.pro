@@ -12,5 +12,6 @@ SUBDIRS += \
     AX_TableView \
     CheckBoxInTable \
     ViewBigFile \
-    HexEdit
+    HexEdit \
+    CustomPlugin
 
