@@ -3,4 +3,5 @@ TEMPLATE = subdirs
 SUBDIRS += \
     HexEditApp \
     QHexEdit \
-    ChunksTester
+    ChunksTester \
+    QHexEditDialog
