@@ -51,6 +51,7 @@ private:
     void init();
     void initActions();
     void initContextMenu(QMenu *menu);
+    void initToolBar(QToolBar *toolBar);
     void initStatusBar(QStatusBar *statusBar);
 
     void readSettings();

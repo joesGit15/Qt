@@ -174,9 +174,11 @@ void QHexEditDialog::init()
     isUntitled = true;
 
     QVBoxLayout *vlyt;
+    QToolBar *toolBar;
     QStatusBar *&statusBar = _statusBar;
 
     /// hex edit
+    toolBar = new QToolBar(this);
     _hexEdit  = new QHexEdit;
     statusBar = new QStatusBar(this);
     statusBar->setSizeGripEnabled(false);
@@ -184,13 +186,15 @@ void QHexEditDialog::init()
     /// layout
     vlyt = new QVBoxLayout;
     vlyt->setMargin(0);
+    vlyt->addWidget(toolBar);
     vlyt->addWidget(_hexEdit);
     vlyt->addWidget(statusBar);
     setLayout(vlyt);
 
-    connect(_hexEdit, SIGNAL(overwriteModeChanged(bool)), this, SLOT(setOverwriteMode(bool)));
-    connect(_hexEdit, SIGNAL(dataChanged()), this, SLOT(dataChanged()));
-
+    connect(_hexEdit, SIGNAL(overwriteModeChanged(bool)),
+            this, SLOT(setOverwriteMode(bool)));
+    connect(_hexEdit, SIGNAL(dataChanged()),
+            this, SLOT(dataChanged()));
 
     /// after new QHexEdit
     _searchDialog = new SearchDialog(_hexEdit, this);
@@ -198,6 +202,7 @@ void QHexEditDialog::init()
     initActions();
     initContextMenu(_contextMenu);
     initStatusBar(statusBar);
+    initToolBar(toolBar);
 
     readSettings();
 #ifdef Q_OS_MAC
@@ -261,7 +266,7 @@ void QHexEditDialog::initActions()
 
 
     QAction *&optionsAct = _optionsAct;
-    optionsAct = new QAction(tr("&Options"), this);
+    optionsAct = new QAction(QIcon(":/images/setting.png"),tr("&Options"), this);
     optionsAct->setStatusTip(tr("Show the Dialog to select applications options"));
     connect(optionsAct, SIGNAL(triggered()), this, SLOT(showOptionsDialog()));
 }
@@ -286,6 +291,22 @@ void QHexEditDialog::initContextMenu(QMenu *menu)
     menu->addAction(_optionsAct);
 
     menu->addSeparator();
+}
+
+void QHexEditDialog::initToolBar(QToolBar *toolBar)
+{
+    toolBar->addAction(_openAct);
+    toolBar->addAction(_saveAct);
+    toolBar->addSeparator();
+
+    toolBar->addAction(_undoAct);
+    toolBar->addAction(_redoAct);
+
+    toolBar->addSeparator();
+
+    toolBar->addAction(_findAct);
+
+    toolBar->addAction(_optionsAct);
 }
 
 void QHexEditDialog::initStatusBar(QStatusBar *statusBar)
