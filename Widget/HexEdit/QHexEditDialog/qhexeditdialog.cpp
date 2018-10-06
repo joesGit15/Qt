@@ -39,11 +39,6 @@ void QHexEditDialog::contextMenuEvent(QContextMenuEvent *event)
     _contextMenu->exec(event->globalPos());
 }
 
-void QHexEditDialog::about()
-{
-   QMessageBox::about(this, tr("About QHexEdit"), tr(""));
-}
-
 void QHexEditDialog::dataChanged()
 {
     setWindowModified(_hexEdit->isModified());
@@ -65,7 +60,7 @@ void QHexEditDialog::optionsAccepted()
 
 void QHexEditDialog::findNext()
 {
-    searchDialog->findNext();
+    _searchDialog->findNext();
 }
 
 bool QHexEditDialog::save()
@@ -154,19 +149,17 @@ void QHexEditDialog::setOverwriteMode(bool mode)
 
 void QHexEditDialog::setSize(qint64 size)
 {
-#if 0
-    lbSize->setText(QString("%1").arg(size));
-#endif
+    _lbSize->setText(QString("%1").arg(size));
 }
 
 void QHexEditDialog::showOptionsDialog()
 {
-    optionsDialog->show();
+    _optionsDialog->show();
 }
 
 void QHexEditDialog::showSearchDialog()
 {
-    searchDialog->show();
+    _searchDialog->show();
 }
 
 void QHexEditDialog::init()
@@ -175,8 +168,8 @@ void QHexEditDialog::init()
 
     _contextMenu = new QMenu(this);
 
-    optionsDialog = new OptionsDialog(this);
-    connect(optionsDialog, SIGNAL(accepted()), this, SLOT(optionsAccepted()));
+    _optionsDialog = new OptionsDialog(this);
+    connect(_optionsDialog, SIGNAL(accepted()), this, SLOT(optionsAccepted()));
 
     isUntitled = true;
 
@@ -200,14 +193,14 @@ void QHexEditDialog::init()
 
 
     /// after new QHexEdit
-    searchDialog = new SearchDialog(_hexEdit, this);
+    _searchDialog = new SearchDialog(_hexEdit, this);
 
     initActions();
     initContextMenu(_contextMenu);
     initStatusBar(statusBar);
 
     readSettings();
-#if 0
+#ifdef Q_OS_MAC
     setUnifiedTitleAndToolBarOnMac(true);
 #endif
 }
@@ -271,24 +264,6 @@ void QHexEditDialog::initActions()
     optionsAct = new QAction(tr("&Options"), this);
     optionsAct->setStatusTip(tr("Show the Dialog to select applications options"));
     connect(optionsAct, SIGNAL(triggered()), this, SLOT(showOptionsDialog()));
-
-
-    QAction *&aboutAct = _aboutAct;
-    aboutAct = new QAction(tr("&About"), this);
-    aboutAct->setStatusTip(tr("Show the application's About box"));
-    connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));
-
-    QAction *&aboutQtAct = _aboutQtAct;
-    aboutQtAct = new QAction(tr("About &Qt"), this);
-    aboutQtAct->setStatusTip(tr("Show the Qt library's About box"));
-    connect(aboutQtAct, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
-
-
-    QAction *&exitAct = _exitAct;
-    exitAct = new QAction(tr("E&xit"), this);
-    exitAct->setShortcuts(QKeySequence::Quit);
-    exitAct->setStatusTip(tr("Exit the application"));
-    connect(exitAct, SIGNAL(triggered()), qApp, SLOT(closeAllWindows()));
 }
 
 void QHexEditDialog::initContextMenu(QMenu *menu)
@@ -311,12 +286,6 @@ void QHexEditDialog::initContextMenu(QMenu *menu)
     menu->addAction(_optionsAct);
 
     menu->addSeparator();
-
-    menu->addAction(_aboutAct);
-    menu->addAction(_aboutQtAct);
-
-    menu->addSeparator();
-    menu->addAction(_exitAct);
 }
 
 void QHexEditDialog::initStatusBar(QStatusBar *statusBar)
@@ -366,148 +335,6 @@ void QHexEditDialog::initStatusBar(QStatusBar *statusBar)
     statusBar->showMessage(tr("Ready"), 2000);
 }
 
-#if 0
-void QHexEditDialog::createActions()
-{
-    openAct = new QAction(QIcon(":/images/open.png"), tr("&Open..."), this);
-    openAct->setShortcuts(QKeySequence::Open);
-    openAct->setStatusTip(tr("Open an existing file"));
-    connect(openAct, SIGNAL(triggered()), this, SLOT(open()));
-
-    saveAct = new QAction(QIcon(":/images/save.png"), tr("&Save"), this);
-    saveAct->setShortcuts(QKeySequence::Save);
-    saveAct->setStatusTip(tr("Save the document to disk"));
-    connect(saveAct, SIGNAL(triggered()), this, SLOT(save()));
-
-    saveAsAct = new QAction(tr("Save &As..."), this);
-    saveAsAct->setShortcuts(QKeySequence::SaveAs);
-    saveAsAct->setStatusTip(tr("Save the document under a new name"));
-    connect(saveAsAct, SIGNAL(triggered()), this, SLOT(saveAs()));
-
-    saveReadable = new QAction(tr("Save &Readable..."), this);
-    saveReadable->setStatusTip(tr("Save document in readable form"));
-    connect(saveReadable, SIGNAL(triggered()), this, SLOT(saveToReadableFile()));
-
-    exitAct = new QAction(tr("E&xit"), this);
-    exitAct->setShortcuts(QKeySequence::Quit);
-    exitAct->setStatusTip(tr("Exit the application"));
-    connect(exitAct, SIGNAL(triggered()), qApp, SLOT(closeAllWindows()));
-
-    undoAct = new QAction(QIcon(":/images/undo.png"), tr("&Undo"), this);
-    undoAct->setShortcuts(QKeySequence::Undo);
-    connect(undoAct, SIGNAL(triggered()), hexEdit, SLOT(undo()));
-
-    redoAct = new QAction(QIcon(":/images/redo.png"), tr("&Redo"), this);
-    redoAct->setShortcuts(QKeySequence::Redo);
-    connect(redoAct, SIGNAL(triggered()), hexEdit, SLOT(redo()));
-
-    saveSelectionReadable = new QAction(tr("&Save Selection Readable..."), this);
-    saveSelectionReadable->setStatusTip(tr("Save selection in readable form"));
-    connect(saveSelectionReadable, SIGNAL(triggered()), this, SLOT(saveSelectionToReadableFile()));
-
-    aboutAct = new QAction(tr("&About"), this);
-    aboutAct->setStatusTip(tr("Show the application's About box"));
-    connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));
-
-    aboutQtAct = new QAction(tr("About &Qt"), this);
-    aboutQtAct->setStatusTip(tr("Show the Qt library's About box"));
-    connect(aboutQtAct, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
-
-    findAct = new QAction(QIcon(":/images/find.png"), tr("&Find/Replace"), this);
-    findAct->setShortcuts(QKeySequence::Find);
-    findAct->setStatusTip(tr("Show the Dialog for finding and replacing"));
-    connect(findAct, SIGNAL(triggered()), this, SLOT(showSearchDialog()));
-
-    findNextAct = new QAction(tr("Find &next"), this);
-    findNextAct->setShortcuts(QKeySequence::FindNext);
-    findNextAct->setStatusTip(tr("Find next occurrence of the searched pattern"));
-    connect(findNextAct, SIGNAL(triggered()), this, SLOT(findNext()));
-
-    optionsAct = new QAction(tr("&Options"), this);
-    optionsAct->setStatusTip(tr("Show the Dialog to select applications options"));
-    connect(optionsAct, SIGNAL(triggered()), this, SLOT(showOptionsDialog()));
-}
-#endif
-
-#if 0
-void QHexEditDialog::createMenus()
-{
-    fileMenu = menuBar()->addMenu(tr("&File"));
-    fileMenu->addAction(openAct);
-    fileMenu->addAction(saveAct);
-    fileMenu->addAction(saveAsAct);
-    fileMenu->addAction(saveReadable);
-    fileMenu->addSeparator();
-    fileMenu->addAction(exitAct);
-
-    editMenu = menuBar()->addMenu(tr("&Edit"));
-    editMenu->addAction(undoAct);
-    editMenu->addAction(redoAct);
-    editMenu->addAction(saveSelectionReadable);
-    editMenu->addSeparator();
-    editMenu->addAction(findAct);
-    editMenu->addAction(findNextAct);
-    editMenu->addSeparator();
-    editMenu->addAction(optionsAct);
-    helpMenu = menuBar()->addMenu(tr("&Help"));
-    helpMenu->addAction(aboutAct);
-    helpMenu->addAction(aboutQtAct);
-}
-#endif
-
-#if 0
-void QHexEditDialog::createStatusBar()
-{
-    // Address Label
-    lbAddressName = new QLabel();
-    lbAddressName->setText(tr("Address:"));
-    statusBar()->addPermanentWidget(lbAddressName);
-    lbAddress = new QLabel();
-    lbAddress->setFrameShape(QFrame::Panel);
-    lbAddress->setFrameShadow(QFrame::Sunken);
-    lbAddress->setMinimumWidth(70);
-    statusBar()->addPermanentWidget(lbAddress);
-    connect(hexEdit, SIGNAL(currentAddressChanged(qint64)), this, SLOT(setAddress(qint64)));
-
-    // Size Label
-    lbSizeName = new QLabel();
-    lbSizeName->setText(tr("Size:"));
-    statusBar()->addPermanentWidget(lbSizeName);
-    lbSize = new QLabel();
-    lbSize->setFrameShape(QFrame::Panel);
-    lbSize->setFrameShadow(QFrame::Sunken);
-    lbSize->setMinimumWidth(70);
-    statusBar()->addPermanentWidget(lbSize);
-    connect(hexEdit, SIGNAL(currentSizeChanged(qint64)), this, SLOT(setSize(qint64)));
-
-    // Overwrite Mode Label
-    lbOverwriteModeName = new QLabel();
-    lbOverwriteModeName->setText(tr("Mode:"));
-    statusBar()->addPermanentWidget(lbOverwriteModeName);
-    lbOverwriteMode = new QLabel();
-    lbOverwriteMode->setFrameShape(QFrame::Panel);
-    lbOverwriteMode->setFrameShadow(QFrame::Sunken);
-    lbOverwriteMode->setMinimumWidth(70);
-    statusBar()->addPermanentWidget(lbOverwriteMode);
-    setOverwriteMode(hexEdit->overwriteMode());
-
-    statusBar()->showMessage(tr("Ready"), 2000);
-}
-#endif
-
-#if 0
-void QHexEditDialog::createToolBars()
-{
-    fileToolBar = addToolBar(tr("File"));
-    fileToolBar->addAction(openAct);
-    fileToolBar->addAction(saveAct);
-    editToolBar = addToolBar(tr("Edit"));
-    editToolBar->addAction(undoAct);
-    editToolBar->addAction(redoAct);
-    editToolBar->addAction(findAct);
-}
-#endif
-
 void QHexEditDialog::loadFile(const QString &fileName)
 {
     file.setFileName(fileName);
@@ -518,10 +345,9 @@ void QHexEditDialog::loadFile(const QString &fileName)
                              .arg(file.errorString()));
         return;
     }
+
     setCurrentFile(fileName);
-#if 0
-    statusBar()->showMessage(tr("File loaded"), 2000);
-#endif
+    _statusBar->showMessage(tr("File loaded"), 2000);
 }
 
 void QHexEditDialog::readSettings()
@@ -552,17 +378,21 @@ bool QHexEditDialog::saveFile(const QString &fileName)
     QString tmpFileName = fileName + ".~tmp";
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
+
     QFile file(tmpFileName);
     bool ok = _hexEdit->write(file);
-    if (QFile::exists(fileName))
+    if (QFile::exists(fileName)) {
         ok = QFile::remove(fileName);
-    if (ok)
-    {
+    }
+
+    if (ok) {
         file.setFileName(tmpFileName);
         ok = file.copy(fileName);
-        if (ok)
+        if (ok) {
             ok = QFile::remove(tmpFileName);
+        }
     }
+
     QApplication::restoreOverrideCursor();
 
     if (!ok) {
@@ -573,9 +403,7 @@ bool QHexEditDialog::saveFile(const QString &fileName)
     }
 
     setCurrentFile(fileName);
-#if 0
-    statusBar()->showMessage(tr("File saved"), 2000);
-#endif
+    _statusBar->showMessage(tr("File saved"), 2000);
     return true;
 }
 

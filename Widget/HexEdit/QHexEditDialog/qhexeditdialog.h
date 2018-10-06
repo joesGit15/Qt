@@ -33,7 +33,6 @@ protected:
     void contextMenuEvent(QContextMenuEvent *event);
 
 private slots:
-    void about();
     void dataChanged();
     void open();
     void optionsAccepted();
@@ -85,15 +84,10 @@ private:
 
     QAction *_optionsAct;
 
-    QAction *_aboutAct;
-    QAction *_aboutQtAct;
-
-    QAction *_exitAct;
-
     QHexEdit *_hexEdit;
 
-    OptionsDialog *optionsDialog;
-    SearchDialog *searchDialog;
+    OptionsDialog *_optionsDialog;
+    SearchDialog *_searchDialog;
 
     QLabel *_lbSize, *_lbSizeName;
     QLabel *_lbAddress, *_lbAddressName;
