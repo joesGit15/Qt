@@ -8,13 +8,13 @@
 #include "searchdialog.h"
 
 QT_BEGIN_NAMESPACE
-class QAction;
 class QUndoStack;
 class QLabel;
 class QDragEnterEvent;
 class QDropEvent;
 
 class QMenu;
+class QAction;
 class QToolBar;
 class QStatusBar;
 QT_END_NAMESPACE
@@ -54,25 +54,21 @@ private:
     void initContextMenu(QMenu *menu);
     void initStatusBar(QStatusBar *statusBar);
 
-#if 0
-    void createActions();
-    void createMenus();
-    void createStatusBar();
-    void createToolBars();
-#endif
+    void readSettings();
+    void writeSettings();
 
     void loadFile(const QString &fileName);
-    void readSettings();
     bool saveFile(const QString &fileName);
     void setCurrentFile(const QString &fileName);
     QString strippedName(const QString &fullFileName);
-    void writeSettings();
 
-    QString curFile;
+private:
     QFile file;
+    QString curFile;
     bool isUntitled;
 
-#if 1
+    QStatusBar *_statusBar;
+
     QMenu *_contextMenu;
 
     QAction *_openAct;
@@ -93,22 +89,15 @@ private:
     QAction *_aboutQtAct;
 
     QAction *_exitAct;
-#else
-    QMenu *fileMenu;
-    QMenu *editMenu;
-    QMenu *helpMenu;
-    QAction *closeAct;
-#endif
 
     QHexEdit *_hexEdit;
+
     OptionsDialog *optionsDialog;
     SearchDialog *searchDialog;
 
-#if 0
-    QLabel *lbAddress, *lbAddressName;
-    QLabel *lbOverwriteMode, *lbOverwriteModeName;
-    QLabel *lbSize, *lbSizeName;
-#endif
+    QLabel *_lbSize, *_lbSizeName;
+    QLabel *_lbAddress, *_lbAddressName;
+    QLabel *_lbOverwriteMode, *_lbOverwriteModeName;
 };
 
 #endif

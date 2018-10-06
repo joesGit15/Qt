@@ -19,14 +19,14 @@ void QHexEditDialog::closeEvent(QCloseEvent *)
 
 void QHexEditDialog::dragEnterEvent(QDragEnterEvent *event)
 {
-    if (event->mimeData()->hasUrls())
+    if (event->mimeData()->hasUrls()) {
         event->accept();
+    }
 }
 
 void QHexEditDialog::dropEvent(QDropEvent *event)
 {
-    if (event->mimeData()->hasUrls())
-    {
+    if (event->mimeData()->hasUrls()) {
         QList<QUrl> urls = event->mimeData()->urls();
         QString filePath = urls.at(0).toLocalFile();
         loadFile(filePath);
@@ -41,8 +41,7 @@ void QHexEditDialog::contextMenuEvent(QContextMenuEvent *event)
 
 void QHexEditDialog::about()
 {
-   QMessageBox::about(this, tr("About QHexEdit"),
-            tr("The QHexEdit example is a short Demo of the QHexEdit Widget."));
+   QMessageBox::about(this, tr("About QHexEdit"), tr(""));
 }
 
 void QHexEditDialog::dataChanged()
@@ -80,77 +79,77 @@ bool QHexEditDialog::save()
 
 bool QHexEditDialog::saveAs()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save As"),
-                                                    curFile);
-    if (fileName.isEmpty())
+    QString fileName;
+    fileName = QFileDialog::getSaveFileName(this, tr("Save As"),
+                                            curFile);
+    if (fileName.isEmpty()){
         return false;
+    }
 
     return saveFile(fileName);
 }
 
 void QHexEditDialog::saveSelectionToReadableFile()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save To Readable File"));
-    if (!fileName.isEmpty())
-    {
-        QFile file(fileName);
-        if (!file.open(QFile::WriteOnly | QFile::Text)) {
-            QMessageBox::warning(this, tr("QHexEdit"),
-                                 tr("Cannot write file %1:\n%2.")
-                                 .arg(fileName)
-                                 .arg(file.errorString()));
-            return;
-        }
-
-        QApplication::setOverrideCursor(Qt::WaitCursor);
-        file.write(_hexEdit->selectionToReadableString().toLatin1());
-        QApplication::restoreOverrideCursor();
-#if 0
-        statusBar()->showMessage(tr("File saved"), 2000);
-#endif
+    QString fileName;
+    fileName = QFileDialog::getSaveFileName(this, tr("Save To Readable File"));
+    if("" == fileName) {
+        return;
     }
+
+    QFile file(fileName);
+    if (!file.open(QFile::WriteOnly | QFile::Text)) {
+        QMessageBox::warning(this, tr("QHexEdit"),
+                             tr("Cannot write file %1:\n%2.")
+                             .arg(fileName)
+                             .arg(file.errorString()));
+        return;
+    }
+
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    file.write(_hexEdit->selectionToReadableString().toLatin1());
+    QApplication::restoreOverrideCursor();
+    _statusBar->showMessage(tr("File saved"), 2000);
 }
 
 void QHexEditDialog::saveToReadableFile()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save To Readable File"));
-    if (!fileName.isEmpty())
-    {
-        QFile file(fileName);
-        if (!file.open(QFile::WriteOnly | QFile::Text)) {
-            QMessageBox::warning(this, tr("QHexEdit"),
-                                 tr("Cannot write file %1:\n%2.")
-                                 .arg(fileName)
-                                 .arg(file.errorString()));
-            return;
-        }
-
-        QApplication::setOverrideCursor(Qt::WaitCursor);
-        file.write(_hexEdit->toReadableString().toLatin1());
-        QApplication::restoreOverrideCursor();
-#if 0
-        statusBar()->showMessage(tr("File saved"), 2000);
-#endif
+    QString fileName;
+    fileName = QFileDialog::getSaveFileName(this, tr("Save To Readable File"));
+    if("" == fileName){
+        return;
     }
+
+    QFile file(fileName);
+    if (!file.open(QFile::WriteOnly | QFile::Text)) {
+        QMessageBox::warning(this, tr("QHexEdit"),
+                             tr("Cannot write file %1:\n%2.")
+                             .arg(fileName)
+                             .arg(file.errorString()));
+        return;
+    }
+
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    file.write(_hexEdit->toReadableString().toLatin1());
+    QApplication::restoreOverrideCursor();
+    _statusBar->showMessage(tr("File saved"), 2000);
 }
 
 void QHexEditDialog::setAddress(qint64 address)
 {
-#if 0
-    lbAddress->setText(QString("%1").arg(address, 1, 16));
-#endif
+    _lbAddress->setText(QString("%1").arg(address, 1, 16));
 }
 
 void QHexEditDialog::setOverwriteMode(bool mode)
 {
-#if 0
     QSettings settings;
     settings.setValue("OverwriteMode", mode);
-    if (mode)
-        lbOverwriteMode->setText(tr("Overwrite"));
-    else
-        lbOverwriteMode->setText(tr("Insert"));
-#endif
+
+    if (mode) {
+        _lbOverwriteMode->setText(tr("Overwrite"));
+    } else {
+        _lbOverwriteMode->setText(tr("Insert"));
+    }
 }
 
 void QHexEditDialog::setSize(qint64 size)
@@ -182,7 +181,7 @@ void QHexEditDialog::init()
     isUntitled = true;
 
     QVBoxLayout *vlyt;
-    QStatusBar *statusBar;
+    QStatusBar *&statusBar = _statusBar;
 
     /// hex edit
     _hexEdit  = new QHexEdit;
@@ -323,12 +322,12 @@ void QHexEditDialog::initContextMenu(QMenu *menu)
 void QHexEditDialog::initStatusBar(QStatusBar *statusBar)
 {
     /// Address Label
-    QLabel *lbAddressName;
+    QLabel *&lbAddressName = _lbAddressName;
     lbAddressName = new QLabel(this);
     lbAddressName->setText(tr("Address:"));
     statusBar->addPermanentWidget(lbAddressName);
 
-    QLabel *lbAddress;
+    QLabel *&lbAddress = _lbAddress;
     lbAddress = new QLabel(this);
     lbAddress->setFrameShape(QFrame::Panel);
     lbAddress->setFrameShadow(QFrame::Sunken);
@@ -337,12 +336,12 @@ void QHexEditDialog::initStatusBar(QStatusBar *statusBar)
     connect(_hexEdit, SIGNAL(currentAddressChanged(qint64)), this, SLOT(setAddress(qint64)));
 
     /// Size Label
-    QLabel *lbSizeName;
+    QLabel *&lbSizeName = _lbSizeName;
     lbSizeName = new QLabel(this);
     lbSizeName->setText(tr("Size:"));
     statusBar->addPermanentWidget(lbSizeName);
 
-    QLabel *lbSize;
+    QLabel *&lbSize = _lbSize;
     lbSize = new QLabel(this);
     lbSize->setFrameShape(QFrame::Panel);
     lbSize->setFrameShadow(QFrame::Sunken);
@@ -351,12 +350,12 @@ void QHexEditDialog::initStatusBar(QStatusBar *statusBar)
     connect(_hexEdit, SIGNAL(currentSizeChanged(qint64)), this, SLOT(setSize(qint64)));
 
     /// Overwrite Mode Label
-    QLabel* lbOverwriteModeName;
+    QLabel *&lbOverwriteModeName = _lbOverwriteModeName;
     lbOverwriteModeName = new QLabel(this);
     lbOverwriteModeName->setText(tr("Mode:"));
     statusBar->addPermanentWidget(lbOverwriteModeName);
 
-    QLabel* lbOverwriteMode;
+    QLabel *&lbOverwriteMode = _lbOverwriteMode;
     lbOverwriteMode = new QLabel(this);
     lbOverwriteMode->setFrameShape(QFrame::Panel);
     lbOverwriteMode->setFrameShadow(QFrame::Sunken);
