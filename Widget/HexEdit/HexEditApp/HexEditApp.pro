@@ -3,19 +3,12 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 HEADERS = \
     mainwindow.h \
     optionsdialog.h \
-    ../QHexEdit/qhexedit.h \
-    ../QHexEdit/chunks.h \
-    ../QHexEdit/commands.h \
     searchdialog.h
-
 
 SOURCES = \
     main.cpp \
     mainwindow.cpp \
     optionsdialog.cpp \
-    ../QHexEdit/qhexedit.cpp \
-    ../QHexEdit/chunks.cpp \
-    ../QHexEdit/commands.cpp \
     searchdialog.cpp
 
 RESOURCES = \
@@ -30,3 +23,21 @@ TRANSLATIONS += \
     translations/qhexedit_de.ts
 
 DEFINES += QHEXEDIT_EXPORTS
+
+INCLUDEPATH += $$PWD/../lib/include
+
+linux:CONFIG(debug,debug|release) {
+    LIBS += -L$$PWD/../lib/linux/debug -lQHexEdit
+}
+
+linux:CONFIG(release,release|release) {
+    LIBS += -L$$PWD/../lib/linux/release -lQHexEdit
+}
+
+win32:CONFIG(debug,debug|release) {
+    LIBS += -L$$PWD/../lib/win32/debug -lQHexEdit
+}
+
+win32:CONFIG(release,release|release) {
+    LIBS += -L$$PWD/../lib/win32/release -lQHexEdit
+}

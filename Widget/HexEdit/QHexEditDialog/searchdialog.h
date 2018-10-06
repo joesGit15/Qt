@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <QtCore>
-#include "../QHexEdit/qhexedit.h"
+#include "qhexedit.h"
 
 namespace Ui {
     class SearchDialog;

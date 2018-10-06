@@ -9,10 +9,9 @@ VERSION = 4.0.0
 DEFINES += QHEXEDIT_EXPORTS
 
 HEADERS = \
-    qhexedit.h \
+    commands.h \
     chunks.h \
-    commands.h
-
+    qhexedit.h
 
 SOURCES = \
     qhexedit.cpp \
@@ -22,6 +21,27 @@ SOURCES = \
 Release:TARGET = qhexedit
 Debug:TARGET = qhexeditd
 
-#unix:DESTDIR = /usr/lib
-linux:DESTDIR = ~/bin
-win32:DESTDIR = ../lib
+linux:CONFIG(debug,debug|release) {
+    DESTDIR = $$PWD/../lib/linux/debug
+}
+
+linux:CONFIG(release,debug|release) {
+    DESTDIR = $$PWD/../lib/linux/release
+}
+
+linux{
+    system(cp -f $$PWD/*.h $$PWD/../lib/include)
+}
+
+
+win32:CONFIG(debug,debug|release) {
+    DESTDIR = $$PWD/../lib/win32/debug
+}
+
+win32:CONFIG(release,debug|release) {
+    DESTDIR = $$PWD/../lib/win32/release
+}
+
+win32{
+    system(copy /Y $$PWD/*.h $$PWD/../lib/include)
+}
