@@ -19,5 +19,6 @@ HEADERS += \
         widget.h
 
 !win32{
-    error("must be win32 os")
+    #error("must be win32 os")
+    message("Open Process must be win32 os")
 }

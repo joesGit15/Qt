@@ -9,9 +9,11 @@ class tInteractionsWidget : public QWidget
 public:
     explicit tInteractionsWidget(QWidget *parent = 0);
 
-signals:
+private slots:
+    void StBtnChartShot();
 
-public slots:
+private:
+    void*   _chartView;
 };
 
 #endif // CHARTINTERACTIONS_H
