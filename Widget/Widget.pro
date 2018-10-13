@@ -13,5 +13,6 @@ SUBDIRS += \
     CheckBoxInTable \
     ViewBigFile \
     HexEdit \
-    CustomPlugin
+    CustomPlugin \
+    OpenProcess
 

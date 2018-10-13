@@ -2,7 +2,7 @@
 #include "interactionchart.h"
 #include "interactionchartview.h"
 
-#include <QtWidgets/qboxlayout.h>
+#include <QtWidgets>
 
 using namespace QtCharts;
 
