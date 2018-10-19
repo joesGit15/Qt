@@ -14,5 +14,6 @@ SUBDIRS += \
     ViewBigFile \
     HexEdit \
     CustomPlugin \
-    OpenProcess
+    OpenProcess \
+    Thread
 
