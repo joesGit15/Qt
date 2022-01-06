@@ -10,4 +10,5 @@ SUBDIRS += \
     Sql \
     QML \
     IFW \
-    Charts
+    Charts \
+    ViewMode
